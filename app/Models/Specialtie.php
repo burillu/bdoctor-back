@@ -14,7 +14,7 @@ class Specialtie extends Model
     ];
 
     public function profiles(){
-        return $this->hasMany(Profile::class);
+        return $this->belongsToMany(Profile::class);
     }
 
     use HasFactory;

@@ -21,6 +21,6 @@ class Profile extends Model
     }
 
     public function specialties(){
-        return $this->hasMany(Specialtie::class);
+        return $this->belongsToMany(Specialtie::class);
     }
 }

@@ -74,22 +74,22 @@
                         </div> --}}
 
                         <div class="mb-4 row">
-                            <label for="specialties" class="col-md-4 col-form-label text-md-right">{{ __('specializzazione') }}</label>
-
-                            <div class="col-md-6">
+                            <label for="specialties" class="col-md-4 col-form-label text-md-right">{{ __('Specializzazione') }}</label>
+                        
+                            <div class="col-md-6 form-control @error('specialties') is-invalid @enderror">
                                 @foreach($specialties as $specialtie)
                                     <div class="form-check">
                                         <input type="checkbox" value="{{ $specialtie->id }}" {{ in_array($specialtie->id, old('specialties', [])) ? 'checked' : '' }} id="specialties{{ $specialtie->id }}" name="specialties[]">
                                         <label class="form-check-label">{{ $specialtie->name }}</label>
                                     </div>
                                 @endforeach
-
-                                @error('specialties')
+                        
+                            </div>
+                            @error('specialties')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
                                 @enderror
-                            </div>
                         </div>
 
                         <div class="mb-4 row">

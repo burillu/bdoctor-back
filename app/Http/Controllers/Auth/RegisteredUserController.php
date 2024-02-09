@@ -41,7 +41,9 @@ class RegisteredUserController extends Controller
             'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'specialties' => ['required'],
+            'specialties' => ['required', 'exists:technologies,id'],
+        ], [
+            'specialties.required' => 'Inserire almeno un valore.',
         ]);
 
         $user = User::create([
@@ -55,7 +57,7 @@ class RegisteredUserController extends Controller
             'address' => $request->address,
             'user_id' => $user->id,
         ]);
-        
+
         $profile->specialties()->attach($request->specialties);
 
         event(new Registered($user));

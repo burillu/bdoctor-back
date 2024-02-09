@@ -1,0 +1,17 @@
+[
+    {
+        "name": "24h sponsorship",
+        "price": 2.99,
+        "duration": 24
+    },
+    {
+        "name": "48h sponsorship",
+        "price": 5.99,
+        "duration": 72
+    },
+    {
+        "name": "72h sponsorship",
+        "price": 9.99,
+        "duration": 144
+    }
+]

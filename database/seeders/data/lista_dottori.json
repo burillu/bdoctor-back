@@ -1,0 +1,90 @@
+
+
+[
+    {
+      "id": 19554,
+      "cognome": "ALBORGHETTI",
+      "nome": "FAUSTO",
+      "tipo Sezione": "art. 38",
+      "regione": "LOMBARDIA",
+      "provincia": "BERGAMO",
+      "specialties": "Otorinolaringoiatra",
+      "address": "Via Borgo Palazzo, 1, Bergamo, Lombardia",
+      "tel": "3478596321",
+      "availability": 1
+    },
+    {
+      "id": 13046,
+      "cognome": "ALIPRANDI",
+      "nome": "MAURIZIO LUIGI",
+      "tipo_sezione": "art. 38",
+      "regione": "LOMBARDIA",
+      "provincia": "BERGAMO",
+      "specialties": "Dermatologo-venereologo",
+      "address": "Corso Europa, 45, Bergamo, Lombardia",
+      "tel": "3387462159",
+      "availability": 1
+    },
+    {
+      "id": 20874,
+      "cognome": "ANDREOLI",
+      "nome": "DANIELE MARCO",
+      "tipo_sezione": "art. 38",
+      "regione": "LOMBARDIA",
+      "provincia": "BERGAMO",
+      "specialties": "Ginecologo",
+      "address": "Via Gaetano Donizetti, 23, Bergamo, Lombardia",
+      "tel": "3669854210",
+      "availability": 0
+    },
+    {
+      "id": 13606,
+      "cognome": "ANZALDO",
+      "nome": "ROCCO GIOVANNI",
+      "tipo_sezione": "art. 38",
+      "regione": "LOMBARDIA",
+      "provincia": "BERGAMO",
+      "specialties": "Oculista",
+      "address": "Via Gombito, 12, Bergamo, Lombardia",
+      "tel": "3496578412",
+      "availability": 1
+    },
+    {
+      "id": 12147,
+      "cognome": "ARGENTI",
+      "nome": "GIOVANNI",
+      "tipo_sezione": "art. 38",
+      "regione": "LOMBARDIA",
+      "provincia": "BERGAMO",
+      "specialties": "Neurologo",
+      "address": "Via Sant'Alessandro, 25, Bergamo, Lombardia",
+      "tel": "3409876543",
+      "availability": 1
+    },
+    {
+      "id": 22993,
+      "cognome": "ARMATO",
+      "nome": "ALESSANDRA",
+      "tipo_sezione": "art. 38",
+      "regione": "LOMBARDIA",
+      "provincia": "BERGAMO",
+      "specialties": "Cardiologo",
+      "address": "Piazza Pontida, 8, Bergamo, Lombardia",
+      "tel": "3395728164",
+      "availability": 1
+    },
+    {
+      "id": 16779,
+      "cognome": "ARNOLDI",
+      "nome": "MARIA ANGELA",
+      "tipo_sezione": "art. 38",
+      "regione": "LOMBARDIA",
+      "provincia": "BERGAMO",
+      "specialties": "Neurochirurgo",
+      "address": "Via Angelo Maj, 23, Bergamo, Lombardia",
+      "tel": "3478912345",
+      "availability": 1
+    }
+    
+    
+]

@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('profile_specialtie', function (Blueprint $table) {
+        Schema::create('profile_specialty', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('profile_id');
             $table->foreign('profile_id')->references('id')->on('profiles')->cascadeOnDelete();
-            $table->unsignedBigInteger('specialtie_id');
-            $table->foreign('specialtie_id')->references('id')->on('specialties')->cascadeOnDelete();
+            $table->unsignedBigInteger('specialty_id');
+            $table->foreign('specialty_id')->references('id')->on('specialties')->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -26,6 +26,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('profile_specialtie');
+        Schema::disableForeignKeyConstraints();
+        Schema::dropIfExists('profile_specialty');
+        Schema::enableForeignKeyConstraints();
+
     }
 };

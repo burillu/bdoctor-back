@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 use App\Models\User;
-use App\Models\Specialtie;
+use App\Models\Specialty;
 use App\Models\Vote;
 
 
@@ -23,7 +23,7 @@ class Profile extends Model
     }
 
     public function specialties(){
-        return $this->belongsToMany(Specialtie::class);
+        return $this->belongsToMany(Specialty::class);
     }
 
     public function votes(){

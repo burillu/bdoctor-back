@@ -5,9 +5,9 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-use App\Models\Specialtie;
+use App\Models\Specialty;
 
-class SpecialtieSeeder extends Seeder
+class SpecialtySeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -16,9 +16,9 @@ class SpecialtieSeeder extends Seeder
     {
         $specialties = ['dermatologo','cardiologo','tricologo'];
         foreach($specialties as $value){
-            $newSpecialtie = new Specialtie();
-            $newSpecialtie->name=$value;
-            $newSpecialtie->save();
+            $newSpecialty = new Specialty();
+            $newSpecialty->name=$value;
+            $newSpecialty->save();
         }
     }
 }

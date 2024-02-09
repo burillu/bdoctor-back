@@ -60,8 +60,8 @@
                                 <select id="specialties" type="text" class="form-control @error('specialties') is-invalid @enderror" name="specialties" value="{{ old('specialties') }}" required autocomplete="specialties" autofocus>
                                     <option value="">scegli la specializzazione principale</option>
 
-                                    @foreach ($specialties as $specialtie)
-                                        <option value="{{$specialtie->id}}">{{$specialtie->name}}</option>
+                                    @foreach ($specialties as $specialty)
+                                        <option value="{{$specialty->id}}">{{$specialty->name}}</option>
                                     @endforeach
                                 </select>
 
@@ -77,10 +77,10 @@
                             <label for="specialties" class="col-md-4 col-form-label text-md-right">{{ __('Specializzazione') }}</label>
                         
                             <div class="col-md-6 form-control @error('specialties') is-invalid @enderror">
-                                @foreach($specialties as $specialtie)
+                                @foreach($specialties as $specialty)
                                     <div class="form-check">
-                                        <input type="checkbox" value="{{ $specialtie->id }}" {{ in_array($specialtie->id, old('specialties', [])) ? 'checked' : '' }} id="specialties{{ $specialtie->id }}" name="specialties[]">
-                                        <label class="form-check-label">{{ $specialtie->name }}</label>
+                                        <input type="checkbox" value="{{ $specialty->id }}" {{ in_array($specialty->id, old('specialties', [])) ? 'checked' : '' }} id="specialties{{ $specialty->id }}" name="specialties[]">
+                                        <label class="form-check-label">{{ $specialty->name }}</label>
                                     </div>
                                 @endforeach
                         

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 use App\Models\profile;
 
-class Specialtie extends Model
+class Specialty extends Model
 {
     protected $fillable = [
         'name',

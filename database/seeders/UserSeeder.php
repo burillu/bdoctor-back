@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
         //dd($users);
         foreach($users as $user){
         $new_user = User::factory()->create([
-            'name' => ucfirst(strtolower($user['nome'])),
+            'name' => ucwords(strtolower($user['nome'])),
             'email' => strtolower(str_replace(' ', '',$user['nome']).'.'.$user['cognome']).'@bdoctors.com',
             'last_name'=>ucfirst(strtolower($user['cognome'])),
             'password' => '12345678'
@@ -33,7 +33,7 @@ class UserSeeder extends Seeder
         
         //per collegare i dati prima bisogna correggere tutti i nomi del model e della tabella specialtie che diventerà speciality
 
-        //$new_profile->specialties()->sync(random_int(1,10));
+        $new_profile->specialties()->sync(random_int(1,84));
         
 
 

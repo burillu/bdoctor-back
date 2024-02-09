@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
+use App\Models\Specialtie;
+
 use App\Models\Profile;
 
 class RegisteredUserController extends Controller
@@ -22,7 +24,8 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        return view('auth.register');
+        $specialties = Specialtie::all();
+        return view('auth.register',compact('specialties'));
     }
 
     /**
@@ -38,6 +41,9 @@ class RegisteredUserController extends Controller
             'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'specialties' => ['required', 'exists:specialties,id'],
+        ], [
+            'specialties.required' => 'Inserire almeno un valore.',
         ]);
 
         $user = User::create([
@@ -51,6 +57,8 @@ class RegisteredUserController extends Controller
             'address' => $request->address,
             'user_id' => $user->id,
         ]);
+
+        $profile->specialties()->attach($request->specialties);
 
         event(new Registered($user));
 

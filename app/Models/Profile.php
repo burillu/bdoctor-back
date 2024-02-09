@@ -4,7 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+
 use App\Models\User;
+use App\Models\Specialtie;
+use App\Models\Vote;
 
 
 class Profile extends Model
@@ -17,6 +20,14 @@ class Profile extends Model
 
     public function user(){
         return $this->belongTo(User::class);
+    }
+
+    public function specialties(){
+        return $this->belongsToMany(Specialtie::class);
+    }
+
+    public function votes(){
+        return $this->belongsToMany(Vote::class);
     }
     public function sponsorships(){
         return $this->belongsToMany(Sponsorship::class);

@@ -24,10 +24,15 @@ class UserSeeder extends Seeder
             'last_name'=>ucfirst(strtolower($user['cognome'])),
             'password' => '12345678'
         ]);
+        
         $new_profile= new Profile;
         $new_profile->user_id= $new_user->id;
         $new_profile->address= $user['address'];
         $new_profile->save();
+        
+        //per collegare i dati prima bisogna correggere tutti i nomi del model e della tabella specialtie che diventerà speciality
+
+        //$new_profile->specialties()->sync(random_int(1,10));
         
 
     }

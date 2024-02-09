@@ -41,7 +41,7 @@ class RegisteredUserController extends Controller
             'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'specialties' => ['required', 'exists:technologies,id'],
+            'specialties' => ['required', 'exists:specialties,id'],
         ], [
             'specialties.required' => 'Inserire almeno un valore.',
         ]);

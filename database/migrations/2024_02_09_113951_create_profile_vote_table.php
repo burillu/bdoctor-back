@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('profile_id');
             $table->foreign('profile_id')->references('id')->on('profiles')->cascadeOnDelete();
             $table->unsignedBigInteger('vote_id');
-            $table->foreign('vote_id')->references('id')->on('vote')->cascadeOnDelete();
+            $table->foreign('vote_id')->references('id')->on('votes')->cascadeOnDelete(); // Correzione qui
             $table->timestamps();
         });
     }

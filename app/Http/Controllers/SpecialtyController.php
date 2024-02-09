@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Specialtie;
-use App\Http\Requests\StoreSpecialtieRequest;
-use App\Http\Requests\UpdateSpecialtieRequest;
+use App\Models\Specialty;
+use App\Http\Requests\StoreSpecialtyRequest;
+use App\Http\Requests\UpdateSpecialtyRequest;
 
-class SpecialtieController extends Controller
+class SpecialtyController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,7 +27,7 @@ class SpecialtieController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreSpecialtieRequest $request)
+    public function store(StoreSpecialtyRequest $request)
     {
         //
     }
@@ -35,7 +35,7 @@ class SpecialtieController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Specialtie $specialtie)
+    public function show(Specialty $specialty)
     {
         //
     }
@@ -43,7 +43,7 @@ class SpecialtieController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Specialtie $specialtie)
+    public function edit(Specialty $specialty)
     {
         //
     }
@@ -51,7 +51,7 @@ class SpecialtieController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateSpecialtieRequest $request, Specialtie $specialtie)
+    public function update(UpdateSpecialtyRequest $request, Specialty $specialtie)
     {
         //
     }
@@ -59,7 +59,7 @@ class SpecialtieController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Specialtie $specialtie)
+    public function destroy(Specialty $specialty)
     {
         //
     }

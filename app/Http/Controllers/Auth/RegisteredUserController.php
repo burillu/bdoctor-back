@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
-use App\Models\Specialtie;
+use App\Models\Specialty;
 
 use App\Models\Profile;
 
@@ -24,7 +24,7 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        $specialties = Specialtie::all();
+        $specialties = Specialty::all();
         return view('auth.register',compact('specialties'));
     }
 

@@ -14,6 +14,7 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+
         $data=file_get_contents(__DIR__ .'/data/lista_dottori.json');
         $users= json_decode($data,true);
         //dd($users);
@@ -34,6 +35,7 @@ class UserSeeder extends Seeder
 
         //$new_profile->specialties()->sync(random_int(1,10));
         
+
 
     }
 }

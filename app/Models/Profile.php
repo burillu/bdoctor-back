@@ -29,4 +29,7 @@ class Profile extends Model
     public function votes(){
         return $this->belongsToMany(Vote::class);
     }
+    public function sponsorships(){
+        return $this->belongsToMany(Sponsorship::class);
+    }
 }

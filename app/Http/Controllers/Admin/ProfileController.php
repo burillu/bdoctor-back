@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use App\Http\Controllers\Controller;
 use App\Models\Profile;
+use App\Models\Specialty;
 
 
 class ProfileController extends Controller
@@ -20,10 +21,12 @@ class ProfileController extends Controller
     public function edit(Request $request): View
     {
         $data= Profile::where('user_id', $request->user()->id)->first();
+        $specialties = Specialty::all();
         //dd($data);
         return view('admin.profile.edit', [
             'user' => $request->user(),
-            'data' => $data
+            'data' => $data,
+            'specialties'=>$specialties
         ]);
     }
 

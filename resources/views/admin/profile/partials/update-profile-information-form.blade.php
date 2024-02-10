@@ -27,7 +27,16 @@
                 </span>
             @enderror
         </div>
-
+        <div class="mb-2">
+            <label for="last-name">{{ __('Last name') }}</label>
+            <input class="form-control" type="text" name="last-name" id="last-name" autocomplete="last-name"
+                value="{{ old('last-name', $user->last_name) }}" required autofocus>
+            @error('last-name')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $errors->get('last-name') }}</strong>
+                </span>
+            @enderror
+        </div>
         <div class="mb-2">
             <label for="email">
                 {{ __('Email') }}
@@ -60,6 +69,42 @@
                 </div>
             @endif
         </div>
+        <div class="mb-2">
+            <label for="address">{{ __('Address') }}</label>
+            <input class="form-control" type="text" name="address" id="address" autocomplete="address"
+                value="{{ old('address', $data->address) }}" required autofocus>
+            @error('address')
+                <span class="invalid-feedback" role="alert">
+                    <strong>{{ $errors->get('address') }}</strong>
+                </span>
+            @enderror
+        </div>
+        <div class="mb-2">
+
+            <div class="form-group">
+                <h6>{{ __('Specialties') }}:</h6>
+                <div class="container-fluid">
+                    <div class="row">
+                        @foreach ($specialties as $specialty)
+                            <div class="form-check col-3 @error('specialties') is-invalid @enderror">
+                                <input type="checkbox" name="specialties[]" value="{{ $specialty->id }}"
+                                    {{ $data->specialties->contains($specialty->id) ? 'checked' : '' }}>
+                                <label for="">{{ $specialty->name }}</label>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+
+            </div>
+
+
+        </div>
+        @error('specialties')
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $errors->get('specialties') }}</strong>
+            </span>
+        @enderror
+
 
         <div class="d-flex align-items-center gap-4">
             <button class="btn btn-primary" type="submit">{{ __('Save') }}</button>

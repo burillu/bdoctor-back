@@ -1,7 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.app_no_header')
 
 @section('header')
-    @include('partials.header')
 @endsection
 
 @section('content')
@@ -68,45 +67,102 @@
                             <div class="col-sm-12">
                                 <div class=" d-flex h-100 flex-column justify-content-between">
                                     <div class="sidebar-top">
+                                        <!-- image -->
+                                        <div class="rounded-circle overflow-hidden">
+
+                                            <img src="{{ asset('storage' . '\/images/OIG2.kc86IYLpVtKY.jpg') }}"
+                                                alt="logo-bdoctors">
+                                        </div>
+
                                         <!-- home -->
                                         <div class=" my-btn p-2">
-                                            <a href="{{-- route('admin.projects.index') --}}">
+                                            <a href="{{-- route('admin.dashboard') --}}">
                                                 <i class="fa-solid fa-house"></i> <span class="px-1 d-none d-lg-inline">
                                                     Home</span></a>
                                         </div>
                                         <!-- projects -->
                                         <div class="my-btn p-2">
                                             <a href="{{-- route('admin.projects.index') --}}">
-                                                <i class="fa-solid fa-diagram-project"></i>
+                                                <i class="fa-solid fa-user-doctor"></i>
                                                 <span class="px-1 d-none d-lg-inline">
-                                                    Projects</span>
+                                                    Profilo</span>
                                             </a>
 
                                         </div>
                                         <!-- types -->
                                         <div class="my-btn p-2">
                                             <a href="{{-- route('admin.types.index') --}}">
-                                                <i class="fa-solid fa-server"></i>
+                                                <i class="fa-solid fa-envelope"></i>
                                                 <span class="px-1 d-none d-lg-inline">
-                                                    Types</span>
+                                                    Messaggi</span>
                                             </a>
 
                                         </div>
                                         <div class="my-btn p-2">
                                             <a href="{{-- route('admin.technologies.index') --}}">
-                                                <i class="fa-solid fa-code"></i>
+                                                <i class="fa-solid fa-clipboard-question"></i>
                                                 <span class="px-1 d-none d-lg-inline">
-                                                    Technologies</span>
+                                                    Recensioni</span>
+                                            </a>
+
+                                        </div>
+                                        <div class="my-btn p-2">
+                                            <a href="{{-- route('admin.technologies.index') --}}">
+                                                <i class="fa-solid fa-plug-circle-bolt"></i>
+                                                <span class="px-1 d-none d-lg-inline">
+                                                    Sponsorizzazioni</span>
+                                            </a>
+
+                                        </div>
+                                        <div class="my-btn p-2">
+                                            <a href="{{-- route('admin.technologies.index') --}}">
+                                                <i class="fa-solid fa-chart-line"></i>
+                                                <span class="px-1 d-none d-lg-inline">
+                                                    Statistiche</span>
                                             </a>
 
                                         </div>
                                     </div>
                                     <div class="sidebar-bottom">
-                                        <!-- admin -->
-                                        <div class="my-btn p-2">
-                                            <i class="fa-solid fa-gear"></i> <span class="px-1 d-none d-lg-inline">
-                                                Admin</span>
-                                        </div>
+
+                                        <ul class="navbar-nav ml-auto">
+                                            <!-- Authentication Links -->
+                                            @guest
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                                </li>
+                                                @if (Route::has('register'))
+                                                    <li class="nav-item">
+                                                        <a class="nav-link"
+                                                            href="{{ route('register') }}">{{ __('Register') }}</a>
+                                                    </li>
+                                                @endif
+                                            @else
+                                                <li class="nav-item dropdown my-btn p-2">
+                                                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#"
+                                                        role="button" data-bs-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false" v-pre>
+                                                        <i class="fa-solid fa-gear"></i> {{ Auth::user()->name }}
+                                                    </a>
+
+                                                    <div class="dropdown-menu dropdown-menu-right"
+                                                        aria-labelledby="navbarDropdown">
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin') }}">{{ __('Dashboard') }}</a>
+                                                        <a class="dropdown-item" href="{{ route('logout') }}"
+                                                            onclick="event.preventDefault();
+                                                                             document.getElementById('logout-form').submit();">
+                                                            {{ __('Logout') }}
+                                                        </a>
+
+                                                        <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                                            class="d-none">
+                                                            @csrf
+                                                        </form>
+                                                    </div>
+                                                </li>
+                                            @endguest
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
@@ -120,9 +176,9 @@
                         <div class="row bg-primary text-white" id="top-main">
                             <div class="col-8 col-md-12">
                                 <div class="row py-2">
-                                    <!-- nuovo studente -->
+                                    <!-- nuovo sponsorizzazione -->
                                     <div class="col-12 col-md-4 col-lg order-md-last">
-                                        <span class="">Nuovo Progetto</span>
+                                        <span class="">Nuova Sponsorizzazione</span>
 
 
                                         <button class="btn btn-outline-light ms-2" type="button" data-bs-toggle="offcanvas"
@@ -152,7 +208,8 @@
                                                             </div>
                                                             <div class="col-12 col-md-6">
                                                                 <div class="mb-3">
-                                                                    <label for="lastname" class="form-label">Cognome</label>
+                                                                    <label for="lastname"
+                                                                        class="form-label">Cognome</label>
                                                                     <input type="text" class="form-control"
                                                                         id="lastname" placeholder="">
                                                                 </div>
@@ -291,7 +348,7 @@
                                     </div>
                                     <!-- left side -->
                                     <div class="col-12 col-md-4 col-lg-6">
-                                        <div class="mb-1"><span class="fs-4 fw-bold">Boolean</span> <span
+                                        <div class="mb-1"><span class="fs-4 fw-bold">BDoctors</span> <span
                                                 class="badge rounded-pill my-blue-badge">Piano Blaze</span></div>
                                         <nav class="text-white" style="--bs-breadcrumb-divider: '>>';"
                                             aria-label="breadcrumb">
@@ -319,7 +376,7 @@
                                         </nav>
                                     </div>
                                     <div class="col-12 col-md-4 col-lg-3">
-                                        <span>Studenti online negli utlimi 30 minuti</span>
+                                        <span>Messaggi ricevuti:</span>
                                         <div class="fs-3 fw-bold">125</div>
                                     </div>
 
@@ -333,11 +390,8 @@
                             <!-- left -->
                             <div class="col-12 col-lg-10">
                                 <div class="card my-4">
-                                    <div class="card-header fs-5">
-                                        Projects
-                                    </div>
-                                    <!-- tabella -->
-                                    @yield('content')
+                                    <!-- contenuto variabile -->
+                                    @yield('dashboard_content')
                                 </div>
 
                                 <div class="card my-4">
@@ -351,12 +405,14 @@
                                                 <button class="accordion-button collapsed" type="button"
                                                     data-bs-toggle="collapse" data-bs-target="#flush-collapseOne"
                                                     aria-expanded="false" aria-controls="flush-collapseOne">
-                                                    Come aggiunere un nuovo studente?
+                                                    Perchè acquistare una sponsorizzazione?
                                                 </button>
                                             </h2>
                                             <div id="flush-collapseOne" class="accordion-collapse collapse"
                                                 data-bs-parent="#accordionFlushExample">
-                                                <div class="accordion-body">Clicca sul + in alto nella sezione blu
+                                                <div class="accordion-body">
+                                                    Ti consente di essere tra i primi risultati nelle ricerche. Clicca sul +
+                                                    in alto nella sezione blu
                                                 </div>
                                             </div>
                                         </div>
@@ -370,7 +426,9 @@
                                             </h2>
                                             <div id="flush-collapseTwo" class="accordion-collapse collapse"
                                                 data-bs-parent="#accordionFlushExample">
-                                                <div class="accordion-body">Clicca sull' icona della campanella
+                                                <div class="accordion-body">Accedi alla sezione profilo, e aggiorna i dati
+                                                    per essere contattato dai tuoi clienti. Non daremo i tuoi contatti a
+                                                    terzi.
                                                 </div>
                                             </div>
                                         </div>
@@ -394,27 +452,26 @@
                             <!-- right -->
                             <div class="col-12 col-lg-2">
                                 <div class="card my-4">
-                                    <div class="card-header fs-5"> Todo</div>
+                                    <div class="card-header fs-5"> To-do</div>
                                     <div class="card-body">
                                         <ul class="list-group">
                                             <li class="list-group-item">
                                                 <input class="form-check-input me-1" type="checkbox" value=""
                                                     id="firstCheckbox">
-                                                <label class="form-check-label" for="firstCheckbox">Kickoff nuove
-                                                    classi</label>
+                                                <label class="form-check-label" for="firstCheckbox">Pulizia dello
+                                                    studio</label>
                                             </li>
                                             <li class="list-group-item">
                                                 <input class="form-check-input me-1" type="checkbox" value=""
                                                     id="secondCheckbox">
-                                                <label class="form-check-label" for="secondCheckbox">Lezione su
-                                                    Bootstrap 5 in classe
-                                                    #107</label>
+                                                <label class="form-check-label" for="secondCheckbox">Company Talk online
+                                                    con Boolean</label>
                                             </li>
                                             <li class="list-group-item">
                                                 <input class="form-check-input me-1" type="checkbox" value=""
                                                     id="thirdCheckbox">
-                                                <label class="form-check-label" for="thirdCheckbox">Controllare
-                                                    username github studenti</label>
+                                                <label class="form-check-label" for="thirdCheckbox">Gestione fatture
+                                                    fiscali</label>
                                             </li>
                                         </ul>
                                     </div>

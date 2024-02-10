@@ -38,7 +38,7 @@ a {
 }
 
 .my-wrapper-100vh {
-    height: calc(100vh - 70px);
+    height: 100vh;
     width: 100%;
     overflow: hidden;
 }
@@ -66,7 +66,7 @@ header>div>div {
 /* main */
 main,
 main>div {
-    height: calc(100vh - 70px);
+    height: 100%;
 }
 
 .main-content {

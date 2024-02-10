@@ -28,12 +28,12 @@
             @enderror
         </div>
         <div class="mb-2">
-            <label for="last-name">{{ __('Last name') }}</label>
-            <input class="form-control" type="text" name="last-name" id="last-name" autocomplete="last-name"
-                value="{{ old('last-name', $user->last_name) }}" required autofocus>
-            @error('last-name')
+            <label for="last_name">{{ __('Last name') }}</label>
+            <input class="form-control" type="text" name="last_name" id="last_name" autocomplete="last_name"
+                value="{{ old('last_name', $user->last_name) }}" required autofocus>
+            @error('last_name')
                 <span class="invalid-feedback" role="alert">
-                    <strong>{{ $errors->get('last-name') }}</strong>
+                    <strong>{{ $errors->get('last_name') }}</strong>
                 </span>
             @enderror
         </div>

@@ -2,16 +2,16 @@
     {
         "name": "24h sponsorship",
         "price": 2.99,
-        "duration": 24
+        "duration": "24:00:00"
     },
     {
         "name": "48h sponsorship",
         "price": 5.99,
-        "duration": 72
+        "duration": "72:00:00"
     },
     {
         "name": "72h sponsorship",
         "price": 9.99,
-        "duration": 144
+        "duration": "144:00:00"
     }
 ]

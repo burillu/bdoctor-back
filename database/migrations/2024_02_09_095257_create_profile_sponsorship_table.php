@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreign('profile_id')->references('id')->on('profiles')->cascadeOnDelete();
 
             $table->unsignedBigInteger('sponsorship_id');
-            $table->foreign('sponsorship_id')->references('id')->on('sponsorship')->cascadeOnDelete();
+            $table->foreign('sponsorship_id')->references('id')->on('sponsorships')->cascadeOnDelete();
 
             $table->dateTime('expire_date');
             $table->decimal('current_price',4, 2);

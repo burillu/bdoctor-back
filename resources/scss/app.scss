@@ -53,15 +53,8 @@ a {
     width: 150px;
 }
 
-/* header */
-header>div>div {
-    height: 70px;
-}
 
-#floatingInput {
-    min-height: auto;
-    height: 50px;
-}
+
 
 /* main */
 main,
@@ -104,39 +97,39 @@ img.my-img-avatar {
     background-color: $my-blue-badge;
 }
 
-.my-badge-html {
+.my-blue {
     background-color: $my-blue-badge;
 }
 
-.my-badge-css {
+.my-yellow-dark {
     background-color: $yellow-300;
 }
 
-.my-badge-bootstrap {
+.my-purple {
     background-color: $indigo-500;
 }
 
-.my-badge-sass {
+.my-pink {
     background-color: $pink-300;
 }
 
-.my-badge-vuejs {
+.my-green {
     background-color: $teal-600;
 }
 
-.my-badge-javascript {
+.my-yellow {
     background-color: $yellow-400;
 }
 
-.my-badge-php8 {
+.my-light-blue {
     background-color: $blue-300;
 }
 
-.my-badge-sql {
+.my-orange {
     background-color: $orange-500;
 }
 
-.my-badge-laravel {
+.my-red {
     background-color: $red;
 }
 

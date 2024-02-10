@@ -9,6 +9,137 @@ $fa-font-path: "../fonts/webfonts" !default;
 
 @import '~bootstrap/scss/bootstrap';
 
-h1 {
-    color: $text-color;
+img {
+    width: 100%;
+}
+
+.logo-bdoctors {
+    width: 100px;
+}
+
+// CLASSI PER LA DASHBOARD
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+
+
+
+/* general */
+
+
+#imagePreview {
+    width: 250px;
+}
+
+#logo-mobile {
+    height: 50px;
+}
+
+.my-wrapper-100vh {
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+}
+
+.my-sidebar {
+    height: 100%;
+    // background-image: url(../img/sidebar-bg.png);
+    background-color: $my-dark-blue;
+}
+
+.my-logo-container {
+    width: 150px;
+}
+
+
+
+
+/* main */
+main,
+main>div {
+    height: 100%;
+}
+
+.main-content {
+    width: 100%;
+    overflow-y: auto;
+}
+
+.my-offcanvas.offcanvas {
+    width: 700px;
+}
+
+img.my-img-avatar {
+    width: 25px;
+}
+
+.my-btn {
+    cursor: pointer;
+}
+
+.my-sidebar .my-btn:hover {
+    background-color: #ffffff91;
+}
+
+/* my-backgrounds */
+
+.my-bg-dark-blue {
+    background-color: $my-dark-blue;
+}
+
+.my-bg-blue {
+    background-color: $my-blue-bar;
+}
+
+.my-blue-badge {
+    background-color: $my-blue-badge;
+}
+
+.my-blue {
+    background-color: $my-blue-badge;
+}
+
+.my-yellow-dark {
+    background-color: $yellow-300;
+}
+
+.my-purple {
+    background-color: $indigo-500;
+}
+
+.my-pink {
+    background-color: $pink-300;
+}
+
+.my-green {
+    background-color: $teal-600;
+}
+
+.my-yellow {
+    background-color: $yellow-400;
+}
+
+.my-light-blue {
+    background-color: $blue-300;
+}
+
+.my-orange {
+    background-color: $orange-500;
+}
+
+.my-red {
+    background-color: $red;
+}
+
+/* media queries */
+
+/* large */
+
+@media screen and (min-width:992px) {
+    .my-sidebar-lg {
+        width: 250px;
+    }
+
 }

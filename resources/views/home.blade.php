@@ -4,7 +4,7 @@
 @endsection
 @section('content')
     <section class="container">
-        <h1>Section title</h1>
-        <p>section content</p>
+        <h1>Accedi o Registrati</h1>
+
     </section>
 @endsection

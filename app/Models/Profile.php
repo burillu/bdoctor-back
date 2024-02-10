@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Specialty;
 use App\Models\Vote;
+use App\Models\Sponsorship;
 
 
 class Profile extends Model

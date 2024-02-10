@@ -82,7 +82,7 @@
                                         </div>
                                         <!-- projects -->
                                         <div class="my-btn p-2">
-                                            <a href="{{-- route('admin.projects.index') --}}">
+                                            <a href="{{ route('admin.profile.edit', Auth::user()->id) }}">
                                                 <i class="fa-solid fa-user-doctor"></i>
                                                 <span class="px-1 d-none d-lg-inline">
                                                     Profilo</span>

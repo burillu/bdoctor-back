@@ -36,14 +36,49 @@ class ProfileController extends Controller
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
         $request->user()->fill($request->validated());
-
+    
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
         }
-
+    
         $request->user()->save();
-
-        return Redirect::route('admin.profile.edit')->with('status', 'profile-updated');
+    
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255'],
+            'address' => ['required', 'string', 'max:255'],
+            'specialties' => ['required', 'exists:specialties,id'],
+        ], [
+            'name.required' => 'Il campo nome è obbligatorio.',
+            'name.string' => 'Il campo nome deve essere testuale.',
+            'name.max' => 'Il campo nome deve essere lungo massimo :max caratteri.',
+            'last_name.required' => 'Il campo cognome è obbligatorio.',
+            'last_name.string' => 'Il campo cognome deve essere testuale.',
+            'last_name.max' => 'Il campo cognome deve essere lungo massimo :max caratteri.',
+            'email.required' => 'Il campo email è obbligatorio.',
+            'email.string' => 'Il campo email deve essere testuale.',
+            'email.max' => 'Il campo email deve essere lungo massimo :max caratteri.',
+            'email.email' => "Il campo email deve essere un'email valida.",
+            'address.required' => 'Il campo indirizzo è obbligatorio.',
+            'address.string' => 'Il campo indirizzo deve essere testuale.',
+            'address.max' => 'Il campo indirizzo deve essere lungo massimo :max caratteri.',
+            'specialties.required' => 'Inserire almeno una specializzazione.',
+        ]);
+    
+        $request->user()->update([
+            'name' => $request->name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+        ]);
+    
+        $request->user()->profile->update([
+            'address' => $request->address,
+        ]);
+    
+        $request->user()->profile->specialties()->sync($request->specialties);
+    
+        return redirect()->route('admin.profile.edit', ['profile' => $request->user()->profile])->with('status', 'profile-updated');
     }
 
     /**

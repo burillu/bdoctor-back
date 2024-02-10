@@ -9,6 +9,144 @@ $fa-font-path: "../fonts/webfonts" !default;
 
 @import '~bootstrap/scss/bootstrap';
 
-h1 {
-    color: $text-color;
+img {
+    width: 100%;
+}
+
+.logo-bdoctors {
+    width: 100px;
+}
+
+// CLASSI PER LA DASHBOARD
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+
+
+
+/* general */
+
+
+#imagePreview {
+    width: 250px;
+}
+
+#logo-mobile {
+    height: 50px;
+}
+
+.my-wrapper-100vh {
+    height: calc(100vh - 70px);
+    width: 100%;
+    overflow: hidden;
+}
+
+.my-sidebar {
+    height: 100%;
+    // background-image: url(../img/sidebar-bg.png);
+    background-color: $my-dark-blue;
+}
+
+.my-logo-container {
+    width: 150px;
+}
+
+/* header */
+header>div>div {
+    height: 70px;
+}
+
+#floatingInput {
+    min-height: auto;
+    height: 50px;
+}
+
+/* main */
+main,
+main>div {
+    height: calc(100vh - 70px);
+}
+
+.main-content {
+    width: 100%;
+    overflow-y: auto;
+}
+
+.my-offcanvas.offcanvas {
+    width: 700px;
+}
+
+img.my-img-avatar {
+    width: 25px;
+}
+
+.my-btn {
+    cursor: pointer;
+}
+
+.my-sidebar .my-btn:hover {
+    background-color: #ffffff91;
+}
+
+/* my-backgrounds */
+
+.my-bg-dark-blue {
+    background-color: $my-dark-blue;
+}
+
+.my-bg-blue {
+    background-color: $my-blue-bar;
+}
+
+.my-blue-badge {
+    background-color: $my-blue-badge;
+}
+
+.my-badge-html {
+    background-color: $my-blue-badge;
+}
+
+.my-badge-css {
+    background-color: $yellow-300;
+}
+
+.my-badge-bootstrap {
+    background-color: $indigo-500;
+}
+
+.my-badge-sass {
+    background-color: $pink-300;
+}
+
+.my-badge-vuejs {
+    background-color: $teal-600;
+}
+
+.my-badge-javascript {
+    background-color: $yellow-400;
+}
+
+.my-badge-php8 {
+    background-color: $blue-300;
+}
+
+.my-badge-sql {
+    background-color: $orange-500;
+}
+
+.my-badge-laravel {
+    background-color: $red;
+}
+
+/* media queries */
+
+/* large */
+
+@media screen and (min-width:992px) {
+    .my-sidebar-lg {
+        width: 250px;
+    }
+
 }

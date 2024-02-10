@@ -7,6 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use App\Http\Controllers\Controller;
 use App\Models\Profile;
@@ -36,11 +37,9 @@ class ProfileController extends Controller
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
         $request->user()->fill($request->validated());
-    
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
         }
-    
         $request->user()->save();
     
         $request->validate([
@@ -49,6 +48,7 @@ class ProfileController extends Controller
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255'],
             'address' => ['required', 'string', 'max:255'],
             'specialties' => ['required', 'exists:specialties,id'],
+            'image' => ['nullable', 'image'],
         ], [
             'name.required' => 'Il campo nome è obbligatorio.',
             'name.string' => 'Il campo nome deve essere testuale.',
@@ -64,21 +64,29 @@ class ProfileController extends Controller
             'address.string' => 'Il campo indirizzo deve essere testuale.',
             'address.max' => 'Il campo indirizzo deve essere lungo massimo :max caratteri.',
             'specialties.required' => 'Inserire almeno una specializzazione.',
+            'image' => 'Inserire un\' immagine.',
         ]);
-    
         $request->user()->update([
             'name' => $request->name,
             'last_name' => $request->last_name,
             'email' => $request->email,
         ]);
-    
         $request->user()->profile->update([
             'address' => $request->address,
         ]);
-    
         $request->user()->profile->specialties()->sync($request->specialties);
-    
-        return redirect()->route('admin.profile.edit', ['profile' => $request->user()->profile])->with('status', 'profile-updated');
+
+        if ($request->hasFile('image')) {
+            if (Storage::exists("'images/'.$request->user()->remember_token")) {
+                Storage::delete("'images/'.$request->user()->remember_token");
+            }
+            $imagePath = $request->file('image')->storeAs('public/images',$request->user()->remember_token);
+            $request->user()->profile->update([
+                'image' => $imagePath,
+            ]);
+        }
+
+        return redirect()->route('admin.profile.edit',  ['profile' => $request->user()->profile])->with('status', 'profile-updated');
     }
 
     /**

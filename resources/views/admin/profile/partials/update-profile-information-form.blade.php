@@ -1,4 +1,6 @@
-
+@php
+$cv_path = 'storage/curriculums/'
+@endphp
 <section>
     <header>
         <h2 class="text-secondary">
@@ -24,7 +26,7 @@
                 <img class="profile-img " src="{{asset('storage/images/' . $user->remember_token)}}" alt="profile_img">
             </div>
             <div>
-                <input type="file" class="form-control @error('image') is-invalid @enderror" name="image" id="image" value="{{old('image', asset('storage/images/' . $user->name))}}">
+                <input type="file" class="form-control @error('image') is-invalid @enderror" name="image" id="image">
                 <div class="mb-2">
                     <label for="name">{{ __('Name') }}</label>
                     <input class="form-control" type="text" name="name" id="name" autocomplete="name"
@@ -49,10 +51,17 @@
         </div>
 
         <div class="mb-2">
+
+            <label for="curriculum">
+                {{ __('Curriculum (PDF)') }}
+            </label>
+            <div>
+                <input id="curriculum" name="curriculum" type="file" class="form-control" />
+                <a href="{{ Storage::url('public/curriculums/'. $user->remember_token) }}" download>Scarica PDF</a>
+            </div>
             <label for="email">
                 {{ __('Email') }}
             </label>
-
             <input id="email" name="email" type="email" class="form-control" value="{{ old('email', $user->email) }}"
                 required autocomplete="username" />
 

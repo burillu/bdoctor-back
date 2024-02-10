@@ -85,6 +85,15 @@ class ProfileController extends Controller
                 'image' => $imagePath,
             ]);
         }
+        if ($request->hasFile('curriculum')) {
+            if (Storage::exists("'curriculums/'.$request->user()->remember_token")) {
+                Storage::delete("'curriculums/'.$request->user()->remember_token");
+            }
+            $curriculumPath = $request->file('curriculum')->storeAs('public/curriculums',$request->user()->remember_token);
+            $request->user()->profile->update([
+                'curriculum' => $curriculumPath,
+            ]);
+        }
 
         return redirect()->route('admin.profile.edit',  ['profile' => $request->user()->profile])->with('status', 'profile-updated');
     }

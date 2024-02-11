@@ -62,8 +62,9 @@ main>div {
     height: 100%;
 }
 
-.main-content {
+#center-main {
     width: 100%;
+    height: calc(100vh - 96px);
     overflow-y: auto;
 }
 
@@ -144,7 +145,7 @@ img.my-img-avatar {
 
 }
 
-.profile-img{
+.profile-img {
     width: 150px;
     height: 150px;
     object-fit: cover;
@@ -153,4 +154,4 @@ img.my-img-avatar {
 
 .custom-border {
     border: 4px solid rgba(0, 0, 0, 0.5);
-  }
+}

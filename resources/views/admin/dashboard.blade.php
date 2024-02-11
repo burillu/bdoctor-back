@@ -173,7 +173,7 @@
 
                     <div class="container-fluid">
                         <!-- top-main -->
-                        <div class="row bg-primary text-white" id="top-main">
+                        <div class="row my-bg-blue text-white" id="top-main">
                             <div class="col-8 col-md-12">
                                 <div class="row py-2">
                                     <!-- nuovo sponsorizzazione -->

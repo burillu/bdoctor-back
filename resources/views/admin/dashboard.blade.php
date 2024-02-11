@@ -286,7 +286,7 @@
                                                             <div class="col-12 col-md-6">
                                                                 <div class="mb-3">
                                                                     <label for="city"
-                                                                        class="form-label">CittÃ </label>
+                                                                        class="form-label">Città </label>
                                                                     <input type="text" class="form-control"
                                                                         id="city" placeholder="">
                                                                 </div>

@@ -26,6 +26,9 @@ $cv_path = 'storage/curriculums/'
                 <img class="profile-img " src="{{asset('storage/images/' . $user->remember_token)}}" alt="profile_img">
             </div>
             <div>
+                <label for="image">
+                    {{ __('Scegli immagine profilo') }}
+                </label>
                 <input type="file" class="form-control @error('image') is-invalid @enderror" name="image" id="image">
                 <div class="mb-2">
                     <label for="name">{{ __('Name') }}</label>
@@ -57,7 +60,8 @@ $cv_path = 'storage/curriculums/'
             </label>
             <div>
                 <input id="curriculum" name="curriculum" type="file" class="form-control" />
-                <a href="{{ Storage::url('public/curriculums/'. $user->remember_token) }}" download>Scarica PDF</a>
+                <a class="btn btn-primary my-2" href="{{ Storage::url('public/curriculums/'. $user->remember_token) }}"
+                    download>Scarica PDF</a>
             </div>
             <label for="email">
                 {{ __('Email') }}
@@ -96,6 +100,16 @@ $cv_path = 'storage/curriculums/'
             @error('address')
             <span class="invalid-feedback" role="alert">
                 <strong>{{ $errors->get('address') }}</strong>
+            </span>
+            @enderror
+        </div>
+        <div class="mb-2">
+            <label for="tel">{{ __('Numero di telefono') }}</label>
+            <input class="form-control" type="text" name="tel" id="tel" autocomplete="tel"
+                value="{{ old('tel', $data->tel) }}" required autofocus>
+            @error('tel')
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
             </span>
             @enderror
         </div>

@@ -45,12 +45,12 @@ class ProfileController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:users,email,' . $request->user()->id],
             'address' => ['required', 'string', 'max:255'],
             'specialties' => ['required', 'exists:specialties,id'],
             'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif'],
             'curriculum' => ['nullable', 'file', 'mimes:pdf'],
-            'tel' => ['nullable', 'unique:profiles,tel', 'regex:/^[0-9]{10}$/'],
+            'tel' => ['nullable', 'unique:profiles,tel,' . $request->user()->profile->id, 'regex:/^[0-9]{10}$/'],
         ], [
             'name.required' => 'Il campo nome è obbligatorio.',
             'name.string' => 'Il campo nome deve essere testuale.',
@@ -62,6 +62,7 @@ class ProfileController extends Controller
             'email.string' => 'Il campo email deve essere testuale.',
             'email.max' => 'Il campo email deve essere lungo massimo :max caratteri.',
             'email.email' => "Il campo email deve essere un'email valida.",
+            'email.unique' => 'L\'indirizzo email è già utilizzato.',
             'address.required' => 'Il campo indirizzo è obbligatorio.',
             'address.string' => 'Il campo indirizzo deve essere testuale.',
             'address.max' => 'Il campo indirizzo deve essere lungo massimo :max caratteri.',
@@ -81,6 +82,13 @@ class ProfileController extends Controller
         $request->user()->profile->update([
             'address' => $request->address,
         ]);
+
+        $visibility = $request->has('visibility') ? 1 : 0;
+        // dd($visibility);
+        $request->user()->profile->update([
+            'visibility' => $visibility,
+        ]);
+
         if ($request->tel) {
             $request->user()->profile->update([
                 'tel' => $request->tel,

@@ -50,7 +50,7 @@ class ProfileController extends Controller
             'specialties' => ['required', 'exists:specialties,id'],
             'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif'],
             'curriculum' => ['nullable', 'file', 'mimes:pdf'],
-            'tel' => ['nullable', 'unique:profiles,tel,' , 'regex:/^[0-9]{10}$/'],
+            'tel' => ['nullable', 'unique:profiles,tel,' . $request->user()->profile->id, 'regex:/^[0-9]{10}$/'],
         ], [
             'name.required' => 'Il campo nome è obbligatorio.',
             'name.string' => 'Il campo nome deve essere testuale.',

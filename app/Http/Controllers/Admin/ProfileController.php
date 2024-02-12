@@ -98,7 +98,7 @@ class ProfileController extends Controller
             if (Storage::exists("'images/'.$request->user()->profile->slug . '.jpg'")) {
                 Storage::delete("'images/'.$request->user()->profile->slug . '.jpg'");
             }
-            $imagePath = $request->file('image')->storeAs('public/images', $request->user()->profile->slug.'.jpg');
+            $imagePath = $request->file('image')->storeAs('images', $request->user()->profile->slug.'.jpg');
             $request->user()->profile->update([
                 'image' => $imagePath,
             ]);
@@ -107,7 +107,7 @@ class ProfileController extends Controller
             if (Storage::exists("'curriculums/'.$request->user()->profile->slug. '.pdf'")) {
                 Storage::delete("'curriculums/'.$request->user()->profile->slug. '.pdf'");
             }
-            $curriculumPath = $request->file('curriculum')->storeAs('public/curriculums', $request->user()->profile->slug. '.pdf');
+            $curriculumPath = $request->file('curriculum')->storeAs('curriculums', $request->user()->profile->slug. '.pdf');
             $request->user()->profile->update([
                 'curriculum' => $curriculumPath,
             ]);

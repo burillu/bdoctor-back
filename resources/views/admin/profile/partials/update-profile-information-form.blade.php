@@ -76,7 +76,7 @@
                         <strong>{{ $message }}</strong>
                     </span>
                 @enderror
-                <a class="btn btn-primary my-2" href="{{ Storage::url($data->curriculum) }}"download>Scarica PDF</a>
+                <a class="btn btn-primary my-2" href="{{ asset('storage/' . $data->curriculum) }}"download>Scarica PDF</a>
 
             </div>
 

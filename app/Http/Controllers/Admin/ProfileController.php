@@ -48,8 +48,8 @@ class ProfileController extends Controller
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:users,email,' . $request->user()->id],
             'address' => ['required', 'string', 'max:255'],
             'specialties' => ['required', 'exists:specialties,id'],
-            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif'],
-            'curriculum' => ['nullable', 'file', 'mimes:pdf'],
+            'image' => ['nullable', 'image'],
+            'curriculum' => ['nullable', 'file'],
             'tel' => ['nullable', 'unique:profiles,tel,' . $request->user()->profile->id, 'regex:/^[0-9]{10}$/'],
         ], [
             'name.required' => 'Il campo nome è obbligatorio.',
@@ -67,10 +67,8 @@ class ProfileController extends Controller
             'address.string' => 'Il campo indirizzo deve essere testuale.',
             'address.max' => 'Il campo indirizzo deve essere lungo massimo :max caratteri.',
             'specialties.required' => 'Inserire almeno una specializzazione.',
-            'image.mimes' => 'Formato non supportato',
             'image.image' => 'Inserire un\' immagine.',
             'curriculum.file' => 'Inserire un\' file PDF.',
-            'curriculum.mimes' => 'Inserire un\' file PDF.',
             'tel.unique' => 'Questo numero di telefono esiste già',
             'tel.regex' => 'Inserire un numero di telefono valido'
         ]);
@@ -97,19 +95,19 @@ class ProfileController extends Controller
         $request->user()->profile->specialties()->sync($request->specialties);
 
         if ($request->hasFile('image')) {
-            if (Storage::exists("'images/'.$request->user()->remember_token")) {
-                Storage::delete("'images/'.$request->user()->remember_token");
+            if (Storage::exists("'images/'.$request->user()->profile->slug . '.jpg'")) {
+                Storage::delete("'images/'.$request->user()->profile->slug . '.jpg'");
             }
-            $imagePath = $request->file('image')->storeAs('public/images', $request->user()->remember_token);
+            $imagePath = $request->file('image')->storeAs('public/images', $request->user()->profile->slug.'.jpg');
             $request->user()->profile->update([
                 'image' => $imagePath,
             ]);
         }
         if ($request->hasFile('curriculum')) {
-            if (Storage::exists("'curriculums/'.$request->user()->remember_token")) {
-                Storage::delete("'curriculums/'.$request->user()->remember_token");
+            if (Storage::exists("'curriculums/'.$request->user()->profile->slug. '.pdf'")) {
+                Storage::delete("'curriculums/'.$request->user()->profile->slug. '.pdf'");
             }
-            $curriculumPath = $request->file('curriculum')->storeAs('public/curriculums', $request->user()->remember_token);
+            $curriculumPath = $request->file('curriculum')->storeAs('public/curriculums', $request->user()->profile->slug. '.pdf');
             $request->user()->profile->update([
                 'curriculum' => $curriculumPath,
             ]);

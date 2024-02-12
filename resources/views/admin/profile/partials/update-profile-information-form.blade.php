@@ -22,10 +22,12 @@
         @csrf
         @method('patch')
         <div class="d-flex align-items-center ">
+
             <div class="mb-2 mx-3 rounded-circle overflow-hidden custom-border profile-img">
                 <img class=""
                     src="{{ $data->imgage ? asset('storage/' . $data->image) : 'https://img.freepik.com/free-vector/illustration-businessman_53876-5856.jpg?size=626&ext=jpg&ga=GA1.1.87170709.1707696000&semt=ais' }}"
                     alt="profile_img">
+
             </div>
             <div>
                 <label for="image">
@@ -66,9 +68,15 @@
                 {{ __('Curriculum (PDF)') }}
             </label>
             <div>
-                <input id="curriculum" name="curriculum" type="file" class="form-control" />
-                <a class="btn btn-primary my-2"
-                    href="{{ Storage::url('public/curriculums/' . $user->remember_token) }}" download>Scarica PDF</a>
+
+                <input id="curriculum" name="curriculum" type="file" class="form-control @error('curriculum') is-invalid @enderror"" />
+                @error('curriculum')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+                <a class="btn btn-primary my-2" href="{{ Storage::url($data->curriculum) }}"download>Scarica PDF</a>
+
             </div>
 
             <label for="email">
@@ -79,9 +87,11 @@
                 required autocomplete="username" />
 
             @error('email')
-                <span class="text-danger mt-2" role="alert">
-                    <strong>{{ $errors }}</strong>
-                </span>
+
+            <span class="text-danger mt-2" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+
             @enderror
 
             @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && !$user->hasVerifiedEmail())

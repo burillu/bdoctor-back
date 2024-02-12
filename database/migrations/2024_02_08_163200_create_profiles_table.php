@@ -22,6 +22,7 @@ return new class extends Migration
             // $table->string('surname')->nullable();
             $table->string('address')->nullable();
             $table->text('services')->nullable();
+            $table->string('slug',255)->unique();
             $table->timestamps();
         });
     }

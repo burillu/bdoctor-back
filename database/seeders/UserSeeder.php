@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Profile;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class UserSeeder extends Seeder
 {
@@ -29,6 +30,7 @@ class UserSeeder extends Seeder
         $new_profile= new Profile;
         $new_profile->user_id= $new_user->id;
         $new_profile->address= $user['address'];
+        $new_profile->slug= Str::slug($user['nome'] . '-' .$user['cognome'].'-'. $new_user->remember_token, '-');
         $new_profile->save();
         
         //per collegare i dati prima bisogna correggere tutti i nomi del model e della tabella specialtie che diventerà speciality

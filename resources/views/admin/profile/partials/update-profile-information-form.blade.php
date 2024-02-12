@@ -31,15 +31,18 @@ $cv_path = 'storage/curriculums/'
                 </label>
                 <input type="file" class="form-control @error('image') is-invalid @enderror" name="image" id="image">
                 <div class="mb-2">
+
                     <label for="name">{{ __('Name') }}</label>
-                    <input class="form-control" type="text" name="name" id="name" autocomplete="name"
+                    <input class="form-control @error('name') is-invalid @enderror" type="text" name="name" id="name" autocomplete="name"
                         value="{{ old('name', $user->name) }}" required autofocus>
                     @error('name')
                     <span class="invalid-feedback" role="alert">
+
                         <strong>{{ $errors->get('name') }}</strong>
                     </span>
                     @enderror
                 </div>
+
                 <div class="mb-2">
                     <label for="last_name">{{ __('Last name') }}</label>
                     <input class="form-control" type="text" name="last_name" id="last_name" autocomplete="last_name"
@@ -105,7 +108,7 @@ $cv_path = 'storage/curriculums/'
         </div>
         <div class="mb-2">
             <label for="tel">{{ __('Numero di telefono') }}</label>
-            <input class="form-control" type="text" name="tel" id="tel" autocomplete="tel"
+            <input class="form-control @error('tel') is-invalid @enderror" type="text" name="tel" id="tel" autocomplete="tel"
                 value="{{ old('tel', $data->tel) }}" required autofocus>
             @error('tel')
             <span class="invalid-feedback" role="alert">
@@ -113,6 +116,18 @@ $cv_path = 'storage/curriculums/'
             </span>
             @enderror
         </div>
+
+        <div class="mb-2">
+            <input type="checkbox" id="visibility" name="visibility" value="{{ $data->visibility}}" {{
+                $data->visibility ? 'checked' : '' }}>
+            <label for="visibility"><strong>Spunta se sei disponibile al momento</strong></label>
+            @error('visibility')
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+            @enderror
+        </div>
+
         <div class="mb-2">
 
             <div class="form-group">

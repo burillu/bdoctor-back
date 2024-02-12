@@ -50,7 +50,7 @@ class ProfileController extends Controller
             'specialties' => ['required', 'exists:specialties,id'],
             'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif'],
             'curriculum' => ['nullable', 'file', 'mimes:pdf'],
-            'tel' => ['nullable', 'unique:profiles,tel', 'regex:/^[0-9]{10}$/'],
+            'tel' => ['nullable', 'unique:profiles,tel,' , 'regex:/^[0-9]{10}$/'],
         ], [
             'name.required' => 'Il campo nome è obbligatorio.',
             'name.string' => 'Il campo nome deve essere testuale.',
@@ -81,6 +81,13 @@ class ProfileController extends Controller
         $request->user()->profile->update([
             'address' => $request->address,
         ]);
+
+        $visibility = $request->has('visibility') ? 1 : 0;
+        // dd($visibility);
+        $request->user()->profile->update([
+            'visibility' => $visibility,
+        ]);
+
         if ($request->tel) {
             $request->user()->profile->update([
                 'tel' => $request->tel,

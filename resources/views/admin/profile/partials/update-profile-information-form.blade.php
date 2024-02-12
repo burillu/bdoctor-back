@@ -75,7 +75,7 @@ $cv_path = 'storage/curriculums/'
 
             @error('email')
             <span class="text-danger mt-2" role="alert">
-                <strong>{{ $errors }}</strong>
+                <strong>{{ $message }}</strong>
             </span>
             @enderror
 

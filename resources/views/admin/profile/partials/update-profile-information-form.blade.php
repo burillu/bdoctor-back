@@ -142,7 +142,7 @@
         </div>
         <div class="mb-2">
             <label for="tel">{{ __('Numero di telefono') }}</label>
-            <input class="form-control @error('tel') is-invalid @enderror" type="number" name="tel" id="tel"
+            <input class="form-control @error('tel') is-invalid @enderror" type="" name="tel" id="tel"
                 autocomplete="tel" value="{{ old('tel', $data->tel) }}" autofocus>
             @error('tel')
                 <span class="invalid-feedback" role="alert">

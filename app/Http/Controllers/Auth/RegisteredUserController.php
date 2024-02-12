@@ -56,7 +56,7 @@ class RegisteredUserController extends Controller
         if($user){
              $profile=Profile::create([
             'address' => $request->address,
-            'slug'=> 'gigi',//Str::slug($request->name . '-' .$request->last_name, '-'),
+            'slug'=> Str::slug($request->name . '-' .$request->last_name, '-'),
             'user_id' => $user->id,
         ]);
         }

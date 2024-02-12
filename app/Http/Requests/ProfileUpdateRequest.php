@@ -24,6 +24,11 @@ class ProfileUpdateRequest extends FormRequest
     public function messages(){
         return [
             'email.unique'=>'L\'indirizzo email è già utilizzato.',
+            'email.required' => 'Il campo email è obbligatorio.',
+            'email.string' => 'Il campo email deve essere testuale.',
+            'email.max' => 'Il campo email deve essere lungo massimo :max caratteri.',
+            'email.email' => "Il campo email deve essere un'email valida.",
+            
         ];
     }
 }

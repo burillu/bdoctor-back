@@ -43,8 +43,8 @@ class ProfileController extends Controller
         $request->user()->save();
 
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'alpha:ascii', 'max:255'],
+            'last_name' => ['required', 'alpha:ascii', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:users,email,' . $request->user()->id],
             'address' => ['required', 'string', 'max:255'],
             'specialties' => ['required', 'exists:specialties,id'],
@@ -53,21 +53,16 @@ class ProfileController extends Controller
             'tel' => ['nullable', 'unique:profiles,tel,' . $request->user()->profile->id, 'regex:/^[0-9]{10}$/'],
         ], [
             'name.required' => 'Il campo nome è obbligatorio.',
-            'name.string' => 'Il campo nome deve essere testuale.',
+            'name.alpha' => 'Il campo nome deve essere testuale.',
             'name.max' => 'Il campo nome deve essere lungo massimo :max caratteri.',
             'last_name.required' => 'Il campo cognome è obbligatorio.',
-            'last_name.string' => 'Il campo cognome deve essere testuale.',
-            'last_name.max' => 'Il campo cognome deve essere lungo massimo :max caratteri.',
-            'email.required' => 'Il campo email è obbligatorio.',
-            'email.string' => 'Il campo email deve essere testuale.',
-            'email.max' => 'Il campo email deve essere lungo massimo :max caratteri.',
-            'email.email' => "Il campo email deve essere un'email valida.",
-            'email.unique' => 'L\'indirizzo email è già utilizzato.',
+            'last_name.alpha' => 'Il campo cognome deve essere testuale.',
+            'last_name.max' => 'Il campo cognome deve essere lungo massimo :max caratteri.',            
             'address.required' => 'Il campo indirizzo è obbligatorio.',
             'address.string' => 'Il campo indirizzo deve essere testuale.',
             'address.max' => 'Il campo indirizzo deve essere lungo massimo :max caratteri.',
             'specialties.required' => 'Inserire almeno una specializzazione.',
-            'image.image' => 'Inserire un\' immagine.',
+            'image.image' => 'Inserire un\' immagine in formato \'.jpg.\'',
             'curriculum.file' => 'Inserire un\' file PDF.',
             'tel.unique' => 'Questo numero di telefono esiste già',
             'tel.regex' => 'Inserire un numero di telefono valido'

@@ -74,8 +74,8 @@ $cv_path = 'storage/curriculums/'
                 required autocomplete="username" />
 
             @error('email')
-            <span class="alert alert-danger mt-2" role="alert">
-                <strong>{{ $message }}</strong>
+            <span class="text-danger mt-2" role="alert">
+                <strong>{{ $errors }}</strong>
             </span>
             @enderror
 
@@ -96,6 +96,8 @@ $cv_path = 'storage/curriculums/'
                 @endif
             </div>
             @endif
+
+
         </div>
         <div class="mb-2">
             <label for="address">{{ __('Address') }}</label>

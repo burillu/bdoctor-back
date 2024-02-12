@@ -10,6 +10,17 @@
         <p class="mt-1 text-muted">
             {{ __("Update your account's profile information and email address.") }}
         </p>
+        @if (session('status') === 'profile-updated')
+            <script>
+                const show = true;
+                setTimeout(() => show = false, 2000)
+                const el = document.getElementById('profile-status')
+                if (show) {
+                    el.style.display = 'block';
+                }
+            </script>
+            <div id='profile-status' class="fs-5 alert alert-success">{{ __('Your profile has been updated') }}</div>
+        @endif
     </header>
 
     <form id="send-verification" method="post" action="{{ route('verification.send') }}">
@@ -35,11 +46,17 @@
                 </label>
                 <input type="file" class="form-control @error('image') is-invalid @enderror" name="image"
                     id="image">
+                @error('image')
+                    <span class="invalid-feedback" role="alert">
+
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
                 <div class="mb-2">
 
                     <label for="name">{{ __('Name') }}</label>
                     <input class="form-control @error('name') is-invalid @enderror" type="text" name="name"
-                        id="name" autocomplete="name" value="{{ old('name', $user->name) }}" required autofocus>
+                        id="name" autocomplete="name" value="{{ old('name', $user->name) }}" autofocus>
                     @error('name')
                         <span class="invalid-feedback" role="alert">
 
@@ -52,7 +69,7 @@
                     <label for="last_name">{{ __('Last name') }}</label>
                     <input class="form-control @error('last_name') is-invalid @enderror" type="text" name="last_name"
                         id="last_name" autocomplete="last_name" value="{{ old('last_name', $user->last_name) }}"
-                        required autofocus>
+                        autofocus>
                     @error('last_name')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -83,9 +100,9 @@
             <label for="email">
                 {{ __('Email') }}
             </label>
-            <input id="email" name="email" type="email"
+            <input id="email" name="email" type=""
                 class="form-control @error('email') is-invalid @enderror" value="{{ old('email', $user->email) }}"
-                required autocomplete="username" />
+                autocomplete="username" />
 
             @error('email')
                 <span class="text-danger mt-2" role="alert">
@@ -116,7 +133,7 @@
         <div class="mb-2">
             <label for="address">{{ __('Address') }}</label>
             <input class="form-control @error('address') is-invalid @enderror" type="text" name="address"
-                id="address" autocomplete="address" value="{{ old('address', $data->address) }}" required autofocus>
+                id="address" autocomplete="address" value="{{ old('address', $data->address) }}" autofocus>
             @error('address')
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>
@@ -125,8 +142,8 @@
         </div>
         <div class="mb-2">
             <label for="tel">{{ __('Numero di telefono') }}</label>
-            <input class="form-control @error('tel') is-invalid @enderror" type="text" name="tel" id="tel"
-                autocomplete="tel" value="{{ old('tel', $data->tel) }}" required autofocus>
+            <input class="form-control @error('tel') is-invalid @enderror" type="number" name="tel" id="tel"
+                autocomplete="tel" value="{{ old('tel', $data->tel) }}" autofocus>
             @error('tel')
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>
@@ -137,7 +154,7 @@
         <div class="mb-2">
             <input type="checkbox" id="visibility" name="visibility" value="{{ $data->visibility }}"
                 {{ $data->visibility ? 'checked' : '' }}>
-            <label for="visibility"><strong>Spunta se sei disponibile al momento</strong></label>
+            <label for="visibility"><strong>Seleziona se sei disponibile al momento</strong></label>
         </div>
 
         <div class="mb-2">
@@ -168,17 +185,7 @@
         <div class="d-flex align-items-center gap-4">
             <button class="btn btn-primary" type="submit">{{ __('Save') }}</button>
 
-            @if (session('status') === 'profile-updated')
-                <script>
-                    const show = true;
-                    setTimeout(() => show = false, 2000)
-                    const el = document.getElementById('profile-status')
-                    if (show) {
-                        el.style.display = 'block';
-                    }
-                </script>
-                <p id='profile-status' class="fs-5 text-muted">{{ __('Saved.') }}</p>
-            @endif
+
         </div>
     </form>
 </section>

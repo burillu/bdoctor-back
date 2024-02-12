@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use Illuminate\Support\Str;
 
 use App\Models\Specialty;
 
@@ -52,11 +53,14 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
-
-        $profile=Profile::create([
+        if($user){
+             $profile=Profile::create([
             'address' => $request->address,
+            'slug'=> 'gigi',//Str::slug($request->name . '-' .$request->last_name, '-'),
             'user_id' => $user->id,
         ]);
+        }
+       
 
         $profile->specialties()->attach($request->specialties);
 

@@ -23,7 +23,9 @@
         @method('patch')
         <div class="d-flex align-items-center ">
             <div class="mb-2 mx-3 rounded-circle overflow-hidden custom-border profile-img">
-                <img class="" src="{{ asset('storage/images/' . $user->remember_token) }}" alt="profile_img">
+                <img class=""
+                    src="{{ $data->imgage ? asset('storage/' . $data->image) : 'https://img.freepik.com/free-vector/illustration-businessman_53876-5856.jpg?size=626&ext=jpg&ga=GA1.1.87170709.1707696000&semt=ais' }}"
+                    alt="profile_img">
             </div>
             <div>
                 <label for="image">

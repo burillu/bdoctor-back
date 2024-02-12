@@ -23,7 +23,7 @@ $cv_path = 'storage/curriculums/'
         @method('patch')
         <div class="d-flex align-items-center ">
             <div class="mb-2 mx-3 rounded-circle overflow-hidden custom-border  ">
-                <img class="profile-img " src="{{asset('storage/images/' . $user->remember_token)}}" alt="profile_img">
+                <img class="profile-img " src="{{Storage::url($data->image)}}" alt="profile_img">
             </div>
             <div>
                 <label for="image">
@@ -63,7 +63,7 @@ $cv_path = 'storage/curriculums/'
             </label>
             <div>
                 <input id="curriculum" name="curriculum" type="file" class="form-control" />
-                <a class="btn btn-primary my-2" href="{{ Storage::url('public/curriculums/'. $user->remember_token) }}"
+                <a class="btn btn-primary my-2" href="{{ Storage::url($data->curriculum) }}"
                     download>Scarica PDF</a>
             </div>
 

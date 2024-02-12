@@ -62,9 +62,13 @@ $cv_path = 'storage/curriculums/'
                 {{ __('Curriculum (PDF)') }}
             </label>
             <div>
-                <input id="curriculum" name="curriculum" type="file" class="form-control" />
-                <a class="btn btn-primary my-2" href="{{ Storage::url($data->curriculum) }}"
-                    download>Scarica PDF</a>
+                <input id="curriculum" name="curriculum" type="file" class="form-control @error('curriculum') is-invalid @enderror"" />
+                @error('curriculum')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+                <a class="btn btn-primary my-2" href="{{ Storage::url($data->curriculum) }}"download>Scarica PDF</a>
             </div>
 
             <label for="email">

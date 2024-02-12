@@ -38,18 +38,18 @@ $cv_path = 'storage/curriculums/'
                     @error('name')
                     <span class="invalid-feedback" role="alert">
 
-                        <strong>{{ $errors->get('name') }}</strong>
+                        <strong>{{ $message }}</strong>
                     </span>
                     @enderror
                 </div>
 
                 <div class="mb-2">
                     <label for="last_name">{{ __('Last name') }}</label>
-                    <input class="form-control" type="text" name="last_name" id="last_name" autocomplete="last_name"
+                    <input class="form-control @error('last_name') is-invalid @enderror" type="text" name="last_name" id="last_name" autocomplete="last_name"
                         value="{{ old('last_name', $user->last_name) }}" required autofocus>
                     @error('last_name')
                     <span class="invalid-feedback" role="alert">
-                        <strong>{{ $errors->get('last_name') }}</strong>
+                        <strong>{{ $message }}</strong>
                     </span>
                     @enderror
                 </div>
@@ -66,15 +66,16 @@ $cv_path = 'storage/curriculums/'
                 <a class="btn btn-primary my-2" href="{{ Storage::url('public/curriculums/'. $user->remember_token) }}"
                     download>Scarica PDF</a>
             </div>
+
             <label for="email">
                 {{ __('Email') }}
             </label>
-            <input id="email" name="email" type="email" class="form-control" value="{{ old('email', $user->email) }}"
+            <input id="email" name="email" type="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email', $user->email) }}"
                 required autocomplete="username" />
 
             @error('email')
             <span class="alert alert-danger mt-2" role="alert">
-                <strong>{{ $errors->get('email') }}</strong>
+                <strong>{{ $message }}</strong>
             </span>
             @enderror
 
@@ -98,11 +99,11 @@ $cv_path = 'storage/curriculums/'
         </div>
         <div class="mb-2">
             <label for="address">{{ __('Address') }}</label>
-            <input class="form-control" type="text" name="address" id="address" autocomplete="address"
+            <input class="form-control @error('address') is-invalid @enderror" type="text" name="address" id="address" autocomplete="address"
                 value="{{ old('address', $data->address) }}" required autofocus>
             @error('address')
             <span class="invalid-feedback" role="alert">
-                <strong>{{ $errors->get('address') }}</strong>
+                <strong>{{ $message }}</strong>
             </span>
             @enderror
         </div>
@@ -121,11 +122,6 @@ $cv_path = 'storage/curriculums/'
             <input type="checkbox" id="visibility" name="visibility" value="{{ $data->visibility}}" {{
                 $data->visibility ? 'checked' : '' }}>
             <label for="visibility"><strong>Spunta se sei disponibile al momento</strong></label>
-            @error('visibility')
-            <span class="invalid-feedback" role="alert">
-                <strong>{{ $message }}</strong>
-            </span>
-            @enderror
         </div>
 
         <div class="mb-2">
@@ -141,18 +137,16 @@ $cv_path = 'storage/curriculums/'
                             <label for="">{{ $specialty->name }}</label>
                         </div>
                         @endforeach
+                        @error('specialties')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
                     </div>
                 </div>
-
             </div>
-
-
         </div>
-        @error('specialties')
-        <span class="invalid-feedback" role="alert">
-            <strong>{{ $errors->get('specialties') }}</strong>
-        </span>
-        @enderror
+        
 
 
         <div class="d-flex align-items-center gap-4">

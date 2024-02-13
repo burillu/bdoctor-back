@@ -6,41 +6,58 @@
         const email = document.getElementById('email');
         const password = document.getElementById('password');
         const password_confirm = document.getElementById('password_confirm');
+
         name.addEventListener('blur', function () {
             if (name.value.trim() === '') {
-                console.log('Inserire Nome valido');
+                name.classList.add('is-invalid');
+            } else {
+                name.classList.remove('is-invalid');
             }
         });
 
         surname.addEventListener('blur', function () {
             if (surname.value.trim() === '') {
-                console.log('Inserire Cognome valido');
+                surname.classList.add('is-invalid');
+            } else {
+                surname.classList.remove('is-invalid');
             }
-
         });
+
         address.addEventListener('blur', function () {
             if (address.value.trim() === '') {
-                console.log('Inserire un indirizzo valido');
+                address.classList.add('is-invalid');
+            } else {
+                address.classList.remove('is-invalid');
             }
         });
+
         email.addEventListener('blur', function () {
             if (email.value.trim() === '') {
-                console.log('Inserire una mail valida');
+                email.classList.add('is-invalid');
+            } else {
+                email.classList.remove('is-invalid');
             }
         });
+
         password.addEventListener('blur', function () {
             if (password.value.trim() === '') {
-                console.log('Inserire una password valido');
+                password.classList.add('is-invalid');
+            } else {
+                password.classList.remove('is-invalid');
             }
         });
+
         password_confirm.addEventListener('blur', function () {
             if (password_confirm.value.trim() === '') {
-                console.log('Inserire la password è diversa');
+                password_confirm.classList.add('is-invalid');
+            } else {
+                password_confirm.classList.remove('is-invalid');
             }
         });
 
     });
 </script>
+
 @extends('layouts.app')
 
 @section('content')

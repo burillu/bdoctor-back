@@ -27,8 +27,18 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'string', 'email'],
+            'email' => ['required', 'string', 'email','lowercase', 'max:255'],
             'password' => ['required', 'string'],
+        ];
+    }
+
+    public function messages(){
+        return [
+        'email.required' => 'questo campo è obbligatorio',
+        'email.string'=>'questo campo deve essere una stringa testuale',
+        'email.email'=>'questo campo deve essere una email',
+        'password.required' => 'questo campo è obbligatorio',
+        'password.string'=>'questo campo deve essere una stringa testuale',
         ];
     }
 

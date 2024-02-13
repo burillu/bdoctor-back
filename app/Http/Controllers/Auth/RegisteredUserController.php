@@ -43,7 +43,7 @@ class RegisteredUserController extends Controller
             'address' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed','min:8', Rules\Password::defaults()],
-            'password_confirmation' => ['required', 'min:8','confirmed'],
+            'password_confirmation' => ['required', 'min:8'],
             'specialties' => ['required', 'exists:specialties,id'],
         ], [
             'name.required'=>'Questo campo è obbligatorio',
@@ -78,7 +78,7 @@ class RegisteredUserController extends Controller
         if($user){
              $profile=Profile::create([
             'address' => $request->address,
-            // 'slug'=> Str::slug($request->name . '-' .$request->last_name, '-'),
+            'slug'=> Str::slug($request->name . '-' .$request->last_name, '-'),
             'user_id' => $user->id,
         ]);
         }

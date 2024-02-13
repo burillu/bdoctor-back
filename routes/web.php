@@ -23,7 +23,8 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::middleware(['auth', 'verified'])->name('admin.')->prefix('admin')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
-    Route::resource('profile', ProfileController::class)->except('create');
+    Route::get('profile/', [ProfileController::class, 'edit'])->name("profile.edit");
+    Route::resource('profile', ProfileController::class)->except('create','edit','store','index');
 });
 
 

@@ -93,8 +93,9 @@
                         <strong>{{ $message }}</strong>
                     </span>
                 @enderror
+                @if ($data->curriculum)
                 <a class="btn btn-primary my-2" href="{{ asset('storage/' . $data->curriculum) }}"download>Scarica PDF</a>
-
+                @endif
             </div>
 
             <label for="email">

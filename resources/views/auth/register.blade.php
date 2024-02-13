@@ -1,3 +1,46 @@
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const name = document.getElementById('name');
+        const surname = document.getElementById('last_name');
+        const address = document.getElementById('address');
+        const email = document.getElementById('email');
+        const password = document.getElementById('password');
+        const password_confirm = document.getElementById('password_confirm');
+        name.addEventListener('blur', function () {
+            if (name.value.trim() === '') {
+                console.log('Inserire Nome valido');
+            }
+        });
+
+        surname.addEventListener('blur', function () {
+            if (surname.value.trim() === '') {
+                console.log('Inserire Cognome valido');
+            }
+
+        });
+        address.addEventListener('blur', function () {
+            if (address.value.trim() === '') {
+                console.log('Inserire un indirizzo valido');
+            }
+        });
+        email.addEventListener('blur', function () {
+            if (email.value.trim() === '') {
+                console.log('Inserire una mail valida');
+            }
+        });
+        password.addEventListener('blur', function () {
+            if (password.value.trim() === '') {
+                console.log('Inserire una password valido');
+            }
+        });
+        password_confirm.addEventListener('blur', function () {
+            if (password_confirm.value.trim() === '') {
+                console.log('Inserire la password è diversa');
+            }
+        });
+
+    });
+</script>
 @extends('layouts.app')
 
 @section('content')
@@ -12,10 +55,11 @@
                         @csrf
 
                         <div class="mb-4 row">
-                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
+                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Nome') }}</label>
 
                             <div class="col-md-6">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror"
+                                    name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
 
                                 @error('name')
                                 <span class="invalid-feedback" role="alert">
@@ -26,10 +70,13 @@
                         </div>
 
                         <div class="mb-4 row">
-                            <label for="last_name" class="col-md-4 col-form-label text-md-right">{{ __('cognome') }}</label>
+                            <label for="last_name" class="col-md-4 col-form-label text-md-right">{{ __('Cognome')
+                                }}</label>
 
                             <div class="col-md-6">
-                                <input id="last_name" type="text" class="form-control @error('last_name') is-invalid @enderror" name="last_name" value="{{ old('last_name') }}" required autocomplete="last_name" autofocus>
+                                <input id="last_name" type="text"
+                                    class="form-control @error('last_name') is-invalid @enderror" name="last_name"
+                                    value="{{ old('last_name') }}" required autocomplete="last_name" autofocus>
 
                                 @error('last_name')
                                 <span class="invalid-feedback" role="alert">
@@ -40,10 +87,13 @@
                         </div>
 
                         <div class="mb-4 row">
-                            <label for="address" class="col-md-4 col-form-label text-md-right">{{ __('indirizzo') }}</label>
+                            <label for="address" class="col-md-4 col-form-label text-md-right">{{ __('indirizzo')
+                                }}</label>
 
                             <div class="col-md-6">
-                                <input id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address" value="{{ old('address') }}" required autocomplete="address" autofocus>
+                                <input id="address" type="text"
+                                    class="form-control @error('address') is-invalid @enderror" name="address"
+                                    value="{{ old('address') }}" required autocomplete="address" autofocus>
 
                                 @error('address')
                                 <span class="invalid-feedback" role="alert">
@@ -54,14 +104,17 @@
                         </div>
 
                         {{-- <div class="mb-4 row">
-                            <label for="specialties" class="col-md-4 col-form-label text-md-right">{{ __('specializzazione') }}</label>
+                            <label for="specialties" class="col-md-4 col-form-label text-md-right">{{
+                                __('specializzazione') }}</label>
 
                             <div class="col-md-6">
-                                <select id="specialties" type="text" class="form-control @error('specialties') is-invalid @enderror" name="specialties" value="{{ old('specialties') }}" required autocomplete="specialties" autofocus>
+                                <select id="specialties" type="text"
+                                    class="form-control @error('specialties') is-invalid @enderror" name="specialties"
+                                    value="{{ old('specialties') }}" required autocomplete="specialties" autofocus>
                                     <option value="">scegli la specializzazione principale</option>
 
                                     @foreach ($specialties as $specialty)
-                                        <option value="{{$specialty->id}}">{{$specialty->name}}</option>
+                                    <option value="{{$specialty->id}}">{{$specialty->name}}</option>
                                     @endforeach
                                 </select>
 
@@ -74,29 +127,34 @@
                         </div> --}}
 
                         <div class="mb-4 row">
-                            <label for="specialties" class="col-md-4 col-form-label text-md-right">{{ __('Specializzazione') }}</label>
-                        
+                            <label for="specialties" class="col-md-4 col-form-label text-md-right">{{
+                                __('Specializzazione') }}</label>
+
                             <div class="col-md-6 form-control @error('specialties') is-invalid @enderror">
                                 @foreach($specialties as $specialty)
-                                    <div class="form-check">
-                                        <input type="checkbox" value="{{ $specialty->id }}" {{ in_array($specialty->id, old('specialties', [])) ? 'checked' : '' }} id="specialties{{ $specialty->id }}" name="specialties[]">
-                                        <label class="form-check-label">{{ $specialty->name }}</label>
-                                    </div>
+                                <div class="form-check">
+                                    <input type="checkbox" value="{{ $specialty->id }}" {{ in_array($specialty->id,
+                                    old('specialties', [])) ? 'checked' : '' }} id="specialties{{ $specialty->id }}"
+                                    name="specialties[]">
+                                    <label class="form-check-label">{{ $specialty->name }}</label>
+                                </div>
                                 @endforeach
-                        
+
                             </div>
                             @error('specialties')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                            @enderror
                         </div>
 
                         <div class="mb-4 row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
+                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address')
+                                }}</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
+                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
+                                    name="email" value="{{ old('email') }}" required autocomplete="email">
 
                                 @error('email')
                                 <span class="invalid-feedback" role="alert">
@@ -107,10 +165,13 @@
                         </div>
 
                         <div class="mb-4 row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password')
+                                }}</label>
 
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
+                                <input id="password" type="password"
+                                    class="form-control @error('password') is-invalid @enderror" name="password"
+                                    required autocomplete="new-password">
 
                                 @error('password')
                                 <span class="invalid-feedback" role="alert">
@@ -121,10 +182,12 @@
                         </div>
 
                         <div class="mb-4 row">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
+                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm
+                                Password') }}</label>
 
                             <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                                <input id="password_confirm" type="password" class="form-control"
+                                    name="password_confirmation" required autocomplete="new-password">
                             </div>
                         </div>
 
@@ -141,4 +204,5 @@
         </div>
     </div>
 </div>
+
 @endsection

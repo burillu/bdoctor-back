@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,6 +17,19 @@ use App\Models\Specialty;
 
 class ProfileController extends Controller
 {
+/*     public function index()
+    {
+        $currentUserId = Auth::id();
+        $data = Profile::where('user_id', $currentUserId)->first();
+        $specialties = Specialty::all();
+        //dd($data);
+        return view('admin.profile.index', [
+            'user' => User::where('id', $currentUserId)->first(),
+            'data' => $data,
+            'specialties' => $specialties
+        ]);
+
+    } */
     /**
      * Display the user's profile form.
      */
@@ -108,7 +122,9 @@ class ProfileController extends Controller
             ]);
         }
 
+
         return redirect()->route('admin.profile.edit');//, ['profile' => $request->user()->profile])->with('status', 'profile-updated');
+
     }
 
     /**

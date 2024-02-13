@@ -33,13 +33,13 @@ class ProfileController extends Controller
     /**
      * Display the user's profile form.
      */
-    public function edit(Request $request): View
+    public function edit(): View
     {
-        $data = Profile::where('user_id', $request->user()->id)->first();
+        $data = Profile::where('user_id', Auth::user()->id)->first();
         $specialties = Specialty::all();
-        //dd($data);
+        //dd(Auth::user);
         return view('admin.profile.edit', [
-            'user' => $request->user(),
+            'user' => Auth::user(),
             'data' => $data,
             'specialties' => $specialties
         ]);
@@ -122,7 +122,9 @@ class ProfileController extends Controller
             ]);
         }
 
-        return redirect()->route('admin.profile.index');
+
+        return redirect()->route('admin.profile.edit');//, ['profile' => $request->user()->profile])->with('status', 'profile-updated');
+
     }
 
     /**

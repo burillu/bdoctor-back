@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\SpecialtyController;
+use App\Http\Controllers\Api\VoteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,4 +28,8 @@ Route::controller(ProfileController::class)->group(function () {
 
 Route::controller(SpecialtyController::class)->group(function () {
     Route::get('specialties', 'index');
+});
+
+Route::controller(VoteController::class)->group(function () {
+    Route::get('votes', 'index');
 });

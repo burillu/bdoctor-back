@@ -11,10 +11,16 @@ class SpecialtyController extends Controller
 
      public function index(){
         $specialties = Specialty::all();
+        $data = $specialties->map(function ($specialty){
+            return[
+                'name' => $specialty->name,
+                'id' => $specialty->id,
+            ];
+        });
         return response()->json(
             [
                 'success' => true,
-                'results' => $specialties,
+                'results' => $data,
             ]
         );
     }

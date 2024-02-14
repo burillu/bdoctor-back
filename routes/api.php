@@ -21,8 +21,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::controller(ProfileController::class)->group(function () {
-    Route::get('dottori', 'index');
-    Route::get('dottori/{slug}', 'show');
+    Route::get('doctors', 'index');
+    Route::get('doctors/{slug}', 'show');
 });
 
 Route::controller(SpecialtyController::class)->group(function () {

@@ -18,6 +18,7 @@ class ProfileController extends Controller
                     array_push($specialties,$specialty->name);
                 }
                 return[
+                    'id' => $doctor->id,
                     'name' => $doctor->user->name,
                     'last_name'=> $doctor->user->last_name,
                     'address'=> $doctor->address,
@@ -45,6 +46,7 @@ class ProfileController extends Controller
                 array_push($specialties,$specialty->name);
             }
             $data = [
+                    'id' => $doctor->id,
                     'name' => $doctor->user->name,
                     'last_name'=> $doctor->user->last_name,
                     'address'=> $doctor->address,

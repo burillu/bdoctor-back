@@ -27,7 +27,7 @@ class LeadSeeder extends Seeder
             $new_lead->profile_id = random_int(1,7);
             $new_lead->name= $faker->firstName();
             $new_lead->surname = $faker->lastName();
-            $new_lead->email = strtolower($new_lead->name) .'.'.  strtolower($new_lead->surname) .'@'. $faker->freeEmailDomain();
+            $new_lead->email = strtolower($new_lead->name) .'.'.  strtolower(str_replace(' ', '',$new_lead->surname)) .'@'. $faker->freeEmailDomain();
             $new_lead->tel = substr($faker->e164PhoneNumber(), 0 , 13) ;
             $new_lead->message = $message . $new_lead->name .' '.$new_lead->surname;
             $new_lead->save();

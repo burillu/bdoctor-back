@@ -15,11 +15,11 @@ class DatabaseSeeder extends Seeder
         $this->call([
             
             //ProfileSeeder::class,
+            VoteSeeder::class,
             SpecialtySeeder::class,
             SponsorshipSeeder::class,
             UserSeeder::class,
             //ReviewSeeder::class,
-            //VoteSeeder::class,
             //LeadSeeder::class
         ]);
     }

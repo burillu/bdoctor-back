@@ -78,7 +78,7 @@ class RegisteredUserController extends Controller
         if($user){
              $profile=Profile::create([
             'address' => $request->address,
-            'slug'=> Str::slug($request->name . '-' .$request->last_name, '-'),
+            'slug' => Str::slug($request->name . '-' . $request->last_name, '-') . '-' . $user->id,
             'user_id' => $user->id,
         ]);
         }

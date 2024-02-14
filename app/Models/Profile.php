@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Specialty;
 use App\Models\Vote;
 use App\Models\Sponsorship;
+use App\Models\Review;
 
 
 class Profile extends Model
@@ -32,5 +33,8 @@ class Profile extends Model
     }
     public function sponsorships(){
         return $this->belongsToMany(Sponsorship::class);
+    }
+    public function reviews(){
+        return $this->belongsToMany(Review::class);
     }
 }

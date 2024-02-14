@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ProfileController;
+use App\Http\Controllers\Api\SpecialtyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,4 +23,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::controller(ProfileController::class)->group(function () {
     Route::get('dottori', 'index');
     Route::get('dottori/{id}', 'show');
+});
+
+Route::controller(SpecialtyController::class)->group(function () {
+    Route::get('specialties', 'index');
 });

@@ -14,7 +14,7 @@
         @method('put')
 
         <div class="mb-2">
-            <label for="current_password">{{__('Current Password')}}</label>
+            <label for="current_password">{{__('Password attuale')}}</label>
             <input class="mt-1 form-control" type="password" name="current_password" id="current_password" autocomplete="current-password">
             @error('current_password')
             <span class="invalid-feedback mt-2" role="alert">

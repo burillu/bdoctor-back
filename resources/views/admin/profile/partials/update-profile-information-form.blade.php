@@ -180,10 +180,9 @@
         </div>
 
         <div class="mb-2">
-
             <div class="form-group">
                 <h6>{{ __('Servizi') }}:</h6>
-                    <textarea class="form-control @error('tel') is-invalid @enderror" name="services" id="services" cols="30" rows="10">{{ old('services', $data->services) }}
+                    <textarea class="form-control @error('services') is-invalid @enderror" name="services" id="services" cols="30" rows="10">{{ old('services', $data->services) }}
                     </textarea>
                     @error('services')
                         <span class="invalid-feedback" role="alert">

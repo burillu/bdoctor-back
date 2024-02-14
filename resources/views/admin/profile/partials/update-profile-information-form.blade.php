@@ -4,11 +4,11 @@
 <section>
     <header>
         <h2 class="text-secondary">
-            {{ __('Profile Information') }}
+            {{ __('Informazioni del profilo') }}
         </h2>
 
         <p class="mt-1 text-muted">
-            {{ __("Update your account's profile information and email address.") }}
+            {{ __("Aggiorna il tuo profilo") }}
         </p>
         @if (session('status') === 'profile-updated')
             <script>
@@ -54,7 +54,7 @@
                 @enderror
                 <div class="mb-2">
 
-                    <label for="name">{{ __('Name') }}</label>
+                    <label for="name">{{ __('Name*') }}</label>
                     <input class="form-control @error('name') is-invalid @enderror" type="text" name="name"
                         id="name" autocomplete="name" value="{{ old('name', $user->name) }}" autofocus>
                     @error('name')
@@ -66,7 +66,7 @@
                 </div>
 
                 <div class="mb-2">
-                    <label for="last_name">{{ __('Last name') }}</label>
+                    <label for="last_name">{{ __('Cognome*') }}</label>
                     <input class="form-control @error('last_name') is-invalid @enderror" type="text" name="last_name"
                         id="last_name" autocomplete="last_name" value="{{ old('last_name', $user->last_name) }}"
                         autofocus>
@@ -98,7 +98,7 @@
             </div>
 
             <label for="email">
-                {{ __('Email') }}
+                {{ __('Email*') }}
             </label>
             <input id="email" name="email" type=""
                 class="form-control @error('email') is-invalid @enderror" value="{{ old('email', $user->email) }}"
@@ -131,7 +131,7 @@
 
         </div>
         <div class="mb-2">
-            <label for="address">{{ __('Address') }}</label>
+            <label for="address">{{ __('Indirizzo*') }}</label>
             <input class="form-control @error('address') is-invalid @enderror" type="text" name="address"
                 id="address" autocomplete="address" value="{{ old('address', $data->address) }}" autofocus>
             @error('address')
@@ -160,7 +160,7 @@
         <div class="mb-2">
 
             <div class="form-group">
-                <h6>{{ __('Specialties') }}:</h6>
+                <h6>{{ __('Specializzazioni*') }}:</h6>
                 <div class="container-fluid">
                     <div class="row">
                         @foreach ($specialties as $specialty)

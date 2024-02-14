@@ -12,7 +12,7 @@
                         @csrf
 
                         <div class="mb-4 row">
-                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Nome') }}</label>
+                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Nome*') }}</label>
 
                             <div class="col-md-6">
                                 <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}"  autocomplete="name" autofocus>
@@ -26,7 +26,7 @@
                         </div>
 
                         <div class="mb-4 row">
-                            <label for="last_name" class="col-md-4 col-form-label text-md-right">{{ __('cognome') }}</label>
+                            <label for="last_name" class="col-md-4 col-form-label text-md-right">{{ __('Cognome*') }}</label>
 
                             <div class="col-md-6">
                                 <input id="last_name" type="text" class="form-control @error('last_name') is-invalid @enderror" name="last_name" value="{{ old('last_name') }}"  autocomplete="last_name" autofocus>
@@ -40,7 +40,7 @@
                         </div>
 
                         <div class="mb-4 row">
-                            <label for="address" class="col-md-4 col-form-label text-md-right">{{ __('indirizzo') }}</label>
+                            <label for="address" class="col-md-4 col-form-label text-md-right">{{ __('Indirizzo*') }}</label>
 
                             <div class="col-md-6">
                                 <input id="address" type="text" class="form-control @error('address') is-invalid @enderror" name="address" value="{{ old('address') }}"  autocomplete="address" autofocus>
@@ -74,7 +74,7 @@
                         </div> --}}
 
                         <div class="mb-4 row">
-                            <label for="specialties" class="col-md-4 col-form-label text-md-right">{{ __('Specializzazione') }}</label>
+                            <label for="specialties" class="col-md-4 col-form-label text-md-right">{{ __('Specializzazione*') }}</label>
                         
                             <div class="col-md-6 form-control @error('specialties') is-invalid @enderror">
                                 @foreach($specialties as $specialty)
@@ -93,7 +93,7 @@
                         </div>
 
                         <div class="mb-4 row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail') }}</label>
+                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail*') }}</label>
 
                             <div class="col-md-6">
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}"  autocomplete="email">
@@ -107,7 +107,7 @@
                         </div>
 
                         <div class="mb-4 row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
+                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password*') }}</label>
 
                             <div class="col-md-6">
                                 <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password"  autocomplete="new-password">
@@ -121,7 +121,7 @@
                         </div>
 
                         <div class="mb-4 row">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Conferma Password') }}</label>
+                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Conferma Password*') }}</label>
 
                             <div class="col-md-6">
                                 <input id="password-confirm" type="password" class="form-control @error('password_confirmation') is-invalid @enderror" name="password_confirmation"  autocomplete="new-password">

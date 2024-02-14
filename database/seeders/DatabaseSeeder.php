@@ -17,10 +17,10 @@ class DatabaseSeeder extends Seeder
             //ProfileSeeder::class,
             SpecialtySeeder::class,
             SponsorshipSeeder::class,
+            VoteSeeder::class,
             UserSeeder::class,
-            //ReviewSeeder::class,
-            //VoteSeeder::class,
-            //LeadSeeder::class
+            ReviewSeeder::class,            
+            LeadSeeder::class
         ]);
     }
 }

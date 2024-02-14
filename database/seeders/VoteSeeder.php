@@ -18,6 +18,7 @@ class VoteSeeder extends Seeder
             $newVote = new Vote();
             $newVote->value = $i;
             $newVote->save();
+            
         }
     }
 }

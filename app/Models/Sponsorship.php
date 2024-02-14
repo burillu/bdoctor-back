@@ -11,6 +11,6 @@ class Sponsorship extends Model
     protected $fillable = ['name','price','duration'];
     public function profiles()
     {
-        return $this->belongsToMany(Profile::class);
+        return $this->belongsToMany(Profile::class)->withPivot('expire_date', 'current_price')->withTimestamps();
     }
 }

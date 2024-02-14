@@ -9,6 +9,8 @@ use App\Models\User;
 use App\Models\Specialty;
 use App\Models\Vote;
 use App\Models\Sponsorship;
+use App\Models\Review;
+use App\Models\Lead;
 
 
 class Profile extends Model
@@ -28,9 +30,15 @@ class Profile extends Model
     }
 
     public function votes(){
-        return $this->belongsToMany(Vote::class);
+        return $this->belongsToMany(Vote::class)->withTimestamps();
     }
     public function sponsorships(){
-        return $this->belongsToMany(Sponsorship::class);
+        return $this->belongsToMany(Sponsorship::class)->withPivot('expire_date', 'current_price')->withTimestamps();
+    }
+    public function reviews(){
+        return $this->hasMany(Review::class);
+    }
+    public function leads(){
+        return $this->hasMany(Lead::class);
     }
 }

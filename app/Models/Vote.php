@@ -14,6 +14,6 @@ class Vote extends Model
     protected $fillable = ['value'];
 
     public function profiles(){
-        return $this->belongsToMany(Profile::class);
+        return $this->belongsToMany(Profile::class)->withTimestamps();
     }
 }

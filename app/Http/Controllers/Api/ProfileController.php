@@ -12,9 +12,16 @@ class ProfileController extends Controller
     // Services, curriculum, id 
     public function index()
     {
-        $doctors = Profile::with('user')->with('specialties')->get();
+        $doctors = Profile::with('user')->with('specialties')->with('votes')->get();
         $data = $doctors->map(function ($doctor) {
             $specialties = $this->specialtiesNames($doctor);
+            $vote_average = 0;
+            if(count($doctor->votes) >= 1){
+                foreach ($doctor->votes as $vote) {
+                    $vote_average += $vote->value;
+                }
+                $vote_average /= count( $doctor->votes);
+            }
             return [
                 'id' => $doctor->id,
                 'name' => $doctor->user->name,
@@ -25,6 +32,7 @@ class ProfileController extends Controller
                 'visibility' => $doctor->visibility,
                 'slug' => $doctor->slug,
                 'specialties' => $specialties,
+                'vote_average' =>  number_format((float)$vote_average, 2, '.', ''),
             ];
         });
 
@@ -38,6 +46,13 @@ class ProfileController extends Controller
     {
         $doctor = Profile::with('user')->with('specialties')->where('slug', $slug)->first();
         if ($doctor) {
+            $vote_average = 0;
+            if(count($doctor->votes) >= 1){
+                foreach ($doctor->votes as $vote) {
+                    $vote_average += $vote->value;
+                }
+                $vote_average /= count( $doctor->votes);
+            }
             $specialties = $this->specialtiesNames($doctor);
             $data = [
                 'id' => $doctor->id,
@@ -51,6 +66,7 @@ class ProfileController extends Controller
                 'services' => $doctor->services,
                 'slug' => $doctor->slug,
                 'specialties' => $specialties,
+                'vote_average' =>  number_format((float)$vote_average, 2, '.', ''),
             ];
             return response()->json([
                 'success' => true,

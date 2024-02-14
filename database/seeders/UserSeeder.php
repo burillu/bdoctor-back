@@ -33,12 +33,8 @@ class UserSeeder extends Seeder
         $new_profile->slug= Str::slug($user['nome'] . '-' .$user['cognome'].'-'. $new_user->remember_token, '-');
         $new_profile->save();
         
-        //per collegare i dati prima bisogna correggere tutti i nomi del model e della tabella specialtie che diventerà speciality
-
-        $new_profile->specialties()->sync(random_int(1,84));
+        $new_profile->specialties()->sync(random_int(1,count(Specialty::all())));
         
-
-
     }
 }
 }

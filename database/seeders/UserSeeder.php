@@ -37,7 +37,7 @@ class UserSeeder extends Seeder
         
         //per collegare i dati prima bisogna correggere tutti i nomi del model e della tabella specialtie che diventerà speciality
 
-        $new_profile->specialties()->sync(random_int(1,84));
+        $new_profile->specialties()->sync(random_int(1,16));
         $new_profile->votes()->sync([random_int(1,5),random_int(3,5),random_int(1,4)]);
         if ($key < 5){
             $new_profile->sponsorships()->syncWithPivotValues([3], ['expire_date' => Carbon::now()->addDays(6),'current_price'=> 9.99], true);

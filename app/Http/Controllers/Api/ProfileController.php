@@ -9,7 +9,7 @@ use App\Models\Profile;
 class ProfileController extends Controller
 {
     // Aggiungere specialties
-    // Services, curriculum, id 
+    // Services, curriculum, id
     public function index()
     {
         $doctors = Profile::with(['user','specialties','votes'])->get();
@@ -47,6 +47,7 @@ class ProfileController extends Controller
                 'id' => $doctor->id,
                 'name' => $doctor->user->name,
                 'last_name' => $doctor->user->last_name,
+                'email' => $doctor->user->email,
                 'address' => $doctor->address,
                 'curriculum' => $doctor->curriculum,
                 'image' => $doctor->image,
@@ -54,7 +55,7 @@ class ProfileController extends Controller
                 'visibility' => $doctor->visibility,
                 'services' => $doctor->services,
                 'slug' => $doctor->slug,
-                'specialties' => $specialties, 
+                'specialties' => $specialties,
                 'vote_average' =>  number_format((float)$vote_average, 2, '.', ''),
             ];
             return response()->json([

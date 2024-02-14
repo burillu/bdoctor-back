@@ -87,7 +87,7 @@
             <div>
 
                 <input id="curriculum" name="curriculum" type="file"
-                    class="form-control @error('curriculum') is-invalid @enderror"" />
+                    class="form-control @error('curriculum') is-invalid @enderror" />
                 @error('curriculum')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
@@ -158,7 +158,6 @@
         </div>
 
         <div class="mb-2">
-
             <div class="form-group">
                 <h6>{{ __('Specializzazioni*') }}:</h6>
                 <div class="container-fluid">
@@ -180,7 +179,19 @@
             </div>
         </div>
 
+        <div class="mb-2">
 
+            <div class="form-group">
+                <h6>{{ __('Servizi') }}:</h6>
+                    <textarea class="form-control @error('tel') is-invalid @enderror" name="services" id="services" cols="30" rows="10">{{ old('services', $data->services) }}
+                    </textarea>
+                    @error('services')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+            </div>
+        </div>
 
         <div class="d-flex align-items-center gap-4">
             <button class="btn btn-primary" type="submit">{{ __('Save') }}</button>

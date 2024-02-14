@@ -1,160 +1,54 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const name = document.getElementById('name');
-        const surname = document.getElementById('last_name');
-        const address = document.getElementById('address');
-        const email = document.getElementById('email');
-        const password = document.getElementById('password');
-        const password_confirm = document.getElementById('password-confirm');
+        const fields = [
+            { id: 'name', msg: 'Inserire un nome valido' },
+            { id: 'last_name', msg: 'Inserire un cognome valido' },
+            { id: 'address', msg: 'Inserire un indirizzo valido' },
+            { id: 'email', msg: 'Inserire un indirizzo email valido' },
+            { id: 'password', msg: 'Inserire una password valida' },
+            { id: 'password-confirm', msg: 'Confermare la password' }
+        ];
 
-        name.addEventListener('blur', function () {
-            if (name.value.trim() === '') {
-                let removeDiv = document.getElementById('name-msg');
-                if (removeDiv) {
-                    let parentDiv = removeDiv.parentNode;
-                    parentDiv.removeChild(removeDiv);
-                }
-                name.classList.add('is-invalid');
-                const nameDiv = document.getElementById('name-div');
-                let newDiv = document.createElement('div');
-                newDiv.classList.add('invalid-feedback');
-                newDiv.textContent = 'Inserire un nome valido';
-                newDiv.setAttribute('id', 'name-msg');
-                nameDiv.appendChild(newDiv);
-            } else {
-                name.classList.remove('is-invalid');
-                let removeDiv = document.getElementById('name-msg');
-                if (removeDiv) {
-                    let parentDiv = removeDiv.parentNode;
-                    parentDiv.removeChild(removeDiv);
-                }
-            }
+        fields.forEach(field => {
+            const input = document.getElementById(field.id);
+            input.addEventListener('blur', function () {
+                validateField(input, field.msg);
+            });
         });
 
-        surname.addEventListener('blur', function () {
-            if (surname.value.trim() === '') {
-                let removeDiv = document.getElementById('surname-msg');
-                if (removeDiv) {
-                    let parentDiv = removeDiv.parentNode;
-                    parentDiv.removeChild(removeDiv);
+        function validateField(input, message) {
+            const inputId = input.getAttribute('id');
+            const errorMsgId = inputId + '-msg';
+            const errorDiv = document.getElementById(errorMsgId);
+            console.log(input.value);
+            console.log(isValidEmail(input.value));
+
+            if (input.value.trim() === '' || input.id === 'email' && !isValidEmail(input.value)) {
+                input.classList.add('is-invalid');
+                if (!errorDiv) {
+                    const parentDiv = input.parentElement;
+                    const newDiv = document.createElement('div');
+                    newDiv.classList.add('invalid-feedback');
+                    newDiv.textContent = message;
+                    newDiv.setAttribute('id', errorMsgId);
+                    parentDiv.appendChild(newDiv);
                 }
-                surname.classList.add('is-invalid');
-                const surnameDiv = document.getElementById('last_name-div');
-                let newDiv = document.createElement('div');
-                newDiv.classList.add('invalid-feedback');
-                newDiv.textContent = 'Inserire un cognome valido';
-                newDiv.setAttribute('id', 'surname-msg');
-                surnameDiv.appendChild(newDiv);
             } else {
-                surname.classList.remove('is-invalid');
-                let removeDiv = document.getElementById('surname-msg');
-                if (removeDiv) {
-                    let parentDiv = removeDiv.parentNode;
-                    parentDiv.removeChild(removeDiv);
+                input.classList.remove('is-invalid');
+                if (errorDiv) {
+                    errorDiv.remove();
                 }
             }
-        });
+        }
 
-        address.addEventListener('blur', function () {
-            if (address.value.trim() === '') {
-                address.classList.remove('is-invalid');
-                let removeDiv = document.getElementById('address-msg');
-                if (removeDiv) {
-                    let parentDiv = removeDiv.parentNode;
-                    parentDiv.removeChild(removeDiv);
-                }
-                address.classList.add('is-invalid');
-                const addressDiv = document.getElementById('address-div');
-                let newDiv = document.createElement('div');
-                newDiv.classList.add('invalid-feedback');
-                newDiv.textContent = 'Inserire un indirizzo valido';
-                newDiv.setAttribute('id', 'address-msg');
-                addressDiv.appendChild(newDiv);
-            } else {
-                address.classList.remove('is-invalid');
-                let removeDiv = document.getElementById('address-msg');
-                if (removeDiv) {
-                    let parentDiv = removeDiv.parentNode;
-                    parentDiv.removeChild(removeDiv);
-                }
+        function isValidEmail(email) {
+            let indexCh = email.indexOf('@');
+            if (indexCh === -1 || indexCh === email.length - 1) {
+                return false;
             }
-        });
-
-        email.addEventListener('blur', function () {
-            if (email.value.trim() === '') {
-                email.classList.remove('is-invalid');
-                let removeDiv = document.getElementById('email-msg');
-                if (removeDiv) {
-                    let parentDiv = removeDiv.parentNode;
-                    parentDiv.removeChild(removeDiv);
-                }
-                email.classList.add('is-invalid');
-                const emailDiv = document.getElementById('email-div');
-                let newDiv = document.createElement('div');
-                newDiv.classList.add('invalid-feedback');
-                newDiv.textContent = 'Inserire un indirizzo email valido';
-                newDiv.setAttribute('id', 'email-msg');
-                emailDiv.appendChild(newDiv);
-            } else {
-                email.classList.remove('is-invalid');
-                let removeDiv = document.getElementById('email-msg');
-                if (removeDiv) {
-                    let parentDiv = removeDiv.parentNode;
-                    parentDiv.removeChild(removeDiv);
-                }
-            }
-        });
-
-        password.addEventListener('blur', function () {
-            if (password.value.trim() === '') {
-                password.classList.remove('is-invalid');
-                let removeDiv = document.getElementById('password-msg');
-                if (removeDiv) {
-                    let parentDiv = removeDiv.parentNode;
-                    parentDiv.removeChild(removeDiv);
-                }
-                password.classList.add('is-invalid');
-                const passwordDiv = document.getElementById('password-div');
-                let newDiv = document.createElement('div');
-                newDiv.classList.add('invalid-feedback');
-                newDiv.textContent = 'Inserire una password valida';
-                newDiv.setAttribute('id', 'password-msg');
-                passwordDiv.appendChild(newDiv);
-            } else {
-                password.classList.remove('is-invalid');
-                let removeDiv = document.getElementById('password-msg');
-                if (removeDiv) {
-                    let parentDiv = removeDiv.parentNode;
-                    parentDiv.removeChild(removeDiv);
-                }
-            }
-        });
-
-        password_confirm.addEventListener('blur', function () {
-            if (password_confirm.value.trim() === '') {
-                password_confirm.classList.remove('is-invalid');
-                let removeDiv = document.getElementById('password-confirm-msg');
-                if (removeDiv) {
-                    let parentDiv = removeDiv.parentNode;
-                    parentDiv.removeChild(removeDiv);
-                }
-                password_confirm.classList.add('is-invalid');
-                const passwordConfirmDiv = document.getElementById('password-confirm-div');
-                let newDiv = document.createElement('div');
-                newDiv.classList.add('invalid-feedback');
-                newDiv.textContent = 'Confermare la password';
-                newDiv.setAttribute('id', 'password-confirm-msg');
-                passwordConfirmDiv.appendChild(newDiv);
-            } else {
-                password_confirm.classList.remove('is-invalid');
-                let removeDiv = document.getElementById('password-confirm-msg');
-                if (removeDiv) {
-                    let parentDiv = removeDiv.parentNode;
-                    parentDiv.removeChild(removeDiv);
-                }
-            }
-        });
-
+            let emailSplit = email.substring(indexCh);
+            return email.includes('@') && emailSplit.includes('.');
+        }
     });
 </script>
 

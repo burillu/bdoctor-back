@@ -10,6 +10,6 @@ class Lead extends Model
 {
     use HasFactory;
     public function profile(){
-        return $this->belongTo(Profile::class);
+        return $this->belongsTo(Profile::class);
     }
 }

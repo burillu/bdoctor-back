@@ -16,9 +16,9 @@ class SpecialtySeeder extends Seeder
     {
         $data = file_get_contents(__DIR__ . "/data/lista_specialties.json");
         $specialties = json_decode($data, true);
-        for($i = 0; $i < 16; $i++){
+        foreach($specialties as $specialty){
             $newSpecialty = new Specialty();
-            $newSpecialty->name=$specialties[$i];
+            $newSpecialty->name= $specialty;
             $newSpecialty->save();
         }
     }

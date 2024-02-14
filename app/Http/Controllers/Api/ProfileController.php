@@ -38,8 +38,12 @@ class ProfileController extends Controller
         }
 
     public function show($slug){
-        $doctor = Profile::with('user')->where('slug', $slug)->first();
+        $doctor = Profile::with('user')->with('specialties')->where('slug', $slug)->first();
         if($doctor) {
+            $specialties = [];
+            foreach($doctor->specialties as $specialty){
+                array_push($specialties,$specialty->name);
+            }
             $data = [
                     'name' => $doctor->user->name,
                     'last_name'=> $doctor->user->last_name,
@@ -51,8 +55,8 @@ class ProfileController extends Controller
                     'visibility' => $doctor->visibility,
                     'services' => $doctor->services,
                     'slug' => $doctor->slug,
+                    'spelcieties' => $specialties,
             ];
-
             return response()->json([
                 'success' => true,
                 'result' => $data,

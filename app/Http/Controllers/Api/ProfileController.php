@@ -12,7 +12,7 @@ class ProfileController extends Controller
     // Services, curriculum, id 
     public function index()
     {
-        $doctors = Profile::with(['user','specialties','votes'])->get();
+        $doctors = Profile::with(['user','specialties','votes','sponsorships'])->get();
         // $data = $doctors->map(function ($doctor) {
         //     $specialties = $this->specialtiesNames($doctor);
         //     $vote_average = $this->voteAverageCalculate($doctor);

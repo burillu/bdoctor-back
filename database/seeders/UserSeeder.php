@@ -7,6 +7,7 @@ use App\Models\Profile;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
+use Illuminate\Support\Carbon;
 
 class UserSeeder extends Seeder
 {
@@ -19,7 +20,8 @@ class UserSeeder extends Seeder
         $data=file_get_contents(__DIR__ .'/data/lista_dottori.json');
         $users= json_decode($data,true);
         //dd($users);
-        foreach($users as $user){
+        foreach($users as $key=>$user){
+            //dd($key,$user);
         $new_user = User::factory()->create([
             'name' => ucwords(strtolower($user['nome'])),
             'email' => strtolower(str_replace(' ', '',$user['nome']).'.'.$user['cognome']).'@bdoctors.com',
@@ -34,6 +36,10 @@ class UserSeeder extends Seeder
         $new_profile->save();
         
         $new_profile->specialties()->sync(random_int(1,count(Specialty::all())));
+        $new_profile->votes()->sync([random_int(1,5),random_int(3,5),random_int(1,4)]);
+        if ($key < 5){
+            $new_profile->sponsorships()->syncWithPivotValues([3], ['expire_date' => Carbon::now()->addDays(6),'current_price'=> 9.99], true);
+        }
         
     }
 }

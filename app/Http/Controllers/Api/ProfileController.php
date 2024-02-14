@@ -15,13 +15,7 @@ class ProfileController extends Controller
         $doctors = Profile::with('user')->with('specialties')->with('votes')->get();
         $data = $doctors->map(function ($doctor) {
             $specialties = $this->specialtiesNames($doctor);
-            $vote_average = 0;
-            if(count($doctor->votes) >= 1){
-                foreach ($doctor->votes as $vote) {
-                    $vote_average += $vote->value;
-                }
-                $vote_average /= count( $doctor->votes);
-            }
+            $vote_average = $this->voteAverageCalculate($doctor);
             return [
                 'id' => $doctor->id,
                 'name' => $doctor->user->name,
@@ -46,13 +40,7 @@ class ProfileController extends Controller
     {
         $doctor = Profile::with('user')->with('specialties')->where('slug', $slug)->first();
         if ($doctor) {
-            $vote_average = 0;
-            if(count($doctor->votes) >= 1){
-                foreach ($doctor->votes as $vote) {
-                    $vote_average += $vote->value;
-                }
-                $vote_average /= count( $doctor->votes);
-            }
+            $vote_average = $this->voteAverageCalculate($doctor);
             $specialties = $this->specialtiesNames($doctor);
             $data = [
                 'id' => $doctor->id,
@@ -90,5 +78,19 @@ class ProfileController extends Controller
             array_push($specialties, $specialty->name);
         }
         return $specialties;
+    }
+
+    /**
+     * preso il parametro $doctor, cicla i voti ricevuti (se ne ha ricevuti), li somma ed infine li divide per il numero di valori, ritorna il valore corretto o lo 0 nel caso non ci siano voti ricevuti
+     */
+    public function voteAverageCalculate($doctor){
+        $vote_average = 0;
+            if(count($doctor->votes) >= 1){
+                foreach ($doctor->votes as $vote) {
+                    $vote_average += $vote->value;
+                }
+                $vote_average /= count( $doctor->votes);
+            }
+        return $vote_average;
     }
 }

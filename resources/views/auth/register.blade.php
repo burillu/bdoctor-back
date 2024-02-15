@@ -6,8 +6,9 @@
             { id: 'address', msg: 'Inserire un indirizzo valido' },
             { id: 'email', msg: 'Inserire un indirizzo email valido' },
             { id: 'password', msg: 'Inserire una password valida' },
-            { id: 'password-confirm', msg: 'La password risulta diversa o ha meno di un carattere' }
+            { id: 'password-confirm', msg: 'La password risulta diversa o è vuota' }
         ];
+
 
         fields.forEach(field => {
             const input = document.getElementById(field.id);
@@ -21,11 +22,40 @@
             });
         });
 
+        window.addEventListener('scroll', function() {
+            if ((window.innerHeight  + window.scrollY) >= document.documentElement.scrollHeight) {
+                let selectedSpecialties = Array.from(document.querySelectorAll('input[type="checkbox"][name="specialties[]"]:checked')).map(function(checkbox) 
+                    {
+                        return checkbox.value;
+                    });
+                const errorMsgId = 'specialties-msg';
+                const errorDiv = document.getElementById(errorMsgId);
+                const input = document.getElementById('specialties-div');
+                if (selectedSpecialties.length === 0){
+                    if(!errorDiv){
+                        input.classList.add('is-invalid');
+                        const parentDiv = input.parentElement;
+                        const newDiv = document.createElement('div');
+                        newDiv.classList.add('invalid-feedback');
+                        newDiv.textContent = 'Selezionare una o più specializzazioni';
+                        newDiv.setAttribute('id', errorMsgId);
+                        parentDiv.appendChild(newDiv);
+                    } 
+                } else {
+                    input.classList.remove('is-invalid');
+                    if (errorDiv) {
+                        errorDiv.remove();
+                    }
+                }
+            }
+        });
+
+        
+
         function validateField(input, message, pasVal) {
             const inputId = input.getAttribute('id');
             const errorMsgId = inputId + '-msg';
             const errorDiv = document.getElementById(errorMsgId);
-
             if (input.value.trim() === '' || input.id === 'email' && !isValidEmail(input.value) || pasVal !== input.value && pasVal !== null ) {
                 input.classList.add('is-invalid');
                 if (!errorDiv) {

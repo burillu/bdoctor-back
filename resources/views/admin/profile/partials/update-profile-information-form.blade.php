@@ -1,84 +1,106 @@
 <script>
-document.addEventListener('DOMContentLoaded',function(){
-// Campi obbligatori
+document.addEventListener('DOMContentLoaded', function() {
     const fields = [
-            { id: 'name-edit', msg: 'Inserire un nome valido' },
-            { id: 'last_name-edit', msg: 'Inserire un cognome valido' },
-            { id: 'address-edit', msg: 'Inserire un indirizzo valido' },
-            { id: 'email-edit', msg: 'Inserire un indirizzo email valido' },
-        ];
-        fields.forEach(field => {
-            const input = document.getElementById(field.id);
-            input.addEventListener('blur', function () {
-                let pasVal = null;
-                validateField(input, field.msg);
-            });
-        });
-       
-//Campi non obbligatori
+        { id: 'name-edit', msg: 'Inserire un nome valido' },
+        { id: 'last_name-edit', msg: 'Inserire un cognome valido' },
+        { id: 'address-edit', msg: 'Inserire un indirizzo valido' },
+        { id: 'email-edit', msg: 'Inserire un indirizzo email valido' },
+    ];
 
-//Immagine e PDF
-const image = document.getElementById('image');
-image.addEventListener('change', function() {
-    validateFileFormat(this, ['jpg', 'jpeg'], 'Formato file non supportato. Si prega di selezionare un file JPG.');
-});
+    fields.forEach(field => {
+        const input = document.getElementById(field.id);
+        input.addEventListener('blur', () => validateField(input, field.msg));
+    });
 
-const curriculum = document.getElementById('curriculum');
-curriculum.addEventListener('change', function() {
-    validateFileFormat(this, ['pdf'], 'Formato file non supportato. Si prega di selezionare un file PDF.');
-});
+    const fileInputs = [
+        { id: 'image', extensions: ['jpg', 'jpeg'], msg: 'Formato file non supportato. Si prega di selezionare un file JPG.' },
+        { id: 'curriculum', extensions: ['pdf'], msg: 'Formato file non supportato. Si prega di selezionare un file PDF.' },
+    ];
 
-//Funzioni
-function validateField(input, message) {
-    const inputId = input.getAttribute('id');
-    const errorMsgId = inputId + '-msg';
-    const errorDiv = document.getElementById(errorMsgId);
-    if (input.value.trim() === '' || input.id === 'email' && !isValidEmail(input.value) || input.getAttribute('id') === 'image' || input.getAttribute('id') === 'curriculum' ) {
-        console.log(message);
-        input.classList.add('is-invalid');
-        if (!errorDiv) {
-            const parentDiv = input.parentElement;
-            const newDiv = document.createElement('div');
-            newDiv.classList.add('invalid-feedback');
-            newDiv.textContent = message;
-            newDiv.setAttribute('id', errorMsgId);
-            parentDiv.appendChild(newDiv);
-        }
-    } else {
-        input.classList.remove('is-invalid');
-        if (errorDiv) {
-            errorDiv.remove();
+    fileInputs.forEach(fileInput => {
+        const input = document.getElementById(fileInput.id);
+        input.addEventListener('change', () => validateFileFormat(input, fileInput.extensions, fileInput.msg));
+    });
+
+    const specialtiesCheckbox = document.querySelectorAll('input[type="checkbox"][name="specialties[]"]');
+    specialtiesCheckbox.forEach(checkbox => {
+        checkbox.addEventListener('change', validateSpecialties);
+    });
+
+    function validateField(input, message) {
+        const value = input.value.trim();
+        const errorMsgId = input.id + '-msg';
+        const errorDiv = document.getElementById(errorMsgId);
+
+        const isValid = value !== '' && (input.id !== 'email-edit' || isValidEmail(value));
+        
+        if (!isValid) {
+            input.classList.add('is-invalid');
+            if (!errorDiv) {
+                const parentDiv = input.parentElement;
+                const newDiv = createErrorDiv(errorMsgId, message);
+                parentDiv.appendChild(newDiv);
+            }
+        } else {
+            input.classList.remove('is-invalid');
+            if (errorDiv) {
+                errorDiv.remove();
+            }
         }
     }
-}
 
-function isValidEmail(email) {
-    let indexCh = email.indexOf('@');
-    if (indexCh === -1 || indexCh === email.length - 1) {
-        return false;
-    }
-    let emailSplit = email.substring(indexCh);
-    return email.includes('@') && emailSplit.includes('.');
-}
-
-function validateFileFormat(input, allowedExtensions, errorMsg) {
-    const file = input.files[0];
-    const fileName = file.name;
-    const fileExtension = fileName.split('.').pop().toLowerCase();
-    
-    if (allowedExtensions.includes(fileExtension)) {
-        input.classList.remove('is-invalid');
-        const errorDiv = document.getElementById(input.id + '-msg');
-        if (errorDiv) {
-            errorDiv.remove();
+    function isValidEmail(email) {
+        const indexCh = email.indexOf('@');
+        if (indexCh === -1 || indexCh === email.length - 1) {
+            return false;
         }
-    } else {
-        validateField(input, errorMsg);
+        const emailSplit = email.substring(indexCh);
+        return email.includes('@') && emailSplit.includes('.');
     }
-}
 
+    function validateFileFormat(input, allowedExtensions, errorMsg) {
+        const file = input.files[0];
+        const fileName = file.name;
+        const fileExtension = fileName.split('.').pop().toLowerCase();
 
+        const isValid = allowedExtensions.includes(fileExtension);
+
+        if (!isValid) {
+            validateField(input, errorMsg);
+        }
+    }
+
+    function validateSpecialties() {
+        const selectedSpecialties = document.querySelectorAll('input[type="checkbox"][name="specialties[]"]:checked');
+        const input = document.getElementById('specialties-div');
+        const errorDiv = document.getElementById('specialties-msg');
+        
+        const isValid = selectedSpecialties.length > 0;
+
+        if (!isValid) {
+            input.classList.add('is-invalid');
+            if (!errorDiv) {
+                const parentDiv = input.parentElement;
+                const newDiv = createErrorDiv('specialties-msg', 'Selezionare una o più specializzazioni');
+                parentDiv.appendChild(newDiv);
+            }
+        } else {
+            input.classList.remove('is-invalid');
+            if (errorDiv) {
+                errorDiv.remove();
+            }
+        }
+    }
+
+    function createErrorDiv(id, message) {
+        const newDiv = document.createElement('div');
+        newDiv.classList.add('invalid-feedback');
+        newDiv.textContent = message;
+        newDiv.setAttribute('id', id);
+        return newDiv;
+    }
 });
+
 </script>
 <section>
     <header>
@@ -160,7 +182,7 @@ function validateFileFormat(input, allowedExtensions, errorMsg) {
                 {{ __('Curriculum (PDF)') }}
             </label>
             <div>
-                <input id="curriculum" name="curriculum" type="file" class="form-control @error('curriculum') is-invalid @enderror" />
+                <input id="curriculum" name="curriculum" accept="application/pdf"type="file" class="form-control @error('curriculum') is-invalid @enderror" />
                 @error('curriculum')
                     <span class=" invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>
@@ -175,7 +197,7 @@ function validateFileFormat(input, allowedExtensions, errorMsg) {
                 {{ __('Email') }}
             </label>
 
-            <input id="email-edit" name="email" type="" class="form-control @error('email') is-invalid @enderror" value="{{ old('email', $user->email) }}" autocomplete="username" />
+            <input id="email-edit" name="email" class="form-control @error('email') is-invalid @enderror" value="{{ old('email', $user->email) }}" autocomplete="username" />
 
             @error('email')
                 <span class="text-danger mt-2" role="alert">
@@ -234,7 +256,7 @@ function validateFileFormat(input, allowedExtensions, errorMsg) {
             <div class="form-group">
                 <h6>{{ __('Specialties') }}:</h6>
                 <div class="container-fluid">
-                    <div class="row">
+                    <div class="row" id="specialties-div">
                         @foreach ($specialties as $specialty)
                             <div class="form-check col-3 @error('specialties') is-invalid @enderror">
                                 <input type="checkbox" name="specialties[]" value="{{ $specialty->id }}" {{ $data->specialties->contains($specialty->id) ? 'checked' : '' }}>

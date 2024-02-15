@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Profile;
 use App\Models\Vote;
 use App\Models\Specialty;
+use Illuminate\Support\Facades\DB;
+
 
 class ProfileController extends Controller
 {
@@ -22,7 +24,6 @@ class ProfileController extends Controller
             'message' => 'Sia l\'ID del voto che quello della specializzazione specificati non esistono.',
         ]);
     }
-
     // Controlla se il voto richiesto esiste nel database
     if ($voteId && !Vote::where('id', $voteId)->exists()) {
         return response()->json([
@@ -50,13 +51,16 @@ class ProfileController extends Controller
         //nel caso cambio la query in base a ciò che mi richiede il front
         if ($specialtyId && $voteId) {
             $doctorsQuery->whereHas('votes', function($query) use ($voteId) {
-                $query->where('vote_id', $voteId);
+                $query->select(DB::raw('ROUND(AVG(value)) as avg_vote'))
+                      ->having('avg_vote', '=', $voteId);
             })->whereHas('specialties', function($query) use ($specialtyId) {
                 $query->where('specialty_id', $specialtyId);
             });
-        } elseif ($voteId) {
+        }
+        elseif ($voteId) {
             $doctorsQuery->whereHas('votes', function($query) use ($voteId) {
-                $query->where('vote_id', $voteId);
+                $query->select(DB::raw('ROUND(AVG(value)) as avg_vote'))
+                      ->having('avg_vote', '=', $voteId);
             });
         } elseif ($specialtyId) {
             $doctorsQuery->whereHas('specialties', function($query) use ($specialtyId) {

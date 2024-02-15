@@ -14,7 +14,17 @@ class ProfileController extends Controller
             echo "filtro entrambi";
         }
         elseif($request->query('vote')){
-            echo "filtro voti";
+            $voteId = $request->query('vote');
+            $doctors = Profile::with(['user','specialties','votes'])
+                ->whereHas('votes', function($query) use ($voteId) {
+                $query->where('vote_id', $voteId);
+            })
+            ->get();
+            
+            return response()->json([
+            'success' => true,
+            'results' => $doctors,
+            ]);
         }
         elseif($request->query('specialty')){
             $specialtyId = $request->query('specialty');

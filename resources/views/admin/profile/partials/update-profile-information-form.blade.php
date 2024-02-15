@@ -36,9 +36,7 @@
         const value = input.value.trim();
         const errorMsgId = input.id + '-msg';
         const errorDiv = document.getElementById(errorMsgId);
-
-        const isValid = value !== '' && (input.id !== 'email-edit' || isValidEmail(value));
-        
+        const isValid = value !== '' && (input.id !== 'email-edit' || isValidEmail(value)) && input.id !== 'image' && input.id !== 'curriculum'  ;
         if (!isValid) {
             input.classList.add('is-invalid');
             if (!errorDiv) {
@@ -67,11 +65,13 @@
         const file = input.files[0];
         const fileName = file.name;
         const fileExtension = fileName.split('.').pop().toLowerCase();
-
         const isValid = allowedExtensions.includes(fileExtension);
-
         if (!isValid) {
             validateField(input, errorMsg);
+        }else{
+            input.classList.remove('is-invalid');
+            const errorMsgId = input.id + '-msg';
+            const errorDiv = document.getElementById(errorMsgId);
         }
     }
 
@@ -171,7 +171,7 @@
                     <label for="image">
                         {{ __('Scegli immagine profilo') }}
                     </label>
-                    <input type="file" accept="image/jpeg" class="form-control @error('image') is-invalid @enderror" name="image" id="image">
+                    <input type="file" {{-- accept="image/jpeg" --}} class="form-control @error('image') is-invalid @enderror" name="image" id="image">
                     @error('image')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -183,7 +183,7 @@
 
                     <label for="name">{{ __('Name*') }}</label>
                     <input class="form-control @error('name') is-invalid @enderror" type="text" name="name"
-                        id="name" autocomplete="name" value="{{ old('name', $user->name) }}" autofocus>
+                        id="name-edit" autocomplete="name" value="{{ old('name', $user->name) }}" autofocus>
                     @error('name')
                     <span class="invalid-feedback" role="alert">
 
@@ -195,7 +195,7 @@
                 <div class="mb-2">
                     <label for="last_name">{{ __('Cognome*') }}</label>
                     <input class="form-control @error('last_name') is-invalid @enderror" type="text" name="last_name"
-                        id="last_name" autocomplete="last_name" value="{{ old('last_name', $user->last_name) }}"
+                        id="last_name-edit" autocomplete="last_name" value="{{ old('last_name', $user->last_name) }}"
                         autofocus>
                     @error('last_name')
                     <span class="invalid-feedback" role="alert">
@@ -212,9 +212,7 @@
                 {{ __('Curriculum (PDF)') }}
             </label>
             <div>
-
-                <input id="curriculum" name="curriculum" type="file"
-                    class="form-control @error('curriculum') is-invalid @enderror" />
+                <input id="curriculum" name="curriculum" {{-- accept="application/pdf" --}} type="file" class="form-control @error('curriculum') is-invalid @enderror" />
                 @error('curriculum')
                     <span class=" invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>
@@ -261,7 +259,7 @@
         <div class="mb-2">
             <label for="address">{{ __('Indirizzo*') }}</label>
             <input class="form-control @error('address') is-invalid @enderror" type="text" name="address"
-                id="address" autocomplete="address" value="{{ old('address', $data->address) }}" autofocus>
+                id="address-edit" autocomplete="address" value="{{ old('address', $data->address) }}" autofocus>
             @error('address')
                 <span class="invalid-feedback" role="alert">
                     <strong>{{ $message }}</strong>

@@ -8,30 +8,53 @@ use App\Models\Profile;
 
 class ProfileController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $doctors = Profile::with(['user','specialties','votes'])->get();
-        // $data = $doctors->map(function ($doctor) {
-        //     $specialties = $this->specialtiesNames($doctor);
-        //     $vote_average = $this->voteAverageCalculate($doctor);
-        //     return [
-        //         'id' => $doctor->id,
-        //         'name' => $doctor->user->name,
-        //         'last_name' => $doctor->user->last_name,
-        //         'address' => $doctor->address,
-        //         'image' => $doctor->image,
-        //         'tel' => $doctor->tel,
-        //         'visibility' => $doctor->visibility,
-        //         'slug' => $doctor->slug,
-        //         'specialties' => $specialties,
-        //         'vote_average' =>  number_format((float)$vote_average, 2, '.', ''),
-        //     ];
-        // });
-
-        return response()->json([
+        if ($request->query('specialty') && $request->query('vote')) {
+            echo "filtro entrambi";
+        }
+        elseif($request->query('vote')){
+            echo "filtro voti";
+        }
+        elseif($request->query('specialty')){
+            $specialtyId = $request->query('specialty');
+            $doctors = Profile::with(['user','specialties','votes'])
+                ->whereHas('specialties', function($query) use ($specialtyId) {
+                $query->where('specialty_id', $specialtyId);
+            })
+            ->get();
+            
+            return response()->json([
             'success' => true,
-            'results' => $doctors //$data,
-        ]);
+            'results' => $doctors,
+            ]);
+        }
+        
+        else{
+            $doctors = Profile::with(['user','specialties','votes'])->get();
+            // $data = $doctors->map(function ($doctor) {
+            //     $specialties = $this->specialtiesNames($doctor);
+            //     $vote_average = $this->voteAverageCalculate($doctor);
+            //     return [
+            //         'id' => $doctor->id,
+            //         'name' => $doctor->user->name,
+            //         'last_name' => $doctor->user->last_name,
+            //         'address' => $doctor->address,
+            //         'image' => $doctor->image,
+            //         'tel' => $doctor->tel,
+            //         'visibility' => $doctor->visibility,
+            //         'slug' => $doctor->slug,
+            //         'specialties' => $specialties,
+            //         'vote_average' =>  number_format((float)$vote_average, 2, '.', ''),
+            //     ];
+            // });
+
+            return response()->json([
+                'success' => true,
+                'results' => $doctors //$data,
+            ]);
+        }
+        
     }
 
     //rimettere email

@@ -22,13 +22,20 @@
             });
         });
 
+        let checkboxes = document.querySelectorAll('input[type="checkbox"][name="specialties[]"]');
+        const errorMsgId = 'specialties-msg';
+        checkboxes.forEach(function(checkbox) {
+            checkbox.addEventListener('change', function() {
+                const errorDiv = document.getElementById(errorMsgId);
+                if (errorDiv) {
+                        document.getElementById('specialties-div').classList.remove('is-invalid');
+                        errorDiv.remove();
+                    }
+            });
+        });
         window.addEventListener('scroll', function() {
             if ((window.innerHeight  + window.scrollY) >= document.documentElement.scrollHeight) {
-                let selectedSpecialties = Array.from(document.querySelectorAll('input[type="checkbox"][name="specialties[]"]:checked')).map(function(checkbox) 
-                    {
-                        return checkbox.value;
-                    });
-                const errorMsgId = 'specialties-msg';
+                let selectedSpecialties = Array.from(document.querySelectorAll('input[type="checkbox"][name="specialties[]"]:checked'))
                 const errorDiv = document.getElementById(errorMsgId);
                 const input = document.getElementById('specialties-div');
                 if (selectedSpecialties.length === 0){

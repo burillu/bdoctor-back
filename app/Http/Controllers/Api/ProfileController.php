@@ -16,66 +16,77 @@ class ProfileController extends Controller
 {
     $specialtyId = $request->query('specialty');
     $voteId = $request->query('vote');
-    
-    // Controlla se il VOTO E LA SPECIALIZZAZIONE INSIEME richiesti esiste nel database
-    if ($voteId && $specialtyId && (!Vote::where('id', $voteId)->exists() && !Specialty::where('id', $specialtyId)->exists())) {
-        return response()->json([
-            'success' => false,
-            'message' => 'Sia l\'ID del voto che quello della specializzazione specificati non esistono.',
-        ]);
-    }
-    // Controlla se il voto richiesto esiste nel database
-    if ($voteId && !Vote::where('id', $voteId)->exists()) {
-        return response()->json([
-            'success' => false,
-            'message' => 'Il voto specificato non esiste.',
-        ]);
-    }
 
-    // Controlla se la specializzazione richiesta esiste nel database
-    if ($specialtyId && !Specialty::where('id', $specialtyId)->exists()) {
-        return response()->json([
-            'success' => false,
-            'message' => 'La specializzazione specificata non esiste.',
-        ]);
-    }
-
-    //query per prendere tutti i medici
-    $doctorsQuery = Profile::with(['user', 'specialties', 'votes']);
-
-    //se request è vuota 
-    if (empty($specialtyId) && empty($voteId)) {
-        //li prende
-        $doctors = $doctorsQuery->get();
-    } else {
-        //nel caso cambio la query in base a ciò che mi richiede il front
-        if ($specialtyId && $voteId) {
-            $doctorsQuery->whereHas('votes', function($query) use ($voteId) {
-                $query->select(DB::raw('ROUND(AVG(value)) as avg_vote'))
-                      ->having('avg_vote', '=', $voteId);
-            })->whereHas('specialties', function($query) use ($specialtyId) {
-                $query->where('specialty_id', $specialtyId);
-            });
-        }
-        elseif ($voteId) {
-            $doctorsQuery->whereHas('votes', function($query) use ($voteId) {
-                $query->select(DB::raw('ROUND(AVG(value)) as avg_vote'))
-                      ->having('avg_vote', '=', $voteId);
-            });
-        } elseif ($specialtyId) {
-            $doctorsQuery->whereHas('specialties', function($query) use ($specialtyId) {
-                $query->where('specialty_id', $specialtyId);
-            });
-        }
-
-        //eseguo la query
-        $doctors = $doctorsQuery->get();
-    }
-
+    if($request->query('specialty')){
+        $doctors= Project::where('specialty_id', $request->query('specialty'))->get();
+    }else{
+        //$doctors = Project::paginate(4);
+        $doctor = Profile::with(['user','specialties','votes','sponsorships']);
+    };
     return response()->json([
         'success' => true,
-        'results' => $doctors,
+        'results' => $doctors
     ]);
+    
+    // // Controlla se il VOTO E LA SPECIALIZZAZIONE INSIEME richiesti esiste nel database
+    // if ($voteId && $specialtyId && (!Vote::where('id', $voteId)->exists() && !Specialty::where('id', $specialtyId)->exists())) {
+    //     return response()->json([
+    //         'success' => false,
+    //         'message' => 'Sia l\'ID del voto che quello della specializzazione specificati non esistono.',
+    //     ]);
+    // }
+    // // Controlla se il voto richiesto esiste nel database
+    // if ($voteId && !Vote::where('id', $voteId)->exists()) {
+    //     return response()->json([
+    //         'success' => false,
+    //         'message' => 'Il voto specificato non esiste.',
+    //     ]);
+    // }
+
+    // // Controlla se la specializzazione richiesta esiste nel database
+    // if ($specialtyId && !Specialty::where('id', $specialtyId)->exists()) {
+    //     return response()->json([
+    //         'success' => false,
+    //         'message' => 'La specializzazione specificata non esiste.',
+    //     ]);
+    // }
+
+    // //query per prendere tutti i medici
+    // $doctorsQuery = Profile::with(['user', 'specialties', 'votes']);
+
+    // //se request è vuota 
+    // if (empty($specialtyId) && empty($voteId)) {
+    //     //li prende
+    //     $doctors = $doctorsQuery->get();
+    // } else {
+    //     //nel caso cambio la query in base a ciò che mi richiede il front
+    //     if ($specialtyId && $voteId) {
+    //         $doctorsQuery->whereHas('votes', function($query) use ($voteId) {
+    //             $query->select(DB::raw('ROUND(AVG(value)) as avg_vote'))
+    //                   ->having('avg_vote', '=', $voteId);
+    //         })->whereHas('specialties', function($query) use ($specialtyId) {
+    //             $query->where('specialty_id', $specialtyId);
+    //         });
+    //     }
+    //     elseif ($voteId) {
+    //         $doctorsQuery->whereHas('votes', function($query) use ($voteId) {
+    //             $query->select(DB::raw('ROUND(AVG(value)) as avg_vote'))
+    //                   ->having('avg_vote', '=', $voteId);
+    //         });
+    //     } elseif ($specialtyId) {
+    //         $doctorsQuery->whereHas('specialties', function($query) use ($specialtyId) {
+    //             $query->where('specialty_id', $specialtyId);
+    //         });
+    //     }
+
+    //     //eseguo la query
+    //     $doctors = $doctorsQuery->get();
+    // }
+
+    // return response()->json([
+    //     'success' => true,
+    //     'results' => $doctors,
+    // ]);
 }
 
 

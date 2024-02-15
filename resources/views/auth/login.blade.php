@@ -1,3 +1,50 @@
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const emailInput = document.getElementById('email-login');
+    emailInput.addEventListener('blur', function() {
+        validateEmail(this);
+    });
+
+    function validateEmail(input) {
+        const value = input.value.trim();
+        const errorMsgId = input.id + '-msg';
+        const errorDiv = document.getElementById(errorMsgId);
+        const isValid = value !== '' && isValidEmail(value);
+        if (!isValid) {
+            input.classList.add('is-invalid');
+            if (!errorDiv) {
+                const parentDiv = input.parentElement;
+                const newDiv = createErrorDiv(errorMsgId, 'Inserire un indirizzo email valido');
+                parentDiv.appendChild(newDiv);
+            }
+        } else {
+            input.classList.remove('is-invalid');
+            if (errorDiv) {
+                errorDiv.remove();
+            }
+        }
+    }
+
+    function isValidEmail(email) {
+        const indexCh = email.indexOf('@');
+        if (indexCh === -1 || indexCh === email.length - 1) {
+            return false;
+        }
+        const emailSplit = email.substring(indexCh);
+        return email.includes('@') && emailSplit.includes('.');
+    }
+
+    function createErrorDiv(id, message) {
+        const newDiv = document.createElement('div');
+        newDiv.classList.add('invalid-feedback');
+        newDiv.textContent = message;
+        newDiv.setAttribute('id', id);
+        return newDiv;
+    }
+});
+
+</script>
+
 @extends('layouts.app')
 
 @section('content')
@@ -12,10 +59,10 @@
                         @csrf
 
                         <div class="mb-4 row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail') }}</label>
+                            <label for="email" id="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail') }}</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="text" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}"  autocomplete="email" autofocus>
+                                <input id="email-login" type="text" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}"  autocomplete="email" autofocus>
 
                                 @error('email')
                                 <span class="invalid-feedback" role="alert">

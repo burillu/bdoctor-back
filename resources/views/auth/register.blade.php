@@ -1,95 +1,91 @@
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const fields = [
-            { id: 'name', msg: 'Inserire un nome valido' },
-            { id: 'last_name', msg: 'Inserire un cognome valido' },
-            { id: 'address', msg: 'Inserire un indirizzo valido' },
-            { id: 'email', msg: 'Inserire un indirizzo email valido' },
-            { id: 'password', msg: 'Inserire una password valida' },
-            { id: 'password-confirm', msg: 'La password risulta diversa o è vuota' }
-        ];
+document.addEventListener('DOMContentLoaded', function () {
+    const fields = [
+        { id: 'name', msg: 'Inserire un nome valido' },
+        { id: 'last_name', msg: 'Inserire un cognome valido' },
+        { id: 'address', msg: 'Inserire un indirizzo valido' },
+        { id: 'email', msg: 'Inserire un indirizzo email valido' },
+        { id: 'password', msg: 'Inserire una password valida' },
+        { id: 'password-confirm', msg: 'La password risulta diversa o è vuota' }
+    ];
 
+    fields.forEach(field => {
+        const input = document.getElementById(field.id);
+        input.addEventListener('blur', () => validateField(input, field.msg));
+    });
 
-        fields.forEach(field => {
-            const input = document.getElementById(field.id);
-            input.addEventListener('blur', function () {
-                let pasVal = null;
-                if(field.id === 'password-confirm'){
-                    const pas = document.getElementById('password');
-                    pasVal = pas.value;
-                }
-                validateField(input, field.msg, pasVal);
-            });
-        });
+    const specialtiesCheckbox = document.querySelectorAll('input[type="checkbox"][name="specialties[]"]');
+    specialtiesCheckbox.forEach(checkbox => {
+        checkbox.addEventListener('change', () => validateSpecialties());
+    });
 
-        let checkboxes = document.querySelectorAll('input[type="checkbox"][name="specialties[]"]');
-        const errorMsgId = 'specialties-msg';
-        checkboxes.forEach(function(checkbox) {
-            checkbox.addEventListener('change', function() {
-                const errorDiv = document.getElementById(errorMsgId);
-                if (errorDiv) {
-                        document.getElementById('specialties-div').classList.remove('is-invalid');
-                        errorDiv.remove();
-                    }
-            });
-        });
-        window.addEventListener('scroll', function() {
-            if ((window.innerHeight  + window.scrollY) >= document.documentElement.scrollHeight) {
-                let selectedSpecialties = Array.from(document.querySelectorAll('input[type="checkbox"][name="specialties[]"]:checked'))
-                const errorDiv = document.getElementById(errorMsgId);
-                const input = document.getElementById('specialties-div');
-                if (selectedSpecialties.length === 0){
-                    if(!errorDiv){
-                        input.classList.add('is-invalid');
-                        const parentDiv = input.parentElement;
-                        const newDiv = document.createElement('div');
-                        newDiv.classList.add('invalid-feedback');
-                        newDiv.textContent = 'Selezionare una o più specializzazioni';
-                        newDiv.setAttribute('id', errorMsgId);
-                        parentDiv.appendChild(newDiv);
-                    } 
-                } else {
-                    input.classList.remove('is-invalid');
-                    if (errorDiv) {
-                        errorDiv.remove();
-                    }
-                }
-            }
-        });
-
-        
-
-        function validateField(input, message, pasVal) {
-            const inputId = input.getAttribute('id');
-            const errorMsgId = inputId + '-msg';
-            const errorDiv = document.getElementById(errorMsgId);
-            if (input.value.trim() === '' || input.id === 'email' && !isValidEmail(input.value) || pasVal !== input.value && pasVal !== null ) {
-                input.classList.add('is-invalid');
-                if (!errorDiv) {
-                    const parentDiv = input.parentElement;
-                    const newDiv = document.createElement('div');
-                    newDiv.classList.add('invalid-feedback');
-                    newDiv.textContent = message;
-                    newDiv.setAttribute('id', errorMsgId);
-                    parentDiv.appendChild(newDiv);
-                }
-            } else {
-                input.classList.remove('is-invalid');
-                if (errorDiv) {
-                    errorDiv.remove();
-                }
-            }
-        }
-
-        function isValidEmail(email) {
-            let indexCh = email.indexOf('@');
-            if (indexCh === -1 || indexCh === email.length - 1) {
-                return false;
-            }
-            let emailSplit = email.substring(indexCh);
-            return email.includes('@') && emailSplit.includes('.');
+    window.addEventListener('scroll', () => {
+        if ((window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight) {
+            validateSpecialties();
         }
     });
+
+    function validateField(input, message) {
+        const value = input.value.trim();
+        const errorMsgId = input.id + '-msg';
+        const errorDiv = document.getElementById(errorMsgId);
+        
+        const isValid = value !== '' && (input.id !== 'email' || isValidEmail(value));
+        
+        if (!isValid) {
+            input.classList.add('is-invalid');
+            if (!errorDiv) {
+                const parentDiv = input.parentElement;
+                const newDiv = createErrorDiv(errorMsgId, message);
+                parentDiv.appendChild(newDiv);
+            }
+        } else {
+            input.classList.remove('is-invalid');
+            if (errorDiv) {
+                errorDiv.remove();
+            }
+        }
+    }
+
+    function validateSpecialties() {
+        const selectedSpecialties = document.querySelectorAll('input[type="checkbox"][name="specialties[]"]:checked');
+        const errorMsgId = 'specialties-msg';
+        const input = document.getElementById('specialties-div');
+        const errorDiv = document.getElementById(errorMsgId);
+        
+        if (selectedSpecialties.length === 0) {
+            input.classList.add('is-invalid');
+            if (!errorDiv) {
+                const parentDiv = input.parentElement;
+                const newDiv = createErrorDiv(errorMsgId, 'Selezionare una o più specializzazioni');
+                parentDiv.appendChild(newDiv);
+            }
+        } else {
+            input.classList.remove('is-invalid');
+            if (errorDiv) {
+                errorDiv.remove();
+            }
+        }
+    }
+
+    function isValidEmail(email) {
+        const indexCh = email.indexOf('@');
+        if (indexCh === -1 || indexCh === email.length - 1) {
+            return false;
+        }
+        const emailSplit = email.substring(indexCh);
+        return email.includes('@') && emailSplit.includes('.');
+    }
+
+    function createErrorDiv(id, message) {
+        const newDiv = document.createElement('div');
+        newDiv.classList.add('invalid-feedback');
+        newDiv.textContent = message;
+        newDiv.setAttribute('id', id);
+        return newDiv;
+    }
+});
+
 </script>
 
 @extends('layouts.app')

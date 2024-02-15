@@ -171,7 +171,7 @@
                     <label for="image">
                         {{ __('Scegli immagine profilo') }}
                     </label>
-                    <input type="file" {{-- accept="image/jpeg" --}} class="form-control @error('image') is-invalid @enderror" name="image" id="image">
+                    <input type="file" accept="image/jpeg" class="form-control @error('image') is-invalid @enderror" name="image" id="image">
                     @error('image')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -212,7 +212,7 @@
                 {{ __('Curriculum (PDF)') }}
             </label>
             <div>
-                <input id="curriculum" name="curriculum" {{-- accept="application/pdf" --}} type="file" class="form-control @error('curriculum') is-invalid @enderror" />
+                <input id="curriculum" name="curriculum" accept="application/pdf" type="file" class="form-control @error('curriculum') is-invalid @enderror" />
                 @error('curriculum')
                     <span class=" invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>

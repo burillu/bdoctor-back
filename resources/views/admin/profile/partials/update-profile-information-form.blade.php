@@ -1,5 +1,5 @@
 <script>
-document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function() {
     const fields = [
         { id: 'name-edit', msg: 'Inserire un nome valido' },
         { id: 'last_name-edit', msg: 'Inserire un cognome valido' },
@@ -25,6 +25,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const specialtiesCheckbox = document.querySelectorAll('input[type="checkbox"][name="specialties[]"]');
     specialtiesCheckbox.forEach(checkbox => {
         checkbox.addEventListener('change', validateSpecialties);
+    });
+
+    const telInput = document.getElementById('tel');
+    telInput.addEventListener('blur', function() {
+        validatePhoneNumber(this);
     });
 
     function validateField(input, message) {
@@ -98,6 +103,29 @@ document.addEventListener('DOMContentLoaded', function() {
         newDiv.textContent = message;
         newDiv.setAttribute('id', id);
         return newDiv;
+    }
+
+    function validatePhoneNumber(input) {
+        const telValue = input.value.trim();
+        const telRegex = /^[0-9]{10}$/;
+
+        if (!telRegex.test(telValue)) {
+            if(input.parentNode.querySelector('.invalid-feedback')){
+                input.classList.remove('is-invalid');
+                input.parentNode.querySelector('.invalid-feedback').remove()
+            }
+            input.classList.add('is-invalid');
+            const errorDiv = document.createElement('div');
+            errorDiv.classList.add('invalid-feedback');
+            errorDiv.textContent = 'Inserire un numero di telefono valido';
+            input.parentNode.appendChild(errorDiv);
+        } else {
+            input.classList.remove('is-invalid');
+            const errorDiv = input.parentNode.querySelector('.invalid-feedback');
+            if (errorDiv) {
+                errorDiv.remove();
+            }
+        }
     }
 });
 

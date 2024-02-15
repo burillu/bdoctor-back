@@ -6,24 +6,27 @@
             { id: 'address', msg: 'Inserire un indirizzo valido' },
             { id: 'email', msg: 'Inserire un indirizzo email valido' },
             { id: 'password', msg: 'Inserire una password valida' },
-            { id: 'password-confirm', msg: 'Confermare la password' }
+            { id: 'password-confirm', msg: 'La password risulta diversa o ha meno di un carattere' }
         ];
 
         fields.forEach(field => {
             const input = document.getElementById(field.id);
             input.addEventListener('blur', function () {
-                validateField(input, field.msg);
+                let pasVal = null;
+                if(field.id === 'password-confirm'){
+                    const pas = document.getElementById('password');
+                    pasVal = pas.value;
+                }
+                validateField(input, field.msg, pasVal);
             });
         });
 
-        function validateField(input, message) {
+        function validateField(input, message, pasVal) {
             const inputId = input.getAttribute('id');
             const errorMsgId = inputId + '-msg';
             const errorDiv = document.getElementById(errorMsgId);
-            console.log(input.value);
-            console.log(isValidEmail(input.value));
 
-            if (input.value.trim() === '' || input.id === 'email' && !isValidEmail(input.value)) {
+            if (input.value.trim() === '' || input.id === 'email' && !isValidEmail(input.value) || pasVal !== input.value && pasVal !== null ) {
                 input.classList.add('is-invalid');
                 if (!errorDiv) {
                     const parentDiv = input.parentElement;

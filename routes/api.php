@@ -2,6 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\ProfileController;
+use App\Http\Controllers\Api\SpecialtyController;
+use App\Http\Controllers\Api\VoteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,4 +19,17 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::controller(ProfileController::class)->group(function () {
+    Route::get('doctors', 'index');
+    Route::get('doctors/{slug}', 'show');
+});
+
+Route::controller(SpecialtyController::class)->group(function () {
+    Route::get('specialties', 'index');
+});
+
+Route::controller(VoteController::class)->group(function () {
+    Route::get('votes', 'index');
 });

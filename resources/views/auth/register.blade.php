@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         @csrf
 
                         <div class="mb-4 row">
-                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Nome') }}</label>
+                            <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Nome*') }}</label>
 
                             <div id="name-div" class="col-md-6">
                                 <input id="name" type="text" class="form-control @error('name') is-invalid @enderror"
@@ -117,8 +117,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         </div>
 
                         <div class="mb-4 row">
-                            <label for="last_name" class="col-md-4 col-form-label text-md-right">{{ __('Cognome')
-                                }}</label>
+                            <label for="last_name" class="col-md-4 col-form-label text-md-right">{{ __('Cognome*') }}</label>
 
                             <div id="last_name-div" class="col-md-6">
                                 <input id="last_name" type="text"
@@ -134,8 +133,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         </div>
 
                         <div class="mb-4 row">
-                            <label for="address" class="col-md-4 col-form-label text-md-right">{{ __('Indirizzo')
-                                }}</label>
+                            <label for="address" class="col-md-4 col-form-label text-md-right">{{ __('Indirizzo*') }}</label>
 
                             <div id="address-div" class="col-md-6">
                                 <input id="address" type="text"
@@ -151,11 +149,9 @@ document.addEventListener('DOMContentLoaded', function () {
                         </div>
 
                         <div class="mb-4 row">
-                            <label for="specialties" class="col-md-4 col-form-label text-md-right">{{
-                                __('Specializzazione') }}</label>
-
-                            <div id="specialties-div"
-                                class="col-md-6 form-control @error('specialties') is-invalid @enderror">
+                            <label for="specialties" class="col-md-4 col-form-label text-md-right">{{ __('Specializzazione*') }}</label>
+                        
+                            <div class="col-md-6 form-control @error('specialties') is-invalid @enderror">
                                 @foreach($specialties as $specialty)
                                 <div class="form-check">
                                     <input type="checkbox" value="{{ $specialty->id }}" {{ in_array($specialty->id,
@@ -174,8 +170,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         </div>
 
                         <div class="mb-4 row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address')
-                                }}</label>
+                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail*') }}</label>
 
                             <div id="email-div" class="col-md-6">
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
@@ -190,8 +185,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         </div>
 
                         <div class="mb-4 row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password')
-                                }}</label>
+                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password*') }}</label>
 
                             <div id="password-div" class="col-md-6">
                                 <input id="password" type="password"
@@ -207,8 +201,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         </div>
 
                         <div class="mb-4 row">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm
-                                Password') }}</label>
+                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Conferma Password*') }}</label>
 
                             <div id="password-confirm-div" class="col-md-6">
                                 <input id="password-confirm" type="password" class="form-control"

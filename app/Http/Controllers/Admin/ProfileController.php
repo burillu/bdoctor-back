@@ -65,6 +65,7 @@ class ProfileController extends Controller
             'image' => ['nullable', 'image'],
             'curriculum' => ['nullable', 'file'],
             'tel' => ['nullable', 'unique:profiles,tel,' . $request->user()->profile->id, 'regex:/^[0-9]{10}$/'],
+            'services' => ['nullable','max:65535']
         ], [
             'name.required' => 'Il campo nome è obbligatorio.',
             'name.regex' => 'Il campo nome deve essere testuale.',
@@ -79,7 +80,8 @@ class ProfileController extends Controller
             'image.image' => 'Inserire un\' immagine in formato \'.jpg.\'',
             'curriculum.file' => 'Inserire un\' file PDF.',
             'tel.unique' => 'Questo numero di telefono esiste già',
-            'tel.regex' => 'Inserire un numero di telefono valido'
+            'tel.regex' => 'Inserire un numero di telefono valido',
+            'services.max' => 'Il campo dei servizi deve essere lungo massimo :max caratteri.',
         ]);
         $request->user()->update([
             'name' => $request->name,
@@ -88,6 +90,7 @@ class ProfileController extends Controller
         ]);
         $request->user()->profile->update([
             'address' => $request->address,
+            'services' => $request->services
         ]);
 
         $visibility = $request->has('visibility') ? 1 : 0;

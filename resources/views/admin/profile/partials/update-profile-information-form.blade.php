@@ -19,7 +19,7 @@
                     el.style.display = 'block';
                 }
             </script>
-            <div id='profile-status' class="fs-5 alert alert-success">{{ __('Your profile has been updated') }}</div>
+            <div id='profile-status' class="fs-5 alert alert-success">{{ __('Il tuo profilo è stato aggiornato correttamente') }}</div>
         @endif
     </header>
 

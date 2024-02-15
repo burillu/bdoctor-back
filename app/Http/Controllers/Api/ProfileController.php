@@ -11,7 +11,22 @@ class ProfileController extends Controller
     public function index(Request $request)
     {
         if ($request->query('specialty') && $request->query('vote')) {
-            echo "filtro entrambi";
+            $voteId = $request->query('vote');
+            $specialtyId = $request->query('specialty');
+        
+            $doctors = Profile::with(['user', 'specialties', 'votes'])
+        ->whereHas('votes', function($query) use ($voteId) {
+            $query->where('vote_id', $voteId);
+        })
+        ->whereHas('specialties', function($query) use ($specialtyId) {
+            $query->where('specialty_id', $specialtyId);
+        })
+        ->get();
+
+            return response()->json([
+                'success' => true,
+                'results' => $doctors,
+            ]);
         }
         elseif($request->query('vote')){
             $voteId = $request->query('vote');

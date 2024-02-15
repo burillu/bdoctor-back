@@ -8,6 +8,7 @@ use App\Models\Profile;
 use App\Models\Vote;
 use App\Models\Specialty;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 
 
 class ProfileController extends Controller
@@ -15,13 +16,18 @@ class ProfileController extends Controller
     public function index(Request $request)
 {
     $specialtyId = $request->query('specialty');
+    //dd($specialtyId);
     $voteId = $request->query('vote');
-
+    $doctorsQuery = Profile::with(['user', 'specialties', 'votes','sponsorships']);
     if($request->query('specialty')){
-        $doctors= Project::where('specialty_id', $request->query('specialty'))->get();
+
+        $doctors= $doctorsQuery->whereHas('specialties', function($query) use ($specialtyId) {
+                        $query->where('specialty_id', $specialtyId);
+        })->get();
+        
     }else{
-        //$doctors = Project::paginate(4);
-        $doctor = Profile::with(['user','specialties','votes','sponsorships']);
+        
+        $doctors = $doctorsQuery->get();
     };
     return response()->json([
         'success' => true,

@@ -57,8 +57,8 @@ class ProfileController extends Controller
         $request->user()->save();
 
         $request->validate([
-            'name' => ['required', 'alpha:ascii', 'max:255'],
-            'last_name' => ['required', 'alpha:ascii', 'max:255'],
+            'name' => ['required', 'regex:/^[\pL\s]+$/u', 'max:255'],
+            'last_name' => ['required', 'regex:/^[\pL\s]+$/u', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:users,email,' . $request->user()->id],
             'address' => ['required', 'string', 'max:255'],
             'specialties' => ['required', 'exists:specialties,id'],
@@ -68,10 +68,10 @@ class ProfileController extends Controller
             'services' => ['nullable','max:65535']
         ], [
             'name.required' => 'Il campo nome è obbligatorio.',
-            'name.alpha' => 'Il campo nome deve essere testuale.',
+            'name.regex' => 'Il campo nome deve essere testuale.',
             'name.max' => 'Il campo nome deve essere lungo massimo :max caratteri.',
             'last_name.required' => 'Il campo cognome è obbligatorio.',
-            'last_name.alpha' => 'Il campo cognome deve essere testuale.',
+            'last_name.regex' => 'Il campo cognome deve essere testuale.',
             'last_name.max' => 'Il campo cognome deve essere lungo massimo :max caratteri.',            
             'address.required' => 'Il campo indirizzo è obbligatorio.',
             'address.string' => 'Il campo indirizzo deve essere testuale.',
@@ -107,19 +107,19 @@ class ProfileController extends Controller
         $request->user()->profile->specialties()->sync($request->specialties);
 
         if ($request->hasFile('image')) {
-            if (Storage::exists("'images/'.$request->user()->profile->slug . '.jpg'")) {
-                Storage::delete("'images/'.$request->user()->profile->slug . '.jpg'");
+            if (Storage::exists("'images/'.$request->user()->profile->id . '.jpg'")) {
+                Storage::delete("'images/'.$request->user()->profile->id . '.jpg'");
             }
-            $imagePath = $request->file('image')->storeAs('images', $request->user()->profile->slug.'.jpg');
+            $imagePath = $request->file('image')->storeAs('images', $request->user()->profile->id.'.jpg');
             $request->user()->profile->update([
                 'image' => $imagePath,
             ]);
         }
         if ($request->hasFile('curriculum')) {
-            if (Storage::exists("'curriculums/'.$request->user()->profile->slug. '.pdf'")) {
-                Storage::delete("'curriculums/'.$request->user()->profile->slug. '.pdf'");
+            if (Storage::exists("'curriculums/'.$request->user()->profile->id. '.pdf'")) {
+                Storage::delete("'curriculums/'.$request->user()->profile->id. '.pdf'");
             }
-            $curriculumPath = $request->file('curriculum')->storeAs('curriculums', $request->user()->profile->slug. '.pdf');
+            $curriculumPath = $request->file('curriculum')->storeAs('curriculums', $request->user()->profile->id. '.pdf');
             $request->user()->profile->update([
                 'curriculum' => $curriculumPath,
             ]);

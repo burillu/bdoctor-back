@@ -33,7 +33,7 @@ class UserSeeder extends Seeder
         $new_profile= new Profile;
         $new_profile->user_id= $new_user->id;
         $new_profile->address= $user['address'];
-        $new_profile->slug= Str::slug($user['nome'] . '-' .$user['cognome'].'-'. $new_user->remember_token, '-');
+        $new_profile->slug= Str::slug($user['nome'] . '-' .$user['cognome'].'-'. $new_user->id, '-');
         $new_profile->save();
         
         $new_profile->specialties()->sync(random_int(1,count(Specialty::all())));

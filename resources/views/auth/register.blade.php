@@ -1,11 +1,13 @@
 <script>
 document.addEventListener('DOMContentLoaded', function () {
+    let errors = [];
+    console.log()
     const fields = [
-        { id: 'name', msg: 'Inserire un nome valido' },
-        { id: 'last_name', msg: 'Inserire un cognome valido' },
-        { id: 'address', msg: 'Inserire un indirizzo valido' },
+        { id: 'name', msg: 'Inserire un nome valido(solo caratteri testuali)' },
+        { id: 'last_name', msg: 'Inserire un cognome valido(solo caratteri testuali)' },
+        { id: 'address', msg: 'Inserire un indirizzo' },
         { id: 'email', msg: 'Inserire un indirizzo email valido' },
-        { id: 'password', msg: 'Inserire una password valida' },
+        { id: 'password', msg: 'Inserire una password valida (almeno 8 caratteri)' },
         { id: 'password-confirm', msg: 'La password risulta diversa o è vuota' }
     ];
 
@@ -25,24 +27,57 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    const form = document.querySelector('form');
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const inputsVal = fields.map(field => {
+            const input = document.getElementById(field.id);
+            return input.value.trim();
+        });
+        const emptyFields = inputsVal.filter(val => val === '').length;
+        if (emptyFields === 0) {
+            if (errors.length === 0) {
+                this.submit();
+            } else {
+                handleValidationErrors('Il modulo contiene errori di validazione. Correggi prima di inviare.');
+            }
+        } else {
+            handleValidationErrors('Vi sono dei campi non compilati');
+        }
+    });
+
+    function handleValidationErrors(errorMessage) {
+        const input = document.getElementById('submit-register');
+        const errorMsgId = input.id + '-msg';
+        const parentDiv = input.parentElement;
+        const errorDiv = document.getElementById(errorMsgId);
+        if (errorDiv) {
+            errorDiv.remove();
+        }
+        const newDiv = createErrorDiv(errorMsgId, errorMessage);
+        newDiv.classList.remove('invalid-feedback');
+        newDiv.classList.add('text-red');
+        parentDiv.appendChild(newDiv);
+    }
+
     function validateField(input, message) {
         const value = input.value.trim();
         const errorMsgId = input.id + '-msg';
         const errorDiv = document.getElementById(errorMsgId);
-        
-        const isValid = value !== '' && (input.id !== 'email' || isValidEmail(value));
-        
+        const isValid = value !== '' && (input.id !== 'email' || isValidEmail(value)) && ((input.id !== 'name' && input.id !== 'last_name') || containsOnlyLetters(value)) && (input.id !== 'password' || input.value.length >= 8); 
         if (!isValid) {
             input.classList.add('is-invalid');
             if (!errorDiv) {
                 const parentDiv = input.parentElement;
                 const newDiv = createErrorDiv(errorMsgId, message);
                 parentDiv.appendChild(newDiv);
+                errors.push(message);
             }
         } else {
             input.classList.remove('is-invalid');
             if (errorDiv) {
                 errorDiv.remove();
+                errors.splice(errors.indexOf(message), 1);
             }
         }
     }
@@ -52,18 +87,19 @@ document.addEventListener('DOMContentLoaded', function () {
         const errorMsgId = 'specialties-msg';
         const input = document.getElementById('specialties-div');
         const errorDiv = document.getElementById(errorMsgId);
-        
         if (selectedSpecialties.length === 0) {
             input.classList.add('is-invalid');
             if (!errorDiv) {
                 const parentDiv = input.parentElement;
                 const newDiv = createErrorDiv(errorMsgId, 'Selezionare una o più specializzazioni');
                 parentDiv.appendChild(newDiv);
+                errors.push('Selezionare una o più specializzazioni');
             }
         } else {
             input.classList.remove('is-invalid');
             if (errorDiv) {
                 errorDiv.remove();
+                errors.splice(errors.indexOf('Selezionare una o più specializzazioni'), 1);
             }
         }
     }
@@ -84,6 +120,11 @@ document.addEventListener('DOMContentLoaded', function () {
         newDiv.setAttribute('id', id);
         return newDiv;
     }
+
+    function containsOnlyLetters(str) {
+        return /^[a-zA-Z]+$/.test(str);
+    }
+
 });
 
 </script>
@@ -98,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 <div class="card-header">{{ __('Registrazione') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
+                    <form id="register-form" method="POST" action="{{ route('register') }}">
                         @csrf
 
                         <div class="mb-4 row">
@@ -151,7 +192,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         <div class="mb-4 row">
                             <label for="specialties" class="col-md-4 col-form-label text-md-right">{{ __('Specializzazione*') }}</label>
                         
-                            <div class="col-md-6 form-control @error('specialties') is-invalid @enderror">
+                            <div id="specialties-div" class="col-md-6 form-control @error('specialties') is-invalid @enderror">
                                 @foreach($specialties as $specialty)
                                 <div class="form-check">
                                     <input type="checkbox" value="{{ $specialty->id }}" {{ in_array($specialty->id,
@@ -210,8 +251,8 @@ document.addEventListener('DOMContentLoaded', function () {
                         </div>
 
                         <div class="mb-4 row">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                            <div class="col-md-6 offset-md-4 d-flex">
+                                <button id="submit-register" type="submit" class="btn btn-primary">
                                     {{ __('Registrati') }}
                                 </button>
                             </div>

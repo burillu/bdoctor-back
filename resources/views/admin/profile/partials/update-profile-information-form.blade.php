@@ -1,9 +1,10 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+    let errors = [];
     const fields = [
-        { id: 'name-edit', msg: 'Inserire un nome valido' },
-        { id: 'last_name-edit', msg: 'Inserire un cognome valido' },
-        { id: 'address-edit', msg: 'Inserire un indirizzo valido' },
+        { id: 'name-edit', msg: 'Inserire un nome valido(solo caratteri testuali)' },
+        { id: 'last_name-edit', msg: 'Inserire un cognome valido(solo caratteri testuali)' },
+        { id: 'address-edit', msg: 'Inserire un indirizzo' },
         { id: 'email-edit', msg: 'Inserire un indirizzo email valido' },
     ];
 
@@ -32,22 +33,45 @@
         validatePhoneNumber(this);
     });
 
+    const form = document.getElementById('update-form');
+    form.addEventListener('submit', function(event) {
+        event.preventDefault(); 
+        const input = document.getElementById('submit-update');
+        const errorMsgId = input.id + '-msg';
+        const parentDiv = input.parentElement;
+        const errorDiv = document.getElementById(errorMsgId);
+        if (errorDiv) {
+                errorDiv.remove();
+            }
+        if (errors.length === 0) {
+            this.submit();
+        } else {
+            const newDiv = createErrorDiv(errorMsgId, 'Il modulo contiene errori di validazione. Correggi prima di inviare.');
+            newDiv.classList.remove('invalid-feedback');
+            newDiv.classList.add('text-red');
+            parentDiv.appendChild(newDiv);
+            console.log(parentDiv)
+        }
+    });
+
     function validateField(input, message) {
         const value = input.value.trim();
         const errorMsgId = input.id + '-msg';
         const errorDiv = document.getElementById(errorMsgId);
-        const isValid = value !== '' && (input.id !== 'email-edit' || isValidEmail(value)) && input.id !== 'image' && input.id !== 'curriculum'  ;
+        const isValid = value !== '' && (input.id !== 'email-edit' || isValidEmail(value)) && ((input.id !== 'name-edit' && input.id !== 'last_name-edit') || containsOnlyLetters(value)) && (input.id !== 'image' && input.id !== 'curriculum');
         if (!isValid) {
             input.classList.add('is-invalid');
             if (!errorDiv) {
                 const parentDiv = input.parentElement;
                 const newDiv = createErrorDiv(errorMsgId, message);
                 parentDiv.appendChild(newDiv);
+                errors.push(message);
             }
         } else {
             input.classList.remove('is-invalid');
             if (errorDiv) {
                 errorDiv.remove();
+                errors.splice(errors.indexOf(message), 1);
             }
         }
     }
@@ -88,11 +112,13 @@
                 const parentDiv = input.parentElement;
                 const newDiv = createErrorDiv('specialties-msg', 'Selezionare una o più specializzazioni');
                 parentDiv.appendChild(newDiv);
+                errors.push('Selezionare una o più specializzazioni');
             }
         } else {
             input.classList.remove('is-invalid');
             if (errorDiv) {
                 errorDiv.remove();
+                errors.splice(errors.indexOf('Selezionare una o più specializzazioni'), 1);
             }
         }
     }
@@ -127,6 +153,10 @@
             }
         }
     }
+
+    function containsOnlyLetters(str) {
+        return /^[a-zA-Z]+$/.test(str);
+    }
 });
 
 </script>
@@ -157,7 +187,7 @@
 
     </form>
 
-    <form method="post" action="{{ route('admin.profile.update', $data->id) }}" class="mt-6 space-y-6"
+    <form id="update-form" method="post" action="{{ route('admin.profile.update', $data->id) }}" class="mt-6 space-y-6"
         enctype="multipart/form-data">
         @csrf
         @method('patch')
@@ -315,10 +345,8 @@
                     @enderror
             </div>
         </div>
-
-
-        <div class="d-flex align-items-center gap-4">
-            <button class="btn btn-primary" type="submit">{{ __('Save') }}</button>
+        <div class="d-flex align-items-center">
+            <button id="submit-update" class="btn btn-primary" type="submit">{{ __('Save') }}</button>
         </div>
     </form>
 </section>

@@ -29,10 +29,18 @@ class ProfileController extends Controller
         
         $doctors = $doctorsQuery->get();
     };
-    return response()->json([
+    if(!empty($doctors)){
+        return response()->json([
         'success' => true,
         'results' => $doctors
     ]);
+    }else{
+        return response()->json([
+            'success' => false,
+            'results' => 'La ricerca non fornisce alcun risultato'
+        ]);
+    }
+    
     
     // // Controlla se il VOTO E LA SPECIALIZZAZIONE INSIEME richiesti esiste nel database
     // if ($voteId && $specialtyId && (!Vote::where('id', $voteId)->exists() && !Specialty::where('id', $specialtyId)->exists())) {

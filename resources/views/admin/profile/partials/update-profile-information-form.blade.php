@@ -2,7 +2,7 @@
     document.addEventListener('DOMContentLoaded', function() {
     let errors = [];
     const fields = [
-        { id: 'name-edit', msg: 'Inserire un nome valido(solo caratteri testuali)' },
+        { id: 'name-edit', msg: 'Inserire solo caratteri testuali e massimo 255 caratteri' },
         { id: 'last_name-edit', msg: 'Inserire un cognome valido(solo caratteri testuali)' },
         { id: 'address-edit', msg: 'Inserire un indirizzo' },
         { id: 'email-edit', msg: 'Inserire un indirizzo email valido' },
@@ -58,7 +58,7 @@
         const value = input.value.trim();
         const errorMsgId = input.id + '-msg';
         const errorDiv = document.getElementById(errorMsgId);
-        const isValid = value !== '' && (input.id !== 'email-edit' || isValidEmail(value)) && ((input.id !== 'name-edit' && input.id !== 'last_name-edit') || containsOnlyLetters(value)) && (input.id !== 'image' && input.id !== 'curriculum');
+        const isValid = value !== '' && (input.id !== 'email-edit' || isValidEmail(value)) && ((input.id !== 'name-edit' && input.id !== 'last_name-edit') || containsOnlyLetters(input.value)) && (input.id !== 'image' && input.id !== 'curriculum');
         if (!isValid) {
             input.classList.add('is-invalid');
             if (!errorDiv) {
@@ -155,7 +155,7 @@
     }
 
     function containsOnlyLetters(str) {
-        return /^[a-zA-Z]+$/.test(str);
+        return /^[a-zA-Z\s]+$/.test(str) && str.length<=255;
     }
 });
 

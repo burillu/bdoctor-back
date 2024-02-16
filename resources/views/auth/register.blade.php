@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let errors = [];
     console.log()
     const fields = [
-        { id: 'name', msg: 'Inserire un nome valido(solo caratteri testuali)' },
+        { id: 'name', msg: 'Inserire solo caratteri testuali e massimo 255 caratteri' },
         { id: 'last_name', msg: 'Inserire un cognome valido(solo caratteri testuali)' },
         { id: 'address', msg: 'Inserire un indirizzo' },
         { id: 'email', msg: 'Inserire un indirizzo email valido' },
@@ -64,7 +64,27 @@ document.addEventListener('DOMContentLoaded', function () {
         const value = input.value.trim();
         const errorMsgId = input.id + '-msg';
         const errorDiv = document.getElementById(errorMsgId);
-        const isValid = value !== '' && (input.id !== 'email' || isValidEmail(value)) && ((input.id !== 'name' && input.id !== 'last_name') || containsOnlyLetters(value)) && (input.id !== 'password' || input.value.length >= 8); 
+        let isValid = true;
+        switch (input.id) {
+            case 'email':
+                isValid = value !== '' && isValidEmail(value);
+                break;
+            case 'name':
+            case 'last_name':
+                isValid = value !== '' && containsOnlyLetters(value);
+                break;
+            case 'password':
+                isValid = value.length >= 8;
+                break;
+            case 'password-confirm':
+                isValid = confirmPas(value);
+                break;
+            case 'address':
+                isValid = value.length <= 255;
+                break;
+            default:
+                isValid = value !== '';
+        }
         if (!isValid) {
             input.classList.add('is-invalid');
             if (!errorDiv) {
@@ -81,6 +101,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         }
     }
+
 
     function validateSpecialties() {
         const selectedSpecialties = document.querySelectorAll('input[type="checkbox"][name="specialties[]"]:checked');
@@ -122,7 +143,12 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function containsOnlyLetters(str) {
-        return /^[a-zA-Z]+$/.test(str);
+        return /^[a-zA-Z\s]+$/.test(str) && str.length<=255;
+    }
+
+    function confirmPas(pas){
+        const originalPas = document.getElementById('password');
+        return pas === originalPas.value
     }
 
 });

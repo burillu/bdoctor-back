@@ -10,7 +10,7 @@ use App\Models\Profile;
 class Vote extends Model
 {
     use HasFactory;
-
+    protected $table = 'votes';
     protected $fillable = ['value'];
 
     public function profiles(){

@@ -1,12 +1,13 @@
 <?php
 
 namespace App\Http\Controllers\Api;
-
+use Illuminate\Database\Eloquent\Builder;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Profile;
 use App\Models\Vote;
 use App\Models\Specialty;
+use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
 {
@@ -15,6 +16,7 @@ class ProfileController extends Controller
     $specialtyId = $request->query('specialty');
     $voteId = $request->query('vote');
     $name = $request->query('name');
+    $minVoteAverage = $request->query('min_vote_average');
     // Controlla se il VOTO E LA SPECIALIZZAZIONE INSIEME richiesti esiste nel database
     if ($voteId && $specialtyId && (!Vote::where('id', $voteId)->exists() && !Specialty::where('id', $specialtyId)->exists())) {
         return response()->json([
@@ -49,6 +51,14 @@ class ProfileController extends Controller
         });
     });
     }
+    if (!empty($minVoteAverage)) {
+        $doctorsQuery->whereHas('votes', function (Builder $query) use ($minVoteAverage) {
+            $query->select(DB::raw('AVG(value) as average'))
+                  ->groupBy('profile_id')
+                  ->havingRaw('AVG(value) >= ?', [$minVoteAverage]);
+        });
+    }
+
     //se request è vuota
     if (empty($specialtyId) && empty($voteId)) {
         //li prende

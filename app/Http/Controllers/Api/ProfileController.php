@@ -14,7 +14,7 @@ class ProfileController extends Controller
 {
     $specialtyId = $request->query('specialty');
     $voteId = $request->query('vote');
-    
+    $name = $request->query('name');
     // Controlla se il VOTO E LA SPECIALIZZAZIONE INSIEME richiesti esiste nel database
     if ($voteId && $specialtyId && (!Vote::where('id', $voteId)->exists() && !Specialty::where('id', $specialtyId)->exists())) {
         return response()->json([
@@ -41,8 +41,15 @@ class ProfileController extends Controller
 
     //query per prendere tutti i medici
     $doctorsQuery = Profile::with(['user', 'specialties', 'votes']);
-
-    //se request è vuota 
+    if (!empty($name)) {
+    $doctorsQuery->whereHas('user', function($query) use ($name) {
+        $query->where(function($query) use ($name) {
+            $query->where('name', 'LIKE', '%' . $name . '%')
+                  ->orWhere('last_name', 'LIKE', '%' . $name . '%');
+        });
+    });
+    }
+    //se request è vuota
     if (empty($specialtyId) && empty($voteId)) {
         //li prende
         $doctors = $doctorsQuery->get();
@@ -81,7 +88,7 @@ class ProfileController extends Controller
         $doctor = Profile::with(['user','specialties','votes','sponsorships'])->where('slug', $slug)->first();
         //dd($doctor);
         if ($doctor) {
-            
+
             return response()->json([
                 'success' => true,
                 'result' => $doctor,
@@ -138,8 +145,8 @@ class ProfileController extends Controller
             //         'vote_average' =>  number_format((float)$vote_average, 2, '.', ''),
             //     ];
             // });
-            
-            
+
+
             // $vote_average = $this->voteAverageCalculate($doctor);
             // $specialties = $this->specialtiesNames($doctor);
             // $data = [
@@ -153,7 +160,7 @@ class ProfileController extends Controller
             //     'visibility' => $doctor->visibility,
             //     'services' => $doctor->services,
             //     'slug' => $doctor->slug,
-            //     'specialties' => $specialties, 
+            //     'specialties' => $specialties,
             //     // 'sponsorship' => $doctor->sponsorships,
             //     'vote_average' =>  number_format((float)$vote_average, 2, '.', ''),
             // ];

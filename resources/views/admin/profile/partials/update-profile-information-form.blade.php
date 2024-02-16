@@ -1,12 +1,10 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
     let errors = [];
-    console.log(document.querySelectorAll('input'))
-    
     const fields = [
-        { id: 'name-edit', msg: 'Inserire un nome valido' },
-        { id: 'last_name-edit', msg: 'Inserire un cognome valido' },
-        { id: 'address-edit', msg: 'Inserire un indirizzo valido' },
+        { id: 'name-edit', msg: 'Inserire un nome valido(solo caratteri testuali)' },
+        { id: 'last_name-edit', msg: 'Inserire un cognome valido(solo caratteri testuali)' },
+        { id: 'address-edit', msg: 'Inserire un indirizzo' },
         { id: 'email-edit', msg: 'Inserire un indirizzo email valido' },
     ];
 
@@ -45,7 +43,7 @@
         if (errorDiv) {
                 errorDiv.remove();
             }
-        if (errors.length === 0 &&) {
+        if (errors.length === 0) {
             this.submit();
         } else {
             const newDiv = createErrorDiv(errorMsgId, 'Il modulo contiene errori di validazione. Correggi prima di inviare.');
@@ -60,7 +58,7 @@
         const value = input.value.trim();
         const errorMsgId = input.id + '-msg';
         const errorDiv = document.getElementById(errorMsgId);
-        const isValid = value !== '' && (input.id !== 'email-edit' || isValidEmail(value)) && input.id !== 'image' && input.id !== 'curriculum'  ;
+        const isValid = value !== '' && (input.id !== 'email-edit' || isValidEmail(value)) && ((input.id !== 'name-edit' && input.id !== 'last_name-edit') || containsOnlyLetters(value)) && (input.id !== 'image' && input.id !== 'curriculum');
         if (!isValid) {
             input.classList.add('is-invalid');
             if (!errorDiv) {
@@ -154,6 +152,10 @@
                 errorDiv.remove();
             }
         }
+    }
+
+    function containsOnlyLetters(str) {
+        return /^[a-zA-Z]+$/.test(str);
     }
 });
 

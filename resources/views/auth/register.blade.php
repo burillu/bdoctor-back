@@ -1,5 +1,6 @@
 <script>
 document.addEventListener('DOMContentLoaded', function () {
+    let errors = [];
     const fields = [
         { id: 'name', msg: 'Inserire un nome valido' },
         { id: 'last_name', msg: 'Inserire un cognome valido' },
@@ -25,11 +26,20 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    const form = document.querySelector('form');
+    form.addEventListener('submit', function(event) {
+        event.preventDefault(); 
+        if (errors.length === 0) {
+            this.submit();
+        } else {
+            console.log('Il modulo contiene errori di validazione. Correggi prima di inviare.');
+        }
+    });
+
     function validateField(input, message) {
         const value = input.value.trim();
         const errorMsgId = input.id + '-msg';
         const errorDiv = document.getElementById(errorMsgId);
-        
         const isValid = value !== '' && (input.id !== 'email' || isValidEmail(value));
         
         if (!isValid) {
@@ -38,11 +48,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 const parentDiv = input.parentElement;
                 const newDiv = createErrorDiv(errorMsgId, message);
                 parentDiv.appendChild(newDiv);
+                errors.push(message);
             }
         } else {
             input.classList.remove('is-invalid');
             if (errorDiv) {
                 errorDiv.remove();
+                errors.splice(errors.indexOf(message), 1);
             }
         }
     }
@@ -52,18 +64,19 @@ document.addEventListener('DOMContentLoaded', function () {
         const errorMsgId = 'specialties-msg';
         const input = document.getElementById('specialties-div');
         const errorDiv = document.getElementById(errorMsgId);
-        
         if (selectedSpecialties.length === 0) {
             input.classList.add('is-invalid');
             if (!errorDiv) {
                 const parentDiv = input.parentElement;
                 const newDiv = createErrorDiv(errorMsgId, 'Selezionare una o più specializzazioni');
                 parentDiv.appendChild(newDiv);
+                errors.push('Selezionare una o più specializzazioni');
             }
         } else {
             input.classList.remove('is-invalid');
             if (errorDiv) {
                 errorDiv.remove();
+                errors.splice(errors.indexOf('Selezionare una o più specializzazioni'), 1);
             }
         }
     }
@@ -151,7 +164,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         <div class="mb-4 row">
                             <label for="specialties" class="col-md-4 col-form-label text-md-right">{{ __('Specializzazione*') }}</label>
                         
-                            <div class="col-md-6 form-control @error('specialties') is-invalid @enderror">
+                            <div id="specialties-div" class="col-md-6 form-control @error('specialties') is-invalid @enderror">
                                 @foreach($specialties as $specialty)
                                 <div class="form-check">
                                     <input type="checkbox" value="{{ $specialty->id }}" {{ in_array($specialty->id,

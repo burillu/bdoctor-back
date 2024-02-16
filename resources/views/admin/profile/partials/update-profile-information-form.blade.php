@@ -1,5 +1,6 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+    let errors = [];
     const fields = [
         { id: 'name-edit', msg: 'Inserire un nome valido' },
         { id: 'last_name-edit', msg: 'Inserire un cognome valido' },
@@ -32,6 +33,16 @@
         validatePhoneNumber(this);
     });
 
+    const form = document.getElementById('update-form');
+    form.addEventListener('submit', function(event) {
+        event.preventDefault(); 
+        if (errors.length === 0) {
+            this.submit();
+        } else {
+            console.log('Il modulo contiene errori di validazione. Correggi prima di inviare.');
+        }
+    });
+
     function validateField(input, message) {
         const value = input.value.trim();
         const errorMsgId = input.id + '-msg';
@@ -43,11 +54,13 @@
                 const parentDiv = input.parentElement;
                 const newDiv = createErrorDiv(errorMsgId, message);
                 parentDiv.appendChild(newDiv);
+                errors.push(message);
             }
         } else {
             input.classList.remove('is-invalid');
             if (errorDiv) {
                 errorDiv.remove();
+                errors.splice(errors.indexOf(message), 1);
             }
         }
     }
@@ -88,11 +101,13 @@
                 const parentDiv = input.parentElement;
                 const newDiv = createErrorDiv('specialties-msg', 'Selezionare una o più specializzazioni');
                 parentDiv.appendChild(newDiv);
+                errors.push('Selezionare una o più specializzazioni');
             }
         } else {
             input.classList.remove('is-invalid');
             if (errorDiv) {
                 errorDiv.remove();
+                errors.splice(errors.indexOf('Selezionare una o più specializzazioni'), 1);
             }
         }
     }
@@ -157,7 +172,7 @@
 
     </form>
 
-    <form method="post" action="{{ route('admin.profile.update', $data->id) }}" class="mt-6 space-y-6"
+    <form id="update-form" method="post" action="{{ route('admin.profile.update', $data->id) }}" class="mt-6 space-y-6"
         enctype="multipart/form-data">
         @csrf
         @method('patch')
@@ -315,8 +330,6 @@
                     @enderror
             </div>
         </div>
-
-
         <div class="d-flex align-items-center gap-4">
             <button class="btn btn-primary" type="submit">{{ __('Save') }}</button>
         </div>

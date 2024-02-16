@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
     console.log()
     const fields = [
         { id: 'name', msg: 'Inserire solo caratteri testuali e massimo 255 caratteri' },
-        { id: 'last_name', msg: 'Inserire un cognome valido(solo caratteri testuali)' },
+        { id: 'last_name', msg: 'Inserire solo caratteri testuali e massimo 255 caratteri' },
         { id: 'address', msg: 'Inserire un indirizzo' },
         { id: 'email', msg: 'Inserire un indirizzo email valido' },
         { id: 'password', msg: 'Inserire una password valida (almeno 8 caratteri)' },
@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 break;
             case 'name':
             case 'last_name':
-                isValid = value !== '' && containsOnlyLetters(value);
+                isValid = value !== '' && containsOnlyLetters(input.value);
                 break;
             case 'password':
                 isValid = value.length >= 8;

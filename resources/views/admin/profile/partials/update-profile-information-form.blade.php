@@ -3,7 +3,7 @@
     let errors = [];
     const fields = [
         { id: 'name-edit', msg: 'Inserire solo caratteri testuali e massimo 255 caratteri' },
-        { id: 'last_name-edit', msg: 'Inserire un cognome valido(solo caratteri testuali)' },
+        { id: 'last_name-edit', msg: 'Inserire solo caratteri testuali e massimo 255 caratteri' },
         { id: 'address-edit', msg: 'Inserire un indirizzo' },
         { id: 'email-edit', msg: 'Inserire un indirizzo email valido' },
     ];
@@ -145,11 +145,13 @@
             errorDiv.classList.add('invalid-feedback');
             errorDiv.textContent = 'Inserire un numero di telefono valido';
             input.parentNode.appendChild(errorDiv);
+            errors.push('Inserire un numero di telefono valido');
         } else {
             input.classList.remove('is-invalid');
             const errorDiv = input.parentNode.querySelector('.invalid-feedback');
             if (errorDiv) {
                 errorDiv.remove();
+                errors.splice(errors.indexOf('Inserire un numero di telefono valido'), 1);
             }
         }
     }

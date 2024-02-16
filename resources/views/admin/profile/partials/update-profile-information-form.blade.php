@@ -1,6 +1,8 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
     let errors = [];
+    console.log(document.querySelectorAll('input'))
+    
     const fields = [
         { id: 'name-edit', msg: 'Inserire un nome valido' },
         { id: 'last_name-edit', msg: 'Inserire un cognome valido' },
@@ -36,10 +38,21 @@
     const form = document.getElementById('update-form');
     form.addEventListener('submit', function(event) {
         event.preventDefault(); 
-        if (errors.length === 0) {
+        const input = document.getElementById('submit-update');
+        const errorMsgId = input.id + '-msg';
+        const parentDiv = input.parentElement;
+        const errorDiv = document.getElementById(errorMsgId);
+        if (errorDiv) {
+                errorDiv.remove();
+            }
+        if (errors.length === 0 &&) {
             this.submit();
         } else {
-            console.log('Il modulo contiene errori di validazione. Correggi prima di inviare.');
+            const newDiv = createErrorDiv(errorMsgId, 'Il modulo contiene errori di validazione. Correggi prima di inviare.');
+            newDiv.classList.remove('invalid-feedback');
+            newDiv.classList.add('text-red');
+            parentDiv.appendChild(newDiv);
+            console.log(parentDiv)
         }
     });
 
@@ -330,8 +343,8 @@
                     @enderror
             </div>
         </div>
-        <div class="d-flex align-items-center gap-4">
-            <button class="btn btn-primary" type="submit">{{ __('Save') }}</button>
+        <div class="d-flex align-items-center">
+            <button id="submit-update" class="btn btn-primary" type="submit">{{ __('Save') }}</button>
         </div>
     </form>
 </section>

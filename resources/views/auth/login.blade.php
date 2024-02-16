@@ -9,10 +9,21 @@ document.addEventListener('DOMContentLoaded', function() {
     const form = document.querySelector('form');
     form.addEventListener('submit', function(event) {
         event.preventDefault(); 
+        const input = document.getElementById('submit-login');
+        const errorMsgId = input.id + '-msg';
+        const parentDiv = input.parentElement;
+        const errorDiv = document.getElementById(errorMsgId);
+        if (errorDiv) {
+                errorDiv.remove();
+            }
         if (errors.length === 0) {
             this.submit();
         } else {
-            console.log('Il modulo contiene errori di validazione. Correggi prima di inviare.');
+            const newDiv = createErrorDiv(errorMsgId, 'Il modulo contiene errori di validazione. Correggi prima di inviare.');
+            newDiv.classList.remove('invalid-feedback');
+            newDiv.classList.add('text-red');
+            parentDiv.appendChild(newDiv);
+            console.log(parentDiv)
         }
     });
 
@@ -113,7 +124,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                         <div class="mb-4 row">
                             <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button id="submit-login" type="submit" class="btn btn-primary">
                                     {{ __('Accedi') }}
                                 </button>
 

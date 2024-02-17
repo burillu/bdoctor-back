@@ -27,6 +27,31 @@ class ProfileController extends Controller
             'message' => 'La specializzazione specificata non esiste.',
         ]);
     }
+    if ($name && preg_match('/\d/', $name)) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Il nome non deve contenere numeri interi.',
+        ]);
+    }
+    if (strlen($name)>255) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Il nome non deve essere più lungo di 255 caratteri',
+        ]);
+    }
+    if ($minVoteAverage && ($minVoteAverage > Vote::max('id') || $minVoteAverage < 0)) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Il valore inserito nella media delle recensioni non è valido',
+        ]);
+    }
+
+    if ($minVoteNumber &&  $minVoteNumber < 0) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Il valore inserito del numero minimo delle recensioni è minore di 0',
+        ]);
+    }
 
     //query per prendere tutti i medici
     $doctorsQuery = Profile::with(['user', 'specialties', 'votes']);

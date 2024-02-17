@@ -11,29 +11,16 @@ use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
 {
+
+    //METTERE TUTTI I VARI CONTROLLI PER NAME(NAME è UNA STRINGA, LUNGA X, EX. )
     public function index(Request $request)
 {
     $specialtyId = $request->query('specialty');
-    $voteId = $request->query('vote');
     $name = $request->query('name');
     $minVoteAverage = $request->query('min_vote_average');
-    // Controlla se il VOTO E LA SPECIALIZZAZIONE INSIEME richiesti esiste nel database
-    if ($voteId && $specialtyId && (!Vote::where('id', $voteId)->exists() && !Specialty::where('id', $specialtyId)->exists())) {
-        return response()->json([
-            'success' => false,
-            'message' => 'Sia l\'ID del voto che quello della specializzazione specificati non esistono.',
-        ]);
-    }
+    $minVoteNumber = $request->query('min_vote_number');
 
-    // Controlla se il voto richiesto esiste nel database
-    if ($voteId && !Vote::where('id', $voteId)->exists()) {
-        return response()->json([
-            'success' => false,
-            'message' => 'Il voto specificato non esiste.',
-        ]);
-    }
-
-    // Controlla se la specializzazione richiesta esiste nel database
+    // controlli degli input
     if ($specialtyId && !Specialty::where('id', $specialtyId)->exists()) {
         return response()->json([
             'success' => false,
@@ -43,6 +30,8 @@ class ProfileController extends Controller
 
     //query per prendere tutti i medici
     $doctorsQuery = Profile::with(['user', 'specialties', 'votes']);
+
+    //modifiche alla query in base ai parametri nella request
     if (!empty($name)) {
     $doctorsQuery->whereHas('user', function($query) use ($name) {
         $query->where(function($query) use ($name) {
@@ -51,6 +40,7 @@ class ProfileController extends Controller
         });
     });
     }
+
     if (!empty($minVoteAverage)) {
         $doctorsQuery->whereHas('votes', function (Builder $query) use ($minVoteAverage) {
             $query->select(DB::raw('AVG(value) as average'))
@@ -59,31 +49,22 @@ class ProfileController extends Controller
         });
     }
 
-    //se request è vuota
-    if (empty($specialtyId) && empty($voteId)) {
-        //li prende
-        $doctors = $doctorsQuery->get();
-    } else {
-        //nel caso cambio la query in base a ciò che mi richiede il front
-        if ($specialtyId && $voteId) {
-            $doctorsQuery->whereHas('votes', function($query) use ($voteId) {
-                $query->where('vote_id', $voteId);
-            })->whereHas('specialties', function($query) use ($specialtyId) {
-                $query->where('specialty_id', $specialtyId);
-            });
-        } elseif ($voteId) {
-            $doctorsQuery->whereHas('votes', function($query) use ($voteId) {
-                $query->where('vote_id', $voteId);
-            });
-        } elseif ($specialtyId) {
-            $doctorsQuery->whereHas('specialties', function($query) use ($specialtyId) {
-                $query->where('specialty_id', $specialtyId);
-            });
-        }
-
-        //eseguo la query
-        $doctors = $doctorsQuery->get();
+    if (!empty($specialtyId)) {
+        $doctorsQuery->whereHas('specialties', function($query) use ($specialtyId) {
+            $query->where('specialty_id', $specialtyId);
+        });
     }
+
+    if (!empty($minVoteNumber)) {
+        $doctorsQuery->whereHas('votes', function (Builder $query) use ($minVoteNumber) {
+            $query->select(DB::raw('COUNT(value) as count'))
+                  ->groupBy('profile_id')
+                  ->havingRaw('count(value) >= ?', [$minVoteNumber]);
+        });
+    }
+
+    //eseguo la query
+    $doctors = $doctorsQuery->get();
 
     return response()->json([
         'success' => true,

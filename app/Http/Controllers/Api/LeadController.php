@@ -20,7 +20,13 @@ class LeadController extends Controller
         if(strlen($request->name) > 255){
             return response()->json([
                 'success' => false,
-                'message' => 'il campo nome deve essere inferiore a 255 caratteri',
+                'message' => 'il campo name deve essere inferiore a 255 caratteri',
+                ]);
+        }
+        if(!preg_match('/^[a-zA-Z\s]+$/', $request->name)){
+            return response()->json([
+                'success' => false,
+                'message' => 'il campo name deve essere testuale',
                 ]);
         }
         if(strlen($request->surname) > 255){
@@ -29,17 +35,35 @@ class LeadController extends Controller
                 'message' => 'il campo surname deve essere inferiore a 255 caratteri',
                 ]);
         }
+        if(!preg_match('/^[a-zA-Z\s]+$/', $request->surname)){
+            return response()->json([
+                'success' => false,
+                'message' => 'il campo surname deve essere testuale',
+                ]);
+        }
         if(strlen($request->email) > 255){
             return response()->json([
                 'success' => false,
                 'message' => 'il campo email deve essere inferiore a 255 caratteri',
                 ]);
         }
+        if(!filter_var($request->email, FILTER_VALIDATE_EMAIL)){
+            return response()->json([
+                'success' => false,
+                'message' => 'il campo email deve essere una email valida',
+                ]);
+        }
         if($request->tel && strlen($request->tel) > 13){
             return response()->json([
                 'success' => false,
-                'message' => 'il campo tel se presente deve essere inferiore a 255 caratteri',
+                'message' => 'il campo tel se presente deve essere inferiore a 13 caratteri',
                 ]);
+        }
+        if ($request->tel && !preg_match('/^\+?\d{10,13}$/', $request->tel)) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Il campo tel deve essere un numero di telefono valido.',
+            ]);
         }
         if(strlen($request->message) > 65535){
             return response()->json([

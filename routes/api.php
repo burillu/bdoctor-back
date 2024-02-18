@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\SpecialtyController;
 use App\Http\Controllers\Api\VoteController;
+use App\Http\Controllers\Api\LeadController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,4 +33,8 @@ Route::controller(SpecialtyController::class)->group(function () {
 
 Route::controller(VoteController::class)->group(function () {
     Route::get('votes', 'index');
+});
+
+Route::controller(LeadController::class)->group(function () {
+    Route::post('leads', 'store');
 });

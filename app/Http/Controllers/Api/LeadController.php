@@ -11,10 +11,22 @@ class LeadController extends Controller
 {
      public function store(Request $request){
 
+        if(!$request->profile_id){
+            return response()->json([
+                'success' => false,
+                'message' => 'il campo profile_id è obbligatorio',
+                ]);
+        }
         if(!Profile::where('id', $request->profile_id)->exists()){
             return response()->json([
                 'success' => false,
                 'message' => "l'id del profilo inserito non esiste",
+                ]);
+        }
+        if(!$request->name){
+            return response()->json([
+                'success' => false,
+                'message' => 'il campo name è obbligatorio',
                 ]);
         }
         if(strlen($request->name) > 255){
@@ -29,6 +41,12 @@ class LeadController extends Controller
                 'message' => 'il campo name deve essere testuale',
                 ]);
         }
+        if(!$request->surname){
+            return response()->json([
+                'success' => false,
+                'message' => 'il campo surname è obbligatorio',
+                ]);
+        }
         if(strlen($request->surname) > 255){
             return response()->json([
                 'success' => false,
@@ -39,6 +57,12 @@ class LeadController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'il campo surname deve essere testuale',
+                ]);
+        }
+        if(!$request->email){
+            return response()->json([
+                'success' => false,
+                'message' => 'il campo email è obbligatorio',
                 ]);
         }
         if(strlen($request->email) > 255){
@@ -64,6 +88,12 @@ class LeadController extends Controller
                 'success' => false,
                 'message' => 'Il campo tel deve essere un numero di telefono valido.',
             ]);
+        }
+        if(!$request->message){
+            return response()->json([
+                'success' => false,
+                'message' => 'il campo message è obbligatorio',
+                ]);
         }
         if(strlen($request->message) > 65535){
             return response()->json([

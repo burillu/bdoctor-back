@@ -11,7 +11,12 @@ use App\Models\Profile;
 class ReviewController extends Controller
 {
      public function store(Request $request){
-
+        if(!$request->profile_id){
+            return response()->json([
+                'success' => false,
+                'message' => 'il campo profile_id è obbligatorio',
+                ]);
+        }
         if(!Profile::where('id', $request->profile_id)->exists()){
             return response()->json([
                 'success' => false,
@@ -30,6 +35,12 @@ class ReviewController extends Controller
                 'message' => 'il campo body deve essere inferiore a 65535 caratteri',
                 ]);
         }
+        if(!$request->email){
+            return response()->json([
+                'success' => false,
+                'message' => 'il campo email è obbligatorio',
+                ]);
+        }
         if(strlen($request->email) > 255){
             return response()->json([
                 'success' => false,
@@ -42,6 +53,12 @@ class ReviewController extends Controller
                 'message' => 'il campo email deve essere una email valida',
                 ]);
         }
+        if(!$request->name){
+            return response()->json([
+                'success' => false,
+                'message' => 'il campo name è obbligatorio',
+                ]);
+        }
         if(strlen($request->name) > 255){
             return response()->json([
                 'success' => false,
@@ -52,6 +69,12 @@ class ReviewController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'il campo name deve essere testuale',
+                ]);
+        }
+        if(!$request->vote_id){
+            return response()->json([
+                'success' => false,
+                'message' => 'il campo vote_id è obbligatorio',
                 ]);
         }
         if(!Vote::where('id', $request->vote_id)->exists()){

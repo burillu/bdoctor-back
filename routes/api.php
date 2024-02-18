@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\SpecialtyController;
 use App\Http\Controllers\Api\VoteController;
 use App\Http\Controllers\Api\LeadController;
+use App\Http\Controllers\Api\ReviewController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,4 +38,8 @@ Route::controller(VoteController::class)->group(function () {
 
 Route::controller(LeadController::class)->group(function () {
     Route::post('leads', 'store');
+});
+
+Route::controller(ReviewController::class)->group(function () {
+    Route::post('reviews', 'store');
 });

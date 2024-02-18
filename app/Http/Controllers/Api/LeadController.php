@@ -77,7 +77,7 @@ class LeadController extends Controller
         $new_lead->name= $request->name;
         $new_lead->surname = $request->surname;
         $new_lead->email = $request->email;
-        if($new_lead->tel) $new_lead->tel = $request->tel;
+        if($request->tel) $new_lead->tel = $request->tel;
         $new_lead->message = $request->message;
         $new_lead->save();
 

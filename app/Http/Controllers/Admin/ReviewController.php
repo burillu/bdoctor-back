@@ -12,8 +12,8 @@ class ReviewController extends Controller
     public function index(){
        
         
-        //$specialties= 
-    $reviews= Review::where('profile_id', Auth::user()->profile->id)->get();
+     // recensioni in ordine decrescente (per data);
+    $reviews= Review::where('profile_id', Auth::user()->profile->id)->orderBy('created_at', 'desc')->get();
 
     //$leads= Lead::all();
     //dd($reviews);

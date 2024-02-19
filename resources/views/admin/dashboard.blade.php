@@ -80,7 +80,7 @@
                                                 <i class="fa-solid fa-house"></i> <span class="px-1 d-none d-lg-inline">
                                                     Home</span></a>
                                         </div>
-                                        <!-- projects -->
+                                        <!-- Profilo -->
                                         <div class="my-btn p-2">
                                             <a href="{{ route('admin.profile.edit') }}">
                                                 <i class="fa-solid fa-user-doctor"></i>
@@ -89,22 +89,22 @@
                                             </a>
 
                                         </div>
-                                        <!-- types -->
+                                        <!-- Messaggi -->
                                         <div class="my-btn p-2">
-                                            <a href="{{-- route('admin.types.index') --}}">
+                                            <a href="{{ route('admin.leads.index') }}">
                                                 <i class="fa-solid fa-envelope"></i>
                                                 <span class="px-1 d-none d-lg-inline">
                                                     Messaggi</span>
                                             </a>
-
+                                            <!-- Recensioni -->
                                         </div>
                                         <div class="my-btn p-2">
-                                            <a href="{{-- route('admin.technologies.index') --}}">
+                                            <a href="{{ route('admin.reviews.index') }}">
                                                 <i class="fa-solid fa-clipboard-question"></i>
                                                 <span class="px-1 d-none d-lg-inline">
                                                     Recensioni</span>
                                             </a>
-
+                                            <!-- Sponsorizzazioni -->
                                         </div>
                                         <div class="my-btn p-2">
                                             <a href="{{-- route('admin.technologies.index') --}}">
@@ -112,7 +112,7 @@
                                                 <span class="px-1 d-none d-lg-inline">
                                                     Sponsorizzazioni</span>
                                             </a>
-
+                                            <!-- Statistiche -->
                                         </div>
                                         <div class="my-btn p-2">
                                             <a href="{{-- route('admin.technologies.index') --}}">

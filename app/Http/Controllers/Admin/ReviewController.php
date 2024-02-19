@@ -19,7 +19,9 @@ class ReviewController extends Controller
     //dd($reviews);
     return view('admin.reviews.index', compact('reviews'));
 }
-public function show(){
+public function show(Review $review){
     //
+    //dd($review);
+    return view('admin.reviews.show', compact('review'));
 }
 }

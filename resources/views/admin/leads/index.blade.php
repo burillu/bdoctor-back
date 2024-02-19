@@ -1,7 +1,7 @@
 @extends('admin.dashboard')
 @section('dashboard_content')
     <div class="container">
-        <h1 class="card-head">Messaggi ricevuti</h1>
+        <h1 class="card-head">Messaggi ricevuti ({{ count($leads) }})</h1>
         <table class="table table-hover">
             <thead>
                 <tr class="text-center">

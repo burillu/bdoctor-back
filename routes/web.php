@@ -26,11 +26,8 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::middleware(['auth', 'verified'])->name('admin.')->prefix('admin')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('profile/', [ProfileController::class, 'edit'])->name("profile.edit");
-    // Route::get('leads/', [LeadController::class, 'index'])->name("leads.index");
-    // Route::get('leads/{id}', [LeadController::class, 'show'])->name("leads.show");
     Route::resource('leads', LeadController::class)->except('create','edit','store');
-    Route::get('reviews/', [ReviewController::class, 'index'])->name("reviews.index");
-    Route::get('reviews/{id}', [ReviewController::class, 'show'])->name("reviews.show");
+    Route::resource('reviews', ReviewController::class)->except('create','edit','store');
     Route::resource('profile', ProfileController::class)->except('create','edit','store','index');
 });
 

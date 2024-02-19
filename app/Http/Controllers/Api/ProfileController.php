@@ -55,7 +55,7 @@ class ProfileController extends Controller
     }
 
     //query per prendere tutti i medici
-    $doctorsQuery = Profile::with(['user', 'specialties', 'votes']);
+    $doctorsQuery = Profile::with(['user', 'specialties', 'votes','sponsorships']);
 
     if ($orderByVotes) {
         $doctorsQuery->withCount('votes')->orderByDesc('votes_count');

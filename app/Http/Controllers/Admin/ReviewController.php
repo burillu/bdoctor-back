@@ -13,11 +13,11 @@ class ReviewController extends Controller
        
         
         //$specialties= 
-    $review= Review::where('profile_id', Auth::user()->profile->id)->get();
+    $reviews= Review::where('profile_id', Auth::user()->profile->id)->get();
 
     //$leads= Lead::all();
-    //dd($leads);
-    return view('admin.reviews.index', compact('review'));
+    //dd($reviews);
+    return view('admin.reviews.index', compact('reviews'));
 }
 public function show(){
     //

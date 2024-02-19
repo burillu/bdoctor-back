@@ -9,6 +9,7 @@ use App\Models\Profile;
 class Lead extends Model
 {
     use HasFactory;
+    protected $guarded=[];
     public function profile(){
         return $this->belongsTo(Profile::class);
     }

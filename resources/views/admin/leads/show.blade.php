@@ -1,27 +1,23 @@
-{{-- @extends('admin.dashboard')
+@extends('admin.dashboard')
 @section('dashboard_content')
     <div class="container">
-        <div class="card-header fs-4 text-secondary my-4">
-            {{ __('Profilo') }}
+        <h1 class="card-header mb-4">Messaggio da parte di: {{ $lead->name . ' ' . $lead->surname }}</h1>
+        <h5>Contatti: </h5>
+        <div class="mb-4">
+            <div> Data : {{ date('d-m-Y \|\ \O\r\a\: H:i:s', strtotime($lead->created_at)) }}</div>
+            <div>Email :{{ $lead->email }}</div>
+            <div>Telefono: {{ $lead->tel }}</div>
         </div>
-        <div class="card p-4 mb-4 bg-white shadow rounded-lg">
-
-            @include('admin.profile.partials.update-profile-information-form')
-
+        <div class="mb-4 border rounded-2 p-3">
+            <h5>Messaggio:</h5>
+            <p>{{ $lead->message }}</p>
         </div>
-
-        <div class="card p-4 mb-4 bg-white shadow rounded-lg">
-
-
-            @include('admin.profile.partials.update-password-form')
-
-        </div>
-
-        <div class="card p-4 mb-4 bg-white shadow rounded-lg">
+        <button class="btn btn-primary mb-4"> <a href="{{ route('admin.leads.index') }}"> <i
+                    class="fa-solid fa-arrow-left"></i>
+                Ritorna ai messaggi</a></button>
 
 
-            @include('admin.profile.partials.delete-user-form')
 
-        </div>
+
     </div>
-@endsection --}}
+@endsection

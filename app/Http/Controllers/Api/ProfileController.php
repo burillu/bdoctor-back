@@ -19,6 +19,7 @@ class ProfileController extends Controller
     $name = $request->query('name');
     $minVoteAverage = $request->query('min_vote_average');
     $minVoteNumber = $request->query('min_vote_number');
+    $orderByVotes = $request->query('order_by_votes');
 
     // controlli degli input
     if ($specialtyId && !Specialty::where('id', $specialtyId)->exists()) {
@@ -56,6 +57,9 @@ class ProfileController extends Controller
     //query per prendere tutti i medici
     $doctorsQuery = Profile::with(['user', 'specialties', 'votes']);
 
+    if ($orderByVotes) {
+        $doctorsQuery->withCount('votes')->orderByDesc('votes_count');
+    }
     //modifiche alla query in base ai parametri nella request
     if (!empty($name)) {
     $doctorsQuery->whereHas('user', function($query) use ($name) {

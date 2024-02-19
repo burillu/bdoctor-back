@@ -74,13 +74,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 isValid = value !== '' && containsOnlyLetters(input.value);
                 break;
             case 'password':
-                isValid = value.length >= 8;
+                isValid = value !== '' && value.length >= 8;
                 break;
             case 'password-confirm':
-                isValid = confirmPas(value);
+                isValid = value !== '' && confirmPas(value);
                 break;
             case 'address':
-                isValid = value.length <= 255;
+                isValid = value !== '' && value.length <= 255;
                 break;
             default:
                 isValid = value !== '';
@@ -173,7 +173,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                             <div id="name-div" class="col-md-6">
                                 <input id="name" type="text" class="form-control @error('name') is-invalid @enderror"
-                                    name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+                                    name="name" value="{{ old('name') }}"  autocomplete="name" autofocus>
 
                                 @error('name')
                                 <span class="invalid-feedback" role="alert">
@@ -189,7 +189,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             <div id="last_name-div" class="col-md-6">
                                 <input id="last_name" type="text"
                                     class="form-control @error('last_name') is-invalid @enderror" name="last_name"
-                                    value="{{ old('last_name') }}" required autocomplete="last_name" autofocus>
+                                    value="{{ old('last_name') }}"  autocomplete="last_name" autofocus>
 
                                 @error('last_name')
                                 <span class="invalid-feedback" role="alert">
@@ -205,7 +205,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             <div id="address-div" class="col-md-6">
                                 <input id="address" type="text"
                                     class="form-control @error('address') is-invalid @enderror" name="address"
-                                    value="{{ old('address') }}" required autocomplete="address" autofocus>
+                                    value="{{ old('address') }}"  autocomplete="address" autofocus>
 
                                 @error('address')
                                 <span class="invalid-feedback" role="alert">
@@ -241,7 +241,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                             <div id="email-div" class="col-md-6">
                                 <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
-                                    name="email" value="{{ old('email') }}" required autocomplete="email">
+                                    name="email" value="{{ old('email') }}"  autocomplete="email">
 
                                 @error('email')
                                 <span class="invalid-feedback" role="alert">
@@ -257,7 +257,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             <div id="password-div" class="col-md-6">
                                 <input id="password" type="password"
                                     class="form-control @error('password') is-invalid @enderror" name="password"
-                                    required autocomplete="new-password">
+                                     autocomplete="new-password">
 
                                 @error('password')
                                 <span class="invalid-feedback" role="alert">
@@ -272,7 +272,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                             <div id="password-confirm-div" class="col-md-6">
                                 <input id="password-confirm" type="password" class="form-control"
-                                    name="password_confirmation" required autocomplete="new-password">
+                                    name="password_confirmation"  autocomplete="new-password">
                             </div>
                         </div>
 

@@ -35,7 +35,9 @@ class ProfileController extends Controller
      */
     public function edit(): View
     {
-        $data = Profile::where('user_id', Auth::user()->id)->first();
+        $data= Auth::user()->profile;
+        //dd($data);
+        //$data = Profile::where('user_id', Auth::user()->id)->first();
         $specialties = Specialty::all();
         //dd(Auth::user);
         return view('admin.profile.edit', [

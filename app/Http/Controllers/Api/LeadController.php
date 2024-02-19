@@ -83,7 +83,7 @@ class LeadController extends Controller
                 'message' => 'il campo tel se presente deve essere inferiore a 13 caratteri',
                 ]);
         }
-        if ($request->tel && !preg_match('/^\+?\d{10,13}$/', $request->tel)) {
+        if ($request->tel && !preg_match('/^\+?\d{7,13}$/', $request->tel)) {
             return response()->json([
                 'success' => false,
                 'message' => 'Il campo tel deve essere un numero di telefono valido.',

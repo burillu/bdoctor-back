@@ -12,7 +12,7 @@
             <h5>Messaggio:</h5>
             <p>{{ $lead->message }}</p>
         </div>
-        <button class="btn btn-primary mb-4"> <a href="{{ route('admin.leads.index') }}"> <i
+        <button class="btn my-bg-contrast mb-4"> <a href="{{ route('admin.leads.index') }}"> <i
                     class="fa-solid fa-arrow-left"></i>
                 Ritorna ai messaggi</a></button>
 

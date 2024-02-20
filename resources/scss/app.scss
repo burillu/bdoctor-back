@@ -17,6 +17,11 @@ img {
     width: 100px;
 }
 
+.my-bg-contrast {
+    background-color: $contrast-color;
+    color: white;
+}
+
 // CLASSI PER LA DASHBOARD
 a {
     text-decoration: none;
@@ -53,7 +58,7 @@ a {
     width: 150px;
 }
 
-.text-red{
+.text-red {
     color: red;
     margin-left: 5px
 }

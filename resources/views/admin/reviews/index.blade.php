@@ -22,7 +22,7 @@
                         <td>{{ $review->email }}</td>
                         <td>{{ $review->title }} </td>
                         <td>{{ strlen($review->body) > 80 ? substr($review->body, 0, 80) . '...' : $review->body }}</td>
-                        <td class="col-3">{{ date('d-m-Y \O\r\e\: H:i:s', strtotime($review->created_at)) }} </td>
+                        <td class="col-3">{{ date('d/m/Y \O\r\e\: H:i', strtotime($review->created_at)) }} </td>
                         <td class="">
                             <a class="btn btn-primary" href=" {{ route('admin.reviews.show', $review->id) }}"><i
                                     class="fa-regular fa-eye"></i></a>

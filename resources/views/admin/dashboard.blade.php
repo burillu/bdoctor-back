@@ -77,14 +77,14 @@
                                             <!-- home -->
                                             <div class=" my-btn p-2">
                                                 <a href="{{-- route('admin.dashboard') --}}">
-                                                    <i class="fa-solid fa-house"></i> <span class="px-1 d-none d-lg-inline">
+                                                    <i class="fa-solid fa-house"></i> <span class="px-1 d-none d-md-inline">
                                                         Home</span></a>
                                             </div>
                                             <!-- Profilo -->
                                             <div class="my-btn p-2">
                                                 <a href="{{ route('admin.profile.edit') }}">
                                                     <i class="fa-solid fa-user-doctor"></i>
-                                                    <span class="px-1 d-none d-lg-inline">
+                                                    <span class="px-1 d-none d-md-inline">
                                                         Profilo</span>
                                                 </a>
 
@@ -93,7 +93,7 @@
                                             <div class="my-btn p-2">
                                                 <a href="{{ route('admin.leads.index') }}">
                                                     <i class="fa-solid fa-envelope"></i>
-                                                    <span class="px-1 d-none d-lg-inline">
+                                                    <span class="px-1 d-none d-md-inline">
                                                         Messaggi</span>
                                                 </a>
                                                 <!-- Recensioni -->
@@ -101,7 +101,7 @@
                                             <div class="my-btn p-2">
                                                 <a href="{{ route('admin.reviews.index') }}">
                                                     <i class="fa-solid fa-clipboard-question"></i>
-                                                    <span class="px-1 d-none d-lg-inline">
+                                                    <span class="px-1 d-none d-md-inline">
                                                         Recensioni</span>
                                                 </a>
                                                 <!-- Sponsorizzazioni -->
@@ -109,7 +109,7 @@
                                             <div class="my-btn p-2">
                                                 <a href="{{-- route('admin.technologies.index') --}}">
                                                     <i class="fa-solid fa-plug-circle-bolt"></i>
-                                                    <span class="px-1 d-none d-lg-inline">
+                                                    <span class="px-1 d-none d-md-inline">
                                                         Sponsorizzazioni</span>
                                                 </a>
                                                 <!-- Statistiche -->
@@ -117,7 +117,7 @@
                                             <div class="my-btn p-2">
                                                 <a href="{{-- route('admin.technologies.index') --}}">
                                                     <i class="fa-solid fa-chart-line"></i>
-                                                    <span class="px-1 d-none d-lg-inline">
+                                                    <span class="px-1 d-none d-md-inline">
                                                         Statistiche</span>
                                                 </a>
 
@@ -142,7 +142,8 @@
                                                             <a id="navbarDropdown" class="nav-link dropdown-toggle"
                                                                 href="#" role="button" data-bs-toggle="dropdown"
                                                                 aria-haspopup="true" aria-expanded="false" v-pre>
-                                                                <i class="fa-solid fa-gear"></i> {{ Auth::user()->name }}
+                                                                <i class="fa-solid fa-gear"></i> <span
+                                                                    class="d-none d-md-inline">{{ Auth::user()->name }}</span>
                                                             </a>
 
                                                             <div class="dropdown-menu dropdown-menu-right"

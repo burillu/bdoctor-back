@@ -73,7 +73,8 @@ main>div {
 // }
 
 .my-logo-query {
-    width: 100px;
+    width: 45px;
+    border-radius: 10px;
 }
 
 
@@ -150,11 +151,11 @@ img.my-img-avatar {
 
 @media screen and (min-width:576px) {
     .my-sidebar-lg {
-        width: 150px;
+        width: 70px;
     }
 
     .main-content {
-        width: calc(100% - 150px);
+        width: calc(100% - 70px);
     }
 
     .my-wrapper-100vh {

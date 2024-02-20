@@ -68,7 +68,7 @@
                                 <div class=" d-flex h-100 flex-column justify-content-between">
                                     <div class="sidebar-top">
                                         <!-- image -->
-                                        <div class="my-2 my-logo-query rounded-5 overflow-hidden">
+                                        <div class="my-2 my-logo-query rounded-md-5 overflow-hidden">
 
                                             <img src="{{ asset('storage' . '\/images/OIG2.kc86IYLpVtKY.jpg') }}"
                                                 alt="logo-bdoctors">

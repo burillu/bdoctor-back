@@ -4,7 +4,7 @@
         <h1 class="card-header mb-4">Messaggio da parte di: {{ $lead->name . ' ' . $lead->surname }}</h1>
         <h5>Contatti: </h5>
         <div class="mb-4">
-            <div> Data : {{ date('d-m-Y \|\ \O\r\a\: H:i:s', strtotime($lead->created_at)) }}</div>
+            <div> Data : {{ date('d-m-Y \|\ \O\r\a\: H:i', strtotime($lead->created_at)) }}</div>
             <div>Email :{{ $lead->email }}</div>
             <div>Telefono: {{ $lead->tel }}</div>
         </div>

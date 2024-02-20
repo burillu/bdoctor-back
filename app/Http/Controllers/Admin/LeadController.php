@@ -11,7 +11,7 @@ use App\Models\Lead;
 class LeadController extends Controller
 {
     public function index(){
-    $leads= Lead::where('profile_id', Auth::user()->profile->id)->get();
+    $leads= Lead::where('profile_id', Auth::user()->profile->id)->orderBy('created_at', 'desc')->get();
     //dd($leads);
     return view('admin.leads.index', compact('leads'));
 }

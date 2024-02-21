@@ -10,7 +10,6 @@ class PaymentController extends Controller
 {
     public function show(Request $request)
     {
-        dd($request);
         // Inizializza la gateway di Braintree
         $gateway = new Gateway([
             'environment' => config('services.braintree.environment'),
@@ -22,13 +21,14 @@ class PaymentController extends Controller
         // Genera un token del client per il Drop-in UI di Braintree
         $clientToken = $gateway->clientToken()->generate();
 
+        $sponsorshipId = $request->id;
+
         // Ritorna la vista con il token del client
-        return view('admin.payments.payment', compact('clientToken'));
+        return view('admin.payments.payment', compact('clientToken','sponsorshipId'));
     }
 
     public function process(Request $request)
     {
-        dd($request);
         // Inizializza la gateway di Braintree
         $gateway = new Gateway([
             'environment' => config('services.braintree.environment'),

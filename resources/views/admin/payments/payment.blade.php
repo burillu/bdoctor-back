@@ -1,3 +1,4 @@
+
 @extends('admin.dashboard')
 @section('dashboard_content')
 <head>
@@ -43,7 +44,8 @@
         });
         function addAdditionalData() {
             // Aggiungi dati aggiuntivi al modulo
-            let additionalData = 1;
+            let additionalData = "{{ $sponsorshipId }}";
+            console.log(additionalData)
 
             // Aggiungi i dati aggiuntivi come campi nascosti al modulo
                 var hiddenInput = document.createElement('input');

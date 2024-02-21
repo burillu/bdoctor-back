@@ -14,7 +14,7 @@
 
             <h6>Recensione:</h6>
             <p>{{ $review->body }}</p>
-            <div> Data : {{ date('d-m-Y \|\ \O\r\a\: H:i:s', strtotime($review->created_at)) }}</div>
+            <div> Data : {{ date('d/m/Y \|\ \O\r\a\: H:i', strtotime($review->created_at)) }}</div>
         </div>
         <button class="btn my-bg-contrast mb-4"> <a href="{{ route('admin.reviews.index') }}"> <i
                     class="fa-solid fa-arrow-left"></i>

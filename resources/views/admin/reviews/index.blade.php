@@ -10,6 +10,7 @@
                     {{-- <th scope="col">Email</th> --}}
                     {{-- <th scope="col">Titolo</th> --}}
                     <th class="d-none d-xl-table-cell" scope="col">Anteprima</th>
+
                     <th scope="col">Data/ora</th>
                     <th scope="col">Azioni</th>
                 </tr>

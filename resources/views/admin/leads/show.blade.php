@@ -5,6 +5,7 @@
         <h5>Contatti: </h5>
         <div class="mb-4">
             <div> Data : {{ date('d-m-Y \|\ \O\r\a\: H:i', strtotime($lead->created_at)) }}</div>
+
             <div>Email :{{ $lead->email }}</div>
             <div>Telefono: {{ $lead->tel }}</div>
         </div>

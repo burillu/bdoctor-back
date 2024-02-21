@@ -8,12 +8,15 @@
             <div>Email :{{ $review->email }}</div>
         </div>
         <div class="mb-4 border rounded-2 p-3">
-            <h5>Titolo: {{ $review->title }}</h5>
-            <span>Recensione:</span>
+            @if ($review->title)
+                <h5>Titolo: {{ $review->title }}</h5>
+            @endif
+
+            <h6>Recensione:</h6>
             <p>{{ $review->body }}</p>
             <div> Data : {{ date('d/m/Y \|\ \O\r\a\: H:i', strtotime($review->created_at)) }}</div>
         </div>
-        <button class="btn btn-primary mb-4"> <a href="{{ route('admin.reviews.index') }}"> <i
+        <button class="btn my-bg-contrast mb-4"> <a href="{{ route('admin.reviews.index') }}"> <i
                     class="fa-solid fa-arrow-left"></i>
                 Ritorna alle recensioni</a></button>
     </div>

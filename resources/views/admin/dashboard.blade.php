@@ -58,118 +58,125 @@
                     </div>
                 </div>
             </header> --}}
-        <main>
-            <div class="d-flex">
+        <main class="container-fluid p-0">
+            <div class="row g-0">
                 <!-- sidebar -->
-                <div class="my-sidebar my-sidebar-lg text-white" id="sidebar">
+                <div class="col-12 col-md-3 my-sidebar my-sidebar-lg  text-white" id="sidebar">
                     <div class=" h-100 container-fluid">
                         <div class=" h-100 row">
                             <div class="col-sm-12">
                                 <div class=" d-flex h-100 flex-column justify-content-between">
                                     <div class="sidebar-top">
                                         <!-- image -->
-                                        <div class="my-2 rounded-5 overflow-hidden">
+                                        <div class="my-2 my-logo-query rounded-md-5 overflow-hidden">
 
                                             <img src="{{ asset('storage' . '\/images/OIG2.kc86IYLpVtKY.jpg') }}"
                                                 alt="logo-bdoctors">
                                         </div>
+                                        <div class="d-flex d-sm-block">
+                                            <!-- home -->
+                                            <div class=" my-btn p-2">
+                                                <a href="{{-- route('admin.dashboard') --}}">
+                                                    <i class="fa-solid fa-house"></i> <span class="px-1 d-none d-md-inline">
+                                                        Home</span></a>
+                                            </div>
+                                            <!-- Profilo -->
+                                            <div class="my-btn p-2">
+                                                <a href="{{ route('admin.profile.edit') }}">
+                                                    <i class="fa-solid fa-user-doctor"></i>
+                                                    <span class="px-1 d-none d-md-inline">
+                                                        Profilo</span>
+                                                </a>
 
-                                        <!-- home -->
-                                        <div class=" my-btn p-2">
-                                            <a href="{{-- route('admin.dashboard') --}}">
-                                                <i class="fa-solid fa-house"></i> <span class="px-1 d-none d-lg-inline">
-                                                    Home</span></a>
-                                        </div>
-                                        <!-- Profilo -->
-                                        <div class="my-btn p-2">
-                                            <a href="{{ route('admin.profile.edit') }}">
-                                                <i class="fa-solid fa-user-doctor"></i>
-                                                <span class="px-1 d-none d-lg-inline">
-                                                    Profilo</span>
-                                            </a>
+                                            </div>
+                                            <!-- Messaggi -->
+                                            <div class="my-btn p-2">
+                                                <a href="{{ route('admin.leads.index') }}">
+                                                    <i class="fa-solid fa-envelope"></i>
+                                                    <span class="px-1 d-none d-md-inline">
+                                                        Messaggi</span>
+                                                </a>
+                                                <!-- Recensioni -->
+                                            </div>
+                                            <div class="my-btn p-2">
+                                                <a href="{{ route('admin.reviews.index') }}">
+                                                    <i class="fa-solid fa-clipboard-question"></i>
+                                                    <span class="px-1 d-none d-md-inline">
+                                                        Recensioni</span>
+                                                </a>
+                                                <!-- Sponsorizzazioni -->
+                                            </div>
+                                            <div class="my-btn p-2">
+                                                <a href="{{-- route('admin.technologies.index') --}}">
+                                                    <i class="fa-solid fa-plug-circle-bolt"></i>
+                                                    <span class="px-1 d-none d-md-inline">
+                                                        Sponsorizzazioni</span>
+                                                </a>
+                                                <!-- Statistiche -->
+                                            </div>
+                                            <div class="my-btn p-2">
+                                                <a href="{{-- route('admin.technologies.index') --}}">
+                                                    <i class="fa-solid fa-chart-line"></i>
+                                                    <span class="px-1 d-none d-md-inline">
+                                                        Statistiche</span>
+                                                </a>
 
-                                        </div>
-                                        <!-- Messaggi -->
-                                        <div class="my-btn p-2">
-                                            <a href="{{ route('admin.leads.index') }}">
-                                                <i class="fa-solid fa-envelope"></i>
-                                                <span class="px-1 d-none d-lg-inline">
-                                                    Messaggi</span>
-                                            </a>
-                                            <!-- Recensioni -->
-                                        </div>
-                                        <div class="my-btn p-2">
-                                            <a href="{{ route('admin.reviews.index') }}">
-                                                <i class="fa-solid fa-clipboard-question"></i>
-                                                <span class="px-1 d-none d-lg-inline">
-                                                    Recensioni</span>
-                                            </a>
-                                            <!-- Sponsorizzazioni -->
-                                        </div>
-                                        <div class="my-btn p-2">
-                                            <a href="{{-- route('admin.technologies.index') --}}">
-                                                <i class="fa-solid fa-plug-circle-bolt"></i>
-                                                <span class="px-1 d-none d-lg-inline">
-                                                    Sponsorizzazioni</span>
-                                            </a>
-                                            <!-- Statistiche -->
-                                        </div>
-                                        <div class="my-btn p-2">
-                                            <a href="{{-- route('admin.technologies.index') --}}">
-                                                <i class="fa-solid fa-chart-line"></i>
-                                                <span class="px-1 d-none d-lg-inline">
-                                                    Statistiche</span>
-                                            </a>
+                                            </div>
+                                            <div class="sidebar-bottom">
 
+                                                <ul class="navbar-nav ml-auto">
+                                                    <!-- Authentication Links -->
+                                                    @guest
+                                                        <li class="nav-item">
+                                                            <a class="nav-link"
+                                                                href="{{ route('login') }}">{{ __('Login') }}</a>
+                                                        </li>
+                                                        @if (Route::has('register'))
+                                                            <li class="nav-item">
+                                                                <a class="nav-link"
+                                                                    href="{{ route('register') }}">{{ __('Register') }}</a>
+                                                            </li>
+                                                        @endif
+                                                    @else
+                                                        <li class="nav-item dropdown my-btn p-2">
+                                                            <a id="navbarDropdown" class="nav-link dropdown-toggle"
+                                                                href="#" role="button" data-bs-toggle="dropdown"
+                                                                aria-haspopup="true" aria-expanded="false" v-pre>
+                                                                <i class="fa-solid fa-gear"></i> <span
+                                                                    class="d-none d-md-inline">{{ Auth::user()->name }}</span>
+                                                            </a>
+
+                                                            <div class="dropdown-menu dropdown-menu-right"
+                                                                aria-labelledby="navbarDropdown">
+                                                                <a class="dropdown-item"
+                                                                    href="{{ url('admin') }}">{{ __('Dashboard') }}</a>
+                                                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                                                    onclick="event.preventDefault();
+                                                                                     document.getElementById('logout-form').submit();">
+                                                                    {{ __('Logout') }}
+                                                                </a>
+
+                                                                <form id="logout-form" action="{{ route('logout') }}"
+                                                                    method="POST" class="d-none">
+                                                                    @csrf
+                                                                </form>
+                                                            </div>
+                                                        </li>
+                                                    @endguest
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="sidebar-bottom">
 
-                                        <ul class="navbar-nav ml-auto">
-                                            <!-- Authentication Links -->
-                                            @guest
-                                                <li class="nav-item">
-                                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                                                </li>
-                                                @if (Route::has('register'))
-                                                    <li class="nav-item">
-                                                        <a class="nav-link"
-                                                            href="{{ route('register') }}">{{ __('Register') }}</a>
-                                                    </li>
-                                                @endif
-                                            @else
-                                                <li class="nav-item dropdown my-btn p-2">
-                                                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#"
-                                                        role="button" data-bs-toggle="dropdown" aria-haspopup="true"
-                                                        aria-expanded="false" v-pre>
-                                                        <i class="fa-solid fa-gear"></i> {{ Auth::user()->name }}
-                                                    </a>
 
-                                                    <div class="dropdown-menu dropdown-menu-right"
-                                                        aria-labelledby="navbarDropdown">
-                                                        <a class="dropdown-item"
-                                                            href="{{ url('admin') }}">{{ __('Dashboard') }}</a>
-                                                        <a class="dropdown-item" href="{{ route('logout') }}"
-                                                            onclick="event.preventDefault();
-                                                                             document.getElementById('logout-form').submit();">
-                                                            {{ __('Logout') }}
-                                                        </a>
 
-                                                        <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                                            class="d-none">
-                                                            @csrf
-                                                        </form>
-                                                    </div>
-                                                </li>
-                                            @endguest
-                                        </ul>
-                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="main-content" id="main-content">
+                <!-- Main -->
+                <div class="col-12 col-md-9 main-content" id="main-content">
 
                     <div class="container-fluid">
                         <!-- top-main -->
@@ -388,7 +395,7 @@
                         <!-- center-main -->
                         <div id="center-main" class="row py-4">
                             <!-- left -->
-                            <div class="col-12 col-lg-10">
+                            <div class="col-12 col-xl-9">
                                 <div class="card my-4">
                                     <!-- contenuto variabile -->
                                     @yield('dashboard_content')
@@ -450,7 +457,7 @@
                                 </div>
                             </div>
                             <!-- right -->
-                            <div class="col-12 col-lg-2">
+                            <div class="col-12 col-xl-3">
                                 <div class="card my-4">
                                     <div class="card-header fs-5"> To-do</div>
                                     <div class="card-body">

@@ -17,6 +17,11 @@ img {
     width: 100px;
 }
 
+.my-bg-contrast {
+    background-color: $contrast-color;
+    color: white;
+}
+
 // CLASSI PER LA DASHBOARD
 a {
     text-decoration: none;
@@ -37,14 +42,10 @@ a {
     height: 50px;
 }
 
-.my-wrapper-100vh {
-    height: 100vh;
-    width: 100%;
-    overflow: hidden;
-}
+
 
 .my-sidebar {
-    height: 100%;
+    //height: 100%;
     // background-image: url(../img/sidebar-bg.png);
     background-color: $my-dark-blue;
 }
@@ -53,7 +54,7 @@ a {
     width: 150px;
 }
 
-.text-red{
+.text-red {
     color: red;
     margin-left: 5px
 }
@@ -67,16 +68,16 @@ main>div {
     height: 100%;
 }
 
-.main-content {
-    width: 100%;
+// .main-content {
+//     //width: 100%;
+// }
+
+.my-logo-query {
+    width: 45px;
+    border-radius: 10px;
 }
 
 
-#center-main {
-    width: 100%;
-    height: calc(100vh - 96px);
-    overflow-y: auto;
-}
 
 .my-offcanvas.offcanvas {
     width: 700px;
@@ -148,11 +149,42 @@ img.my-img-avatar {
 
 /* large */
 
-@media screen and (min-width:992px) {
+@media screen and (min-width:576px) {
+    .my-sidebar-lg {
+        width: 70px;
+    }
+
+    .main-content {
+        width: calc(100% - 70px);
+    }
+
+    .my-wrapper-100vh {
+        height: 100vh;
+        width: 100%;
+        overflow-y: auto;
+    }
+
+    #center-main {
+        //width: 100%;
+        height: calc(100vh - 96px);
+        overflow-y: auto;
+    }
+
+}
+
+@media screen and (min-width:768px) {
     .my-sidebar-lg {
         width: 250px;
     }
 
+    .my-logo-query {
+        width: 220px;
+        border-radius: 30px;
+    }
+
+    .main-content {
+        width: calc(100% - 250px);
+    }
 }
 
 

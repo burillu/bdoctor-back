@@ -14,12 +14,13 @@ class PaymentController extends Controller
     //
     public function process(Request $request)
     {
-        // $user=Auth::user();
-        // $data= $user->profile;
-        //dd($request);
+       
+        $profile = Profile::where('user_id', Auth::id())->with('sponsorships')->first();
+        //creare una condizione affinche si interrompa la procedura di pagamento se c'è una sponsorship e questa ha un expire_date non ancora passata
+         
         // Inizializza la gateway di Braintree
         $gateway = new Gateway(config('services.braintree'));
-        $profile = Profile::where('user_id', Auth::id())->with('sponsorships')->first();
+        
         //dd($profile);
         
 

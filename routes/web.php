@@ -1,6 +1,7 @@
 <?php
 
 //use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProfileController;
@@ -29,6 +30,10 @@ Route::middleware(['auth', 'verified'])->name('admin.')->prefix('admin')->group(
     Route::resource('leads', LeadController::class)->except('create','edit','store');
     Route::resource('reviews', ReviewController::class)->except('create','edit','store');
     Route::resource('profile', ProfileController::class)->except('create','edit','store','index');
+    Route::get('/payments', [PaymentController::class, 'index'])->name("payments.index");
+    Route::post('/handle-payment', [PaymentController::class, 'handlePayment']);
+    
+
 });
 
 

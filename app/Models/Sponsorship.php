@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,3 +15,4 @@ class Sponsorship extends Model
         return $this->belongsToMany(Profile::class)->withPivot('expire_date', 'current_price')->withTimestamps();
     }
 }
+

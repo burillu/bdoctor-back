@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\User;
+use App\Models\Sponsorship;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -13,6 +14,7 @@ use Illuminate\View\View;
 use App\Http\Controllers\Controller;
 use App\Models\Profile;
 use App\Models\Specialty;
+use Braintree\Gateway;
 
 
 class ProfileController extends Controller
@@ -35,15 +37,25 @@ class ProfileController extends Controller
      */
     public function edit(): View
     {
+        $gateway = new Gateway(config('services.braintree'));
+        //dd($gateway);
+        // pass $clientToken to your front-end
+        //$customerId = Auth::user()->id . Auth::user()->name;
+        //dd($customerId);
+        $clientToken = $gateway->clientToken()->generate();
+
         $data= Auth::user()->profile;
         //dd($data);
         //$data = Profile::where('user_id', Auth::user()->id)->first();
         $specialties = Specialty::all();
         //dd(Auth::user);
+        $sponsorships = Sponsorship::all();
         return view('admin.profile.edit', [
             'user' => Auth::user(),
             'data' => $data,
-            'specialties' => $specialties
+            'specialties' => $specialties,
+            'clientToken' => $clientToken,
+            'sponsorships'=> $sponsorships
         ]);
     }
 

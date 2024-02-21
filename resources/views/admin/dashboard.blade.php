@@ -107,7 +107,7 @@
                                                 <!-- Sponsorizzazioni -->
                                             </div>
                                             <div class="my-btn p-2">
-                                                <a href="{{-- route('admin.technologies.index') --}}">
+                                                <a href="{{ route('admin.sponsorships.index') }}">
                                                     <i class="fa-solid fa-plug-circle-bolt"></i>
                                                     <span class="px-1 d-none d-md-inline">
                                                         Sponsorizzazioni</span>
@@ -184,170 +184,29 @@
                             <div class="col-8 col-md-12">
                                 <div class="row py-2">
                                     <!-- nuovo sponsorizzazione -->
+
                                     <div class="col-12 col-md-4 col-lg order-md-last">
                                         <span class="">Nuova Sponsorizzazione</span>
 
 
                                         <button class="btn btn-outline-light ms-2" type="button" data-bs-toggle="offcanvas"
-                                            data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">+</button>
+                                            data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"
+                                            @if (str_contains(url()->current(), '/sponsorships')) disabled @endif>+</button>
                                         <!-- offcanvas -->
                                         <div class=" offcanvas my-offcanvas offcanvas-end" tabindex="-1"
                                             id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
                                             <div class="offcanvas-header">
-                                                <h5 class="offcanvas-title" id="offcanvasRightLabel">Inserisci un
-                                                    nuovo studente</h5>
+                                                <h5 class="offcanvas-title" id="offcanvasRightLabel">Acquista una nuova
+                                                    sponsorizzazione</h5>
                                                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
                                                     aria-label="Close"></button>
                                             </div>
 
                                             <div class="offcanvas-body">
-                                                <form>
-                                                    <div class="container-fluid">
-                                                        <!-- nome e cognome -->
-                                                        <div class="row">
-                                                            <div class="col-12 col-md-6">
-                                                                <div class="mb-3">
-                                                                    <label for="name" class="form-label">Nome</label>
-                                                                    <input type="text" class="form-control"
-                                                                        id="name" placeholder="">
-                                                                </div>
+                                                @if (!str_contains(url()->current(), '/sponsorships'))
+                                                    @include('admin.payments.form')
+                                                @endif
 
-                                                            </div>
-                                                            <div class="col-12 col-md-6">
-                                                                <div class="mb-3">
-                                                                    <label for="lastname"
-                                                                        class="form-label">Cognome</label>
-                                                                    <input type="text" class="form-control"
-                                                                        id="lastname" placeholder="">
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-                                                        <!-- email e password -->
-                                                        <div class="row">
-                                                            <div class="col-12 col-md-6">
-                                                                <div class="mb-3">
-                                                                    <label for="email" class="form-label">Email</label>
-                                                                    <div class="input-group mb-3">
-                                                                        <span class="input-group-text"
-                                                                            id="basic-addon1">@</span>
-                                                                        <input type="email" id="email"
-                                                                            class="form-control" placeholder=""
-                                                                            aria-label="Username"
-                                                                            aria-describedby="basic-addon1">
-                                                                    </div>
-                                                                </div>
-
-
-                                                            </div>
-                                                            <div class="col-12 col-md-6">
-                                                                <div class="mb-3">
-                                                                    <label for="password"
-                                                                        class="form-label">Password</label>
-                                                                    <input type="password" class="form-control"
-                                                                        id="password" placeholder="">
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-                                                        <!-- email e password -->
-                                                        <div class="row">
-                                                            <div class="col-12 col-md-6">
-                                                                <div class="mb-3">
-                                                                    <label for="email2" class="form-label">Email</label>
-                                                                    <div class="input-group mb-3">
-                                                                        <span class="input-group-text"
-                                                                            id="basic-addon2">@</span>
-                                                                        <input type="email" id="email2"
-                                                                            class="form-control" placeholder=""
-                                                                            aria-label="Username"
-                                                                            aria-describedby="basic-addon1">
-                                                                    </div>
-                                                                </div>
-
-
-                                                            </div>
-                                                            <div class="col-12 col-md-6">
-                                                                <div class="mb-3">
-                                                                    <label for="password2"
-                                                                        class="form-label">Password</label>
-                                                                    <input type="password" class="form-control"
-                                                                        id="password2" placeholder="">
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-                                                        <!-- indirizzo -->
-                                                        <div class="row">
-                                                            <div class="col">
-                                                                <div class="mb-3">
-                                                                    <label for="adress"
-                                                                        class="form-label">Indirizzo</label>
-                                                                    <input type="text" class="form-control"
-                                                                        id="adress" placeholder="">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <!-- citta, stato cap -->
-                                                        <div class="row">
-                                                            <div class="col-12 col-md-6">
-                                                                <div class="mb-3">
-                                                                    <label for="city"
-                                                                        class="form-label">Città </label>
-                                                                    <input type="text" class="form-control"
-                                                                        id="city" placeholder="">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-12 col-md-4">
-                                                                <div class="mb-3">
-                                                                    <label for="state" class="form-label">Stato</label>
-                                                                    <select class="form-select" id="state"
-                                                                        aria-label="Default select example">
-                                                                        <option selected>Scegli...</option>
-                                                                        <option value="1">Italia</option>
-                                                                        <option value="2">Svizzera</option>
-                                                                        <option value="3">Montenegro</option>
-                                                                    </select>
-                                                                </div>
-
-                                                            </div>
-                                                            <div class="col-12 col-md-2">
-                                                                <div class="mb-3">
-                                                                    <label for="cap" class="form-label">CAP</label>
-                                                                    <input type="text" class="form-control"
-                                                                        id="cap" placeholder="">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <!-- foto -->
-                                                        <div class="row">
-                                                            <div class="col">
-                                                                <div class="mb-3">
-                                                                    <label for="formFile" class="form-label">Foto</label>
-                                                                    <input class="form-control" type="file"
-                                                                        id="formFile">
-                                                                </div>
-
-                                                            </div>
-                                                        </div>
-
-
-                                                    </div>
-                                                    <!-- checkbox -->
-                                                    <div class="form-check mb-3">
-                                                        <input class="form-check-input" type="checkbox" value="agree"
-                                                            id="flexCheckDefault">
-                                                        <label class="form-check-label" for="flexCheckDefault">
-                                                            Seleziona per proseguire
-                                                        </label>
-                                                    </div>
-                                                    <!-- submit and reset -->
-                                                    <div class="col-12">
-                                                        <button type="submit" class="btn btn-primary">Salva</button>
-                                                        <button type="reset" class="btn btn-warning">Svuota</button>
-
-                                                    </div>
-                                                </form>
 
 
                                             </div>

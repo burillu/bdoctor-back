@@ -107,7 +107,7 @@
                                                 <!-- Sponsorizzazioni -->
                                             </div>
                                             <div class="my-btn p-2">
-                                                <a href="{{-- route('admin.technologies.index') --}}">
+                                                <a href="{{ route('admin.sponsorships.index') }}">
                                                     <i class="fa-solid fa-plug-circle-bolt"></i>
                                                     <span class="px-1 d-none d-md-inline">
                                                         Sponsorizzazioni</span>
@@ -184,12 +184,14 @@
                             <div class="col-8 col-md-12">
                                 <div class="row py-2">
                                     <!-- nuovo sponsorizzazione -->
+
                                     <div class="col-12 col-md-4 col-lg order-md-last">
                                         <span class="">Nuova Sponsorizzazione</span>
 
 
                                         <button class="btn btn-outline-light ms-2" type="button" data-bs-toggle="offcanvas"
-                                            data-bs-target="#offcanvasRight" aria-controls="offcanvasRight">+</button>
+                                            data-bs-target="#offcanvasRight" aria-controls="offcanvasRight"
+                                            @if (str_contains(url()->current(), '/sponsorships')) disabled @endif>+</button>
                                         <!-- offcanvas -->
                                         <div class=" offcanvas my-offcanvas offcanvas-end" tabindex="-1"
                                             id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
@@ -201,7 +203,11 @@
                                             </div>
 
                                             <div class="offcanvas-body">
-                                                @include('admin.payments.form')
+                                                @if (!str_contains(url()->current(), '/sponsorships'))
+                                                    @include('admin.payments.form')
+                                                @endif
+
+
 
                                             </div>
                                         </div>

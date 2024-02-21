@@ -15,13 +15,14 @@ class SponsorshipController extends Controller
      */
     public function index()
     {
+        $sponsorships = Sponsorship::all();
         $gateway = new Gateway(config('services.braintree'));
         // pass $clientToken to your front-end
         //$customerId = Auth::user()->id . Auth::user()->name;
         //dd($customerId);
         $clientToken = $gateway->clientToken()->generate();
  // Ritorna la vista con il token del client
- return view('admin.sponsorships.index', compact('clientToken'));
+ return view('admin.sponsorships.index', compact('clientToken','sponsorships'));
     }
 
     /**

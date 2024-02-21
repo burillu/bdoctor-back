@@ -8,8 +8,9 @@ use Braintree\Gateway;
 
 class PaymentController extends Controller
 {
-    public function show()
+    public function show(Request $request)
     {
+        dd($request);
         // Inizializza la gateway di Braintree
         $gateway = new Gateway([
             'environment' => config('services.braintree.environment'),
@@ -27,6 +28,7 @@ class PaymentController extends Controller
 
     public function process(Request $request)
     {
+        dd($request);
         // Inizializza la gateway di Braintree
         $gateway = new Gateway([
             'environment' => config('services.braintree.environment'),
@@ -35,16 +37,21 @@ class PaymentController extends Controller
             'privateKey' => config('services.braintree.private_key'),
         ]);
 
-        // Ottiene il nonce del metodo di pagamento dal request
+        // Ottiene il nonce del metodo di pagamento dal request e il piano scelto
         $nonce = $request->input('payment_method_nonce');
+        $id_plan = $request->input('plan_id');
 
         // Verifica se il nonce è stato fornito
         if (!$nonce) {
             return redirect()->back()->withInput()->withErrors('Il nonce di pagamento non è stato fornito.');
         }
-
-        $amount = 10.00; // Imposta l'importo dell'importo da addebitare
-
+        $amounts = [
+            1 => 10.00,
+            2 => 20.00,
+            3 => 30.00
+        ];
+        
+        $amount = $amounts[$id_plan] ?? null;
         // Esegui il pagamento utilizzando il nonce ottenuto e l'importo
         $result = $gateway->transaction()->sale([
             'amount' => $amount,

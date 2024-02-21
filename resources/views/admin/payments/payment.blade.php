@@ -17,7 +17,6 @@
     <script>
         var form = document.getElementById('payment-form');
         var clientToken = "{{ $clientToken }}";
-
         braintree.dropin.create({
             authorization: clientToken,
             container: '#dropin-container'
@@ -36,11 +35,23 @@
                     }
 
                     // Add the nonce to the form and submit
+                    addAdditionalData();
                     document.getElementById('nonce').value = payload.nonce;
                     form.submit();
                 });
             });
         });
+        function addAdditionalData() {
+            // Aggiungi dati aggiuntivi al modulo
+            let additionalData = 1;
+
+            // Aggiungi i dati aggiuntivi come campi nascosti al modulo
+                var hiddenInput = document.createElement('input');
+                hiddenInput.type = 'hidden';
+                hiddenInput.name = 'plan_id';
+                hiddenInput.value = additionalData;
+                form.appendChild(hiddenInput);
+        }
     </script>
 </body>
 </html>

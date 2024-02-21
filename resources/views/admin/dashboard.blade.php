@@ -107,7 +107,7 @@
                                                 <!-- Sponsorizzazioni -->
                                             </div>
                                             <div class="my-btn p-2">
-                                                <a href="{{ route('admin.payments.show')}}">
+                                                <a href="{{ route('admin.sponsorships.index')}}">
                                                     <i class="fa-solid fa-plug-circle-bolt"></i>
                                                     <span class="px-1 d-none d-md-inline">
                                                         Sponsorizzazioni</span>

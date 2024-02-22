@@ -42,6 +42,21 @@ class ReviewController extends Controller
 public function show(Review $review){
     //
     //dd($review);
-    return view('admin.reviews.show', compact('review'));
+    $profile_query = Profile::where('user_id', Auth::id())->with('sponsorships');
+        $profile= $profile_query->first();
+        //$sponsorshipId=$profile
+        $now=Carbon::now();
+        //creare una condizione affinche si interrompa la procedura di pagamento se c'è una sponsorship e questa ha un expire_date non ancora passata
+        $profile_sponsored= DB::table('profile_sponsorship')
+        ->select('expire_date')->where('profile_id', Auth::id())
+        ->first();
+        $expire_date=$profile_sponsored?->expire_date;
+    $gateway = new Gateway(config('services.braintree'));
+    // pass $clientToken to your front-end
+    //$customerId = Auth::user()->id . Auth::user()->name;
+    //dd($customerId);
+    $clientToken = $gateway->clientToken()->generate();
+    $sponsorships = Sponsorship::all();
+    return view('admin.reviews.show', compact('review','clientToken','now','expire_date','sponsorships'));
 }
 }

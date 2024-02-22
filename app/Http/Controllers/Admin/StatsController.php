@@ -6,9 +6,6 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Sponsorship;
-use App\Models\User;
-use App\Models\Profile;
-use App\Models\Vote;
 use App\Models\Review;
 use App\Models\Lead;
 use Braintree\Gateway;
@@ -17,39 +14,38 @@ class StatsController extends Controller
 {
     public function index()
     {
-        //per sponsorships
+        // Ottenere sponsorships e il token del client per Braintree
         $sponsorships = Sponsorship::all();
         $gateway = new Gateway(config('services.braintree'));
         $clientToken = $gateway->clientToken()->generate();
 
-        //per accedere ai dati del giusto utente
+        // Ottenere l'utente e il suo profilo
         $user = Auth::user();
         $profile = $user->profile;
 
-        //per definire gli anni dei dati nei grafici
-        $currentYear = date('Y'); 
+        // Ottenere l'anno corrente
+        $currentYear = date('Y');
 
-        $years = [];
-        
-        for ($year = 2022; $year <= $currentYear; $year++) {
-            $years[] = $year;
-        }
+        // Creare un array di anni da 2022 fino all'anno corrente
+        $years = range(2022, $currentYear);
 
-        //PARTE DEI MESSAGGI RICEVUTI NNNOOONNN GRAFICO 
+        // Inizializzare un array per i messaggi ricevuti per mese e anno
+        $leads = [];
+
+        // Query per ottenere il numero di messaggi ricevuti per mese e anno
         $messagesByMonth = Lead::selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, COUNT(*) as message_count')
             ->where('profile_id', $profile->id)
             ->groupByRaw('YEAR(created_at), MONTH(created_at)')
             ->get();
-        $leads = [];
-        
-        //ordina il numero di messaggi in una matrice
+
+        // Riorganizzare i dati nei messaggi per mese e anno
         foreach ($messagesByMonth as $message) {
             $year = $message->year;
             $month = date('F', mktime(0, 0, 0, $message->month, 1));
             $leads[$year][$month] = $message->message_count;
         }
-        
-        // Se il mese non esiste, lo riempie con 0
+
+        // Riempire i mesi mancanti con 0
         foreach ($years as $year) {
             if (!isset($leads[$year])) {
                 $leads[$year] = array_fill_keys(
@@ -59,7 +55,33 @@ class StatsController extends Controller
             }
         }
 
-        
-        return view('admin.stats.index', compact('clientToken','sponsorships','years','leads'));
+        // Inizializzare un array per le recensioni per mese e anno
+        $reviews = [];
+
+        // Query per ottenere il numero di recensioni per mese e anno
+        $reviewsByMonth = Review::selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, COUNT(*) as review_count')
+            ->where('profile_id', $profile->id)
+            ->groupByRaw('YEAR(created_at), MONTH(created_at)')
+            ->get();
+
+        // Riorganizzare i dati nelle recensioni per mese e anno
+        foreach ($reviewsByMonth as $review) {
+            $year = $review->year;
+            $month = date('F', mktime(0, 0, 0, $review->month, 1));
+            $reviews[$year][$month] = $review->review_count;
+        }
+
+        // Riempire i mesi mancanti con 0
+        foreach ($years as $year) {
+            if (!isset($reviews[$year])) {
+                $reviews[$year] = array_fill_keys(
+                    ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                    0
+                );
+            }
+        }
+
+        // Passare i dati alla vista
+        return view('admin.stats.index', compact('clientToken', 'sponsorships', 'years', 'leads', 'reviews'));
     }
 }

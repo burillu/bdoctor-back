@@ -35,11 +35,11 @@
     </div>
 
     <div>
-        <p>Messaggi ricevuti: <span id="totalMessages"></span></p>
+        <p>Messaggi ricevuti: <strong id="totalMessages"></strong></p>
     </div>
 
     <div>
-        <p>Recensioni ricevute: <span id="totalReviews"></span></p>
+        <p>Recensioni ricevute: <strong id="totalReviews"></strong></p>
     </div>
 
     <h5 class="pb-3 me-3">Grafico messaggi per mese</h5>
@@ -83,8 +83,25 @@
             mounthIndex = mounthToIndex(mounth);
             // console.log(mounthIndex);
             let currentLeads = leads[year][mounthIndex];
+            if(currentLeads === undefined) currentLeads = 0;
             totalMessages.innerHTML = currentLeads;
             
+            let reviews = {};
+            yearIndex = 0;
+                @for ($i = 0; $i < count($years); $i++)
+                    yearIndex = {{ 2022 + $i }};
+                    reviews[yearIndex] = [];
+                        @foreach ($reviews[2022 + $i] as $review)
+                            reviews[yearIndex].push({{ $review }});
+                        @endforeach
+                @endfor
+            console.log(reviews);
+
+            mounthIndex = mounthToIndex(mounth);
+            let currentReviews = reviews[year][mounthIndex];
+            if(currentReviews === undefined) currentReviews = 0;
+            totalReviews.innerHTML = currentReviews;
+
 
             // if(year === 'all'){
             //     allYearsSelectedErrorMessage.style.display = 'block';

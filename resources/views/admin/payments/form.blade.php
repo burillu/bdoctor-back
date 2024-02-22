@@ -1,5 +1,12 @@
+
 <!--Acquisto Braintree-->
 <div class="container-fluid">
+    @if (isset($errorMessages))
+        <div class="alert alert-danger">
+            {{$errorMessages}}
+        </div>
+    @endif
+
     <form id="payment-form" action="{{ route('admin.payment.process') }}" method="post">
         @csrf
 

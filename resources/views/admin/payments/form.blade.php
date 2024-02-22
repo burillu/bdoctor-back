@@ -1,5 +1,12 @@
+
 <!--Acquisto Braintree-->
 <div class="container-fluid">
+
+ @if (isset($errorMessages))
+        <div class="alert alert-danger">
+            {{$errorMessages}}
+        </div>
+    @endif
     @if (is_null($expire_date) || !(strtotime($expire_date) > strtotime($now)))
         <form id="payment-form" action="{{ route('admin.payment.process') }}" method="post">
             @csrf
@@ -34,7 +41,13 @@
     const form = document.getElementById('payment-form');
     console.dir(form);
     let clientToken = "{{ $clientToken }}";
-
+    const opzioni = document.querySelectorAll('input[name="plan_id"]');
+    let opzioneSelezionata = null;
+    opzioni.forEach(function(opzione) {
+        opzione.addEventListener('change', function() {
+            opzioneSelezionata = document.querySelector('input[name="plan_id"]:checked').value;
+        });
+    });
     braintree.dropin.create({
         authorization: clientToken,
         container: '#dropin-container'
@@ -45,17 +58,43 @@
         }
         form.addEventListener('submit', function(event) {
             event.preventDefault();
-
-            instance.requestPaymentMethod(function(err, payload) {
+            const input = document.getElementById('submit-pay');
+            const errorMsgId = input.id + '-msg';
+            const parentDiv = input.parentElement;
+            const errorDiv = document.getElementById(errorMsgId);
+            if(opzioneSelezionata){
+                if (errorDiv) {
+                    errorDiv.remove();
+                }
+                instance.requestPaymentMethod(function(err, payload) {
                 if (err) {
-                    console.log('Request Payment Method Error', err);
+                    const newDiv = createErrorDiv(errorMsgId, `Errore nel pagamento: ${err}`);
+                    parentDiv.appendChild(newDiv);
+                    if (errorDiv) {
+                        errorDiv.remove();
+                    }
                     return;
                 }
-
                 // Add the nonce to the form and submit
                 document.getElementById('nonce').value = payload.nonce;
                 form.submit();
             });
+            }else{
+                const newDiv = createErrorDiv(errorMsgId, 'Scegliere un piano di sponsorizzazione');
+                parentDiv.appendChild(newDiv);
+                if (errorDiv) {
+                    errorDiv.remove();
+                }
+                
+            }
         });
     });
+
+    function createErrorDiv(id, message) {
+        const newDiv = document.createElement('div');
+        newDiv.classList.add('text-red');
+        newDiv.textContent = message;
+        newDiv.setAttribute('id', id);
+        return newDiv;
+    }
 </script>

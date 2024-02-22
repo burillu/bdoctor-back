@@ -42,22 +42,22 @@
         <p>Recensioni ricevute: <strong id="totalReviews"></strong></p>
     </div>
 
-    <h5 class="pb-3 me-3">Grafico messaggi per mese</h5>
+    <h5 class="mt-3 me-3">Grafico messaggi per mese</h5>
 
-    <h7 id="allYearsSelectedErrorMessage" class="text-danger">attenzione il grafico non è visualizzabile per tutti gli anni</h7>
+     <h7 {{--id="allYearsSelectedErrorMessage" --}} class="text-danger">attenzione il grafico è visualizzato in base all'anno</h7>
     <div>
-        <canvas id="ChartLeads"></canvas>
+        <canvas id="ChartVotes"></canvas>
     </div>
 
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
-        //dichiaro le variabili per il grafico dei leads
-        let chartLeads = document.getElementById('ChartLeads');
+        //dichiaro le variabili per il grafico dei votes
+        let chartVotes = document.getElementById('ChartVotes');
         let myChart = null;
-        const allYearsSelectedErrorMessage = document.getElementById('allYearsSelectedErrorMessage');
-        allYearsSelectedErrorMessage.style.display = 'none';
+        // const allYearsSelectedErrorMessage = document.getElementById('allYearsSelectedErrorMessage');
+        // allYearsSelectedErrorMessage.style.display = 'none';
 
         const year = document.getElementById('year');
         const mounth = document.getElementById('mounth');
@@ -66,6 +66,10 @@
 
         ChangeData(year.value,mounth.value);
 
+        //TO-DO LIST
+        // 1) CORREGGERE QUERY DEI VOTI (INDIPENDENTEMENTE DALLA DATA, RIEMPIE SOLO FEBBRAIO 2024)
+        // 2) AGGIUNGERE COMMENTI E DOCUMENTAZIONE
+        // 3) ? CREARE FUNZIONE PER NON RIPETERE OGNI VOLTA L'INIZIALIZZAZIONE DI LEADS, VOTES, REVIES ESSENDO QUASI IDENTICI   
         function ChangeData(year, mounth) {
             console.log(year);
             console.log(mounth);
@@ -102,6 +106,22 @@
             if(currentReviews === undefined) currentReviews = 0;
             totalReviews.innerHTML = currentReviews;
 
+            let votes = {};
+            yearIndex = 0;
+                @for ($i = 0; $i < count($years); $i++)
+                    yearIndex = {{ 2022 + $i }};
+                    votes[yearIndex] = [];
+                        @foreach ($votes[2022 + $i] as $vote)
+                            votes[yearIndex].push({{ $vote }});
+                        @endforeach
+                @endfor
+            console.log(votes);
+
+            mounthIndex = mounthToIndex(mounth);
+            let currentVotes = votes[year][mounthIndex];
+            if(currentVotes === undefined) currentVotes = 0;
+            makeChartVote(year, votes);
+
 
             // if(year === 'all'){
             //     allYearsSelectedErrorMessage.style.display = 'block';
@@ -111,6 +131,47 @@
             // }
             
         }
+
+        /**@argument yearSelected è l'anno selezionato 
+         *  crea il grafico dei votes in base all'anno selezionato 
+        */
+        function makeChartVote(yearSelected, votes){
+            console.log(yearSelected);
+            if (myChart !== null) {
+                myChart.destroy();
+            }
+            if (yearSelected === 'all') {
+                yearSelected = {{ date('Y') }};
+                // allYearsSelectedErrorMessage.style.display = 'block';
+            }else{
+                // allYearsSelectedErrorMessage.style.display = 'none';
+            }
+            myChart = new Chart(chartVotes, {
+            type: 'bar',
+            data: {
+                labels: ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'],
+                datasets: [{
+                    label: 'messaggi per mese',
+                    data: votes[yearSelected],
+                    borderWidth: 1,
+                    hoverBorderWidth: 2,
+                }]
+                // datasets: Object.keys(leads).map(year => ({
+                //     label: `messaggi per mese ${year}`,
+                //     data: leads[year],
+                //     borderWidth: 1,
+                //     hoverBorderWidth: 2,
+                // }))
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
 
         function mounthToIndex(mounth){
             switch(mounth){

@@ -38,7 +38,8 @@
         </form>
     @else
         <div class="alert alert-danger">
-            Hai già acquistato la tua sponsorizzazione, Attendi il termine del periodo promozionale
+            Hai già acquistato la tua sponsorizzazione. Attendi il termine del periodo promozionale
+            ({{ date('d/m/y \o\r\e H:i', strtotime($expire_date)) }})
         </div>
 
     @endif

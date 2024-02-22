@@ -67,7 +67,7 @@
                         <div class=" h-100 row">
                             <div class="col-sm-12">
                                 <div
-                                    class=" d-flex h-100 flex-row flex-md-column justify-content-between justify-content-md-start align-items-center align-items-md-baseline">
+                                    class=" d-flex h-100 flex-row flex-sm-column justify-content-between justify-content-sm-start align-items-center align-items-sm-baseline">
                                     <!-- image -->
                                     <div class="my-2 my-logo-query rounded-md-5 overflow-hidden">
 
@@ -188,10 +188,10 @@
                         <!-- top-main -->
                         <div class="row my-bg-blue text-white" id="top-main">
                             <div class="col-8 col-md-12">
-                                <div class="row py-2">
-                                    <!-- nuovo sponsorizzazione -->
+                                <div class="row justify-content-between py-2">
+                                    <!-- nuova sponsorizzazione -->
 
-                                    <div class="col-12 col-md-4 col-lg order-md-last">
+                                    <div class="col-auto order-md-last">
                                         <span class="">Nuova Sponsorizzazione</span>
 
 
@@ -222,7 +222,8 @@
                                     <div class="col-12 col-md-4 col-lg-6">
                                         <div class="mb-1"><span class="fs-4 fw-bold">BDoctors</span>
                                             @if (is_null($expire_date) || strtotime($expire_date) > strtotime($now))
-                                                <span class="badge rounded-pill bg-sponsored">Sponsor</span>
+                                                <span class="badge rounded-pill bg-sponsored">Sponsor fino al
+                                                    {{ date('d/m/y \o\r\e H:i', strtotime($expire_date)) }}</span>
                                             @endif
                                         </div>
                                         <nav class="text-white" style="--bs-breadcrumb-divider: '>>';"
@@ -250,10 +251,10 @@
                                             </ol>
                                         </nav>
                                     </div>
-                                    <div class="col-12 col-md-4 col-lg-3">
+                                    {{-- <div class="col-12 col-md-4 col-lg-3">
                                         <span>Messaggi ricevuti:</span>
-                                        <div class="fs-3 fw-bold">125</div>
-                                    </div>
+                                        <div class="fs-3 fw-bold"></div>
+                                    </div> --}}
 
                                 </div>
 

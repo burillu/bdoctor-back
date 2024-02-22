@@ -23,13 +23,13 @@ class DashboardController extends Controller
         $profile_sponsored= DB::table('profile_sponsorship')
         ->select('expire_date')->where('profile_id', Auth::id())
         ->first();
-        $expire_date=$profile_sponsored->expire_date;
+        $expire_date=$profile_sponsored?->expire_date;
         $gateway = new Gateway(config('services.braintree'));
         // pass $clientToken to your front-end
         //$customerId = Auth::user()->id . Auth::user()->name;
         //dd($customerId);
         $sponsorships = Sponsorship::all();
         $clientToken = $gateway->clientToken()->generate();
-        return view('admin.dashboard', compact('clientToken', 'sponsorships','now','expire_date'));
+        return view('admin.home.index', compact('clientToken', 'sponsorships','now','expire_date'));
     }
 }

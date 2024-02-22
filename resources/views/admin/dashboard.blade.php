@@ -61,24 +61,27 @@
         <main class="container-fluid p-0">
             <div class="row g-0">
                 <!-- sidebar -->
-                <div class="col-12 col-md-3 my-sidebar  @if (is_null($expire_date) || strtotime($expire_date) > strtotime($now)) bg-sponsored @endif my-sidebar-lg  text-white"
+                <div class="col-12 col-md-3 my-sidebar  @if (strtotime($expire_date) > strtotime($now)) bg-sponsored @endif my-sidebar-lg  text-white"
                     id="sidebar">
                     <div class=" h-100 container-fluid">
                         <div class=" h-100 row">
                             <div class="col-sm-12">
-                                <div class=" d-flex h-100 flex-column justify-content-between">
-                                    <div class="sidebar-top">
-                                        <!-- image -->
-                                        <div class="my-2 my-logo-query rounded-md-5 overflow-hidden">
+                                <div
+                                    class=" d-flex h-100 flex-row flex-sm-column justify-content-between justify-content-sm-start align-items-center align-items-sm-baseline">
+                                    <!-- image -->
+                                    <div class="my-2 my-logo-query rounded-md-5 overflow-hidden">
 
-                                            <img src="{{ asset('storage' . '\/images/OIG2.kc86IYLpVtKY.jpg') }}"
-                                                class="@if (is_null($expire_date) || strtotime($expire_date) > strtotime($now)) img-sponsored @endif "
-                                                alt="logo-bdoctors">
-                                        </div>
+                                        <img src="{{ asset('storage' . '\/images/OIG2.kc86IYLpVtKY.jpg') }}"
+                                            class="@if (strtotime($expire_date) > strtotime($now)) img-sponsored @endif "
+                                            alt="logo-bdoctors">
+                                    </div>
+                                    <!--top-->
+                                    <div class="sidebar-top">
+
                                         <div class="d-flex d-sm-block">
                                             <!-- home -->
                                             <div class=" my-btn p-2">
-                                                <a href="{{-- route('admin.dashboard') --}}">
+                                                <a href="{{ route('admin.dashboard') }}">
                                                     <i class="fa-solid fa-house"></i> <span class="px-1 d-none d-md-inline">
                                                         Home</span></a>
                                             </div>
@@ -124,52 +127,53 @@
                                                 </a>
 
                                             </div>
-                                            <div class="sidebar-bottom">
 
-                                                <ul class="navbar-nav ml-auto">
-                                                    <!-- Authentication Links -->
-                                                    @guest
-                                                        <li class="nav-item">
-                                                            <a class="nav-link"
-                                                                href="{{ route('login') }}">{{ __('Login') }}</a>
-                                                        </li>
-                                                        @if (Route::has('register'))
-                                                            <li class="nav-item">
-                                                                <a class="nav-link"
-                                                                    href="{{ route('register') }}">{{ __('Register') }}</a>
-                                                            </li>
-                                                        @endif
-                                                    @else
-                                                        <li class="nav-item dropdown my-btn p-2">
-                                                            <a id="navbarDropdown" class="nav-link dropdown-toggle"
-                                                                href="#" role="button" data-bs-toggle="dropdown"
-                                                                aria-haspopup="true" aria-expanded="false" v-pre>
-                                                                <i class="fa-solid fa-gear"></i> <span
-                                                                    class="d-none d-md-inline">{{ Auth::user()->name }}</span>
-                                                            </a>
-
-                                                            <div class="dropdown-menu dropdown-menu-right"
-                                                                aria-labelledby="navbarDropdown">
-                                                                <a class="dropdown-item"
-                                                                    href="{{ url('admin') }}">{{ __('Dashboard') }}</a>
-                                                                <a class="dropdown-item" href="{{ route('logout') }}"
-                                                                    onclick="event.preventDefault();
-                                                                                     document.getElementById('logout-form').submit();">
-                                                                    {{ __('Logout') }}
-                                                                </a>
-
-                                                                <form id="logout-form" action="{{ route('logout') }}"
-                                                                    method="POST" class="d-none">
-                                                                    @csrf
-                                                                </form>
-                                                            </div>
-                                                        </li>
-                                                    @endguest
-                                                </ul>
-                                            </div>
                                         </div>
-                                    </div>
 
+                                    </div>
+                                    <!--bottom-->
+                                    <div class="sidebar-bottom mt-sm-auto">
+
+                                        <ul class="navbar-nav ml-auto">
+                                            <!-- Authentication Links -->
+                                            @guest
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                                </li>
+                                                @if (Route::has('register'))
+                                                    <li class="nav-item">
+                                                        <a class="nav-link"
+                                                            href="{{ route('register') }}">{{ __('Register') }}</a>
+                                                    </li>
+                                                @endif
+                                            @else
+                                                <li class="nav-item dropdown my-btn p-2">
+                                                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#"
+                                                        role="button" data-bs-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false" v-pre>
+                                                        <i class="fa-solid fa-gear"></i> <span
+                                                            class="d-none d-md-inline">{{ Auth::user()->name }}</span>
+                                                    </a>
+
+                                                    <div class="dropdown-menu dropdown-menu-right"
+                                                        aria-labelledby="navbarDropdown">
+                                                        <a class="dropdown-item"
+                                                            href="{{ url('admin') }}">{{ __('Dashboard') }}</a>
+                                                        <a class="dropdown-item" href="{{ route('logout') }}"
+                                                            onclick="event.preventDefault();
+                                                                                 document.getElementById('logout-form').submit();">
+                                                            {{ __('Logout') }}
+                                                        </a>
+
+                                                        <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                                            class="d-none">
+                                                            @csrf
+                                                        </form>
+                                                    </div>
+                                                </li>
+                                            @endguest
+                                        </ul>
+                                    </div>
 
 
                                 </div>
@@ -184,10 +188,10 @@
                         <!-- top-main -->
                         <div class="row my-bg-blue text-white" id="top-main">
                             <div class="col-8 col-md-12">
-                                <div class="row py-2">
-                                    <!-- nuovo sponsorizzazione -->
+                                <div class="row justify-content-between py-2">
+                                    <!-- nuova sponsorizzazione -->
 
-                                    <div class="col-12 col-md-4 col-lg order-md-last">
+                                    <div class="col-auto order-md-last">
                                         <span class="">Nuova Sponsorizzazione</span>
 
 
@@ -217,8 +221,9 @@
                                     <!-- left side -->
                                     <div class="col-12 col-md-4 col-lg-6">
                                         <div class="mb-1"><span class="fs-4 fw-bold">BDoctors</span>
-                                            @if (is_null($expire_date) || strtotime($expire_date) > strtotime($now))
-                                                <span class="badge rounded-pill bg-sponsored">Sponsor</span>
+                                            @if (strtotime($expire_date) > strtotime($now))
+                                                <span class="badge rounded-pill bg-sponsored">Sponsor fino al
+                                                    {{ date('d/m/y \o\r\e H:i', strtotime($expire_date)) }}</span>
                                             @endif
                                         </div>
                                         <nav class="text-white" style="--bs-breadcrumb-divider: '>>';"
@@ -246,10 +251,10 @@
                                             </ol>
                                         </nav>
                                     </div>
-                                    <div class="col-12 col-md-4 col-lg-3">
+                                    {{-- <div class="col-12 col-md-4 col-lg-3">
                                         <span>Messaggi ricevuti:</span>
-                                        <div class="fs-3 fw-bold">125</div>
-                                    </div>
+                                        <div class="fs-3 fw-bold"></div>
+                                    </div> --}}
 
                                 </div>
 

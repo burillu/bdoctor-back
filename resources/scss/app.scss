@@ -14,7 +14,7 @@ img {
 }
 
 .logo-bdoctors {
-    width: 100px;
+    width: 110px;
 }
 
 .my-bg-contrast {
@@ -103,7 +103,17 @@ img.my-img-avatar {
     background-color: #ffffff91;
 }
 
+.btn:hover {
+    background-color: $contrast-color;
+    border-color: $green-color;
+    color: white;
+}
+
 /* my-backgrounds */
+.my-bg-primary,
+.btn-primary {
+    background-color: $honolulu-blue;
+}
 
 .my-bg-dark-blue {
     background-color: $my-dark-blue;

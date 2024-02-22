@@ -1,34 +1,45 @@
-
 <!--Acquisto Braintree-->
 <div class="container-fluid">
 
- @if (isset($errorMessages))
+    @if (isset($errorMessages))
         <div class="alert alert-danger">
-            {{$errorMessages}}
+            {{ $errorMessages }}
         </div>
     @endif
     @if (is_null($expire_date) || !(strtotime($expire_date) > strtotime($now)))
         <form id="payment-form" action="{{ route('admin.payment.process') }}" method="post">
             @csrf
+            <div class="container-fluid">
+                <div class="row">
+                    @foreach ($sponsorships as $sponsorship)
+                        <div class="col-12 col-md-6 col-lg-4">
+                            <div class="card mb-3">
+                                <h6 class="my-3">{{ $sponsorship->name }} </h6>
+                                <p> Questa sponsorizzazione ti consente di avere la priorità nella ricerca dei medici
+                                    per la
+                                    durata
+                                    di
+                                    {{ substr($sponsorship->duration, 0, -6) }} ore, e ha un prezzo di
+                                    {{ $sponsorship->price }}
+                                    &euro;
+                                </p>
+                                <div class="align-self-center"><input class="form-check-input " type="radio"
+                                        name="plan_id" value="{{ $sponsorship->id }}"></div>
 
-            @foreach ($sponsorships as $sponsorship)
-                <div class="card mb-3">
-                    <h6 class="mb-3">{{ $sponsorship->name }} </h6>
-                    <p> Questa sponsorizzazione ti consente di avere la priorità nella ricerca dei medici per la durata
-                        di
-                        {{ substr($sponsorship->duration, 0, -6) }} ore, e ha un prezzo di {{ $sponsorship->price }}
-                        &euro;
-                    </p>
-                    <input type="radio" name="plan_id" value="{{ $sponsorship->id }}">
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
-            @endforeach
+            </div>
+
             <div id="dropin-container"></div>
             <input type="hidden" id="nonce" name="payment_method_nonce">
-            <button type="submit">Pay</button>
+            <button class="btn" id='submit-pay' type="submit">Pay</button>
         </form>
     @else
         <div class="alert alert-danger">
-            Hai già acquistato la tua sponsorizzazione, Attendi il termine del periodo promozionale
+            Hai già acquistato la tua sponsorizzazione. Attendi il termine del periodo promozionale
+            ({{ date('d/m/y \o\r\e H:i', strtotime($expire_date)) }})
         </div>
 
     @endif
@@ -62,30 +73,31 @@
             const errorMsgId = input.id + '-msg';
             const parentDiv = input.parentElement;
             const errorDiv = document.getElementById(errorMsgId);
-            if(opzioneSelezionata){
+            if (opzioneSelezionata) {
                 if (errorDiv) {
                     errorDiv.remove();
                 }
                 instance.requestPaymentMethod(function(err, payload) {
-                if (err) {
-                    const newDiv = createErrorDiv(errorMsgId, `Errore nel pagamento: ${err}`);
-                    parentDiv.appendChild(newDiv);
-                    if (errorDiv) {
-                        errorDiv.remove();
+                    if (err) {
+                        const newDiv = createErrorDiv(errorMsgId,
+                            `Errore nel pagamento: ${err}`);
+                        parentDiv.appendChild(newDiv);
+                        if (errorDiv) {
+                            errorDiv.remove();
+                        }
+                        return;
                     }
-                    return;
-                }
-                // Add the nonce to the form and submit
-                document.getElementById('nonce').value = payload.nonce;
-                form.submit();
-            });
-            }else{
+                    // Add the nonce to the form and submit
+                    document.getElementById('nonce').value = payload.nonce;
+                    form.submit();
+                });
+            } else {
                 const newDiv = createErrorDiv(errorMsgId, 'Scegliere un piano di sponsorizzazione');
                 parentDiv.appendChild(newDiv);
                 if (errorDiv) {
                     errorDiv.remove();
                 }
-                
+
             }
         });
     });

@@ -3,8 +3,14 @@
     @include('partials.header')
 @endsection
 @section('content')
-    <section class="container">
-        <h1>Accedi o Registrati</h1>
+    <main class="my-bg-primary vh-100">
+        <section class="container">
+            @if (Route::has('register'))
+            @else
+                <h1>Accedi o Registrati</h1>
+            @endif
 
-    </section>
+
+        </section>
+    </main>
 @endsection

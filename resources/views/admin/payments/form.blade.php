@@ -1,6 +1,6 @@
 <!--Acquisto Braintree-->
 <div class="container-fluid">
-    @if (!$expire_date > $now)
+    @if (is_null($expire_date) || !$expire_date > $now)
         <form id="payment-form" action="{{ route('admin.payment.process') }}" method="post">
             @csrf
 

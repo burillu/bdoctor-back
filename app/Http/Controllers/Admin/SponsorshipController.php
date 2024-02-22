@@ -27,7 +27,8 @@ class SponsorshipController extends Controller
         $profile_sponsored= DB::table('profile_sponsorship')
         ->select('expire_date')->where('profile_id', Auth::id())
         ->first();
-        $expire_date=$profile_sponsored->expire_date;
+        $expire_date=$profile_sponsored?->expire_date;
+        //dd($expire_date);
         $sponsorships = Sponsorship::all();
         $gateway = new Gateway(config('services.braintree'));
         // pass $clientToken to your front-end

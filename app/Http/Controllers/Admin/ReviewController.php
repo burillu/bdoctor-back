@@ -23,7 +23,7 @@ class ReviewController extends Controller
         $profile_sponsored= DB::table('profile_sponsorship')
         ->select('expire_date')->where('profile_id', Auth::id())
         ->first();
-        $expire_date=$profile_sponsored->expire_date;
+        $expire_date=$profile_sponsored?->expire_date;
        
     $user = Auth::user();
     $data = $user->profile;

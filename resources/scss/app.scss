@@ -77,6 +77,14 @@ main>div {
     border-radius: 10px;
 }
 
+//Sponsored
+.img-sponsored {
+    filter: invert(100%);
+}
+
+.bg-sponsored {
+    background-color: rgb(177, 152, 10);
+}
 
 
 .my-offcanvas.offcanvas {

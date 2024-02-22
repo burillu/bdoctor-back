@@ -20,6 +20,7 @@ class ProfileController extends Controller
     $minVoteAverage = $request->query('min_vote_average');
     $minVoteNumber = $request->query('min_vote_number');
     $orderByVotes = $request->query('order_by_votes');
+    $orderBySponsorshipDuration = $request->query('order_by_sponsorship_duration');
 
     // controlli degli input
     if ($specialtyId && !Specialty::where('id', $specialtyId)->exists()) {
@@ -59,6 +60,11 @@ class ProfileController extends Controller
 
     if ($orderByVotes) {
         $doctorsQuery->withCount('votes')->orderByDesc('votes_count');
+    }
+    if ($orderBySponsorshipDuration) {
+        $doctorsQuery->leftJoin('sponsorships', 'profiles.id', '=', 'sponsorships.profile_id')
+                    ->orderByRaw('CASE WHEN sponsorships.profile_id IS NOT NULL THEN 0 ELSE 1 END')
+                     ->orderBy('sponsorships.duration', 'DESC');
     }
     //modifiche alla query in base ai parametri nella request
     if (!empty($name)) {

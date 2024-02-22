@@ -24,7 +24,7 @@ class PaymentController extends Controller
         ->select('expire_date')->where('profile_id', Auth::id())
         ->first();
         //dd($profile_sponsored->expire_date);
-        if($profile_sponsored->expire_date > Carbon::new()){
+        if($profile_sponsored->expire_date > Carbon::now()){
             return redirect()->back()->withInput()->withErrors('Hai una sponsorizzazione già attiva. Al termine del periodo, potrai acquistarne un\' altra.');
         }
         // Inizializza la gateway di Braintree

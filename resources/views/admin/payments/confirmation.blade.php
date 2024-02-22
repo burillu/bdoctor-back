@@ -1,6 +1,6 @@
-@isset($success_message)
+@isset($message)
     <div class="alert alert-success">
 
-        {{ $success_message }}
+        {{ $message }}
     </div>
 @endisset

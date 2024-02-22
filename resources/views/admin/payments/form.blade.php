@@ -7,7 +7,7 @@
             <div class="card mb-3">
                 <h6 class="mb-3">{{ $sponsorship->name }} </h6>
                 <p> Questa sponsorizzazione ti consente di avere la priorità nella ricerca dei medici per la durata di
-                    {{ substr($sponsorship->duration, 0, 2) }} ore, e ha un prezzo di {{ $sponsorship->price }} &euro;
+                    {{ substr($sponsorship->duration, 0, -6) }} ore, e ha un prezzo di {{ $sponsorship->price }} &euro;
                 </p>
                 <input type="radio" name="plan_id" value="{{ $sponsorship->id }}">
             </div>

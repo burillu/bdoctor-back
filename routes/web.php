@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\LeadController;
 use App\Http\Controllers\Admin\ReviewController;
 use App\Http\Controllers\Admin\PaymentController;
 use App\Http\Controllers\Admin\SponsorshipController;
+use App\Http\Controllers\Admin\StatsController;
 
 use Illuminate\Support\Facades\Route;
 
@@ -33,6 +34,7 @@ Route::middleware(['auth', 'verified'])->name('admin.')->prefix('admin')->group(
     Route::resource('reviews', ReviewController::class)->except('create','edit','store');
     Route::resource('profile', ProfileController::class)->except('create','edit','store','index');
     Route::post('/payment/process', [PaymentController::class, 'process'])->name('payment.process');
+    Route::get('stats/', [StatsController::class, 'index'])->name('stats.index');
 });
 
 

@@ -115,7 +115,7 @@
                                                 <!-- Statistiche -->
                                             </div>
                                             <div class="my-btn p-2">
-                                                <a href="{{-- route('admin.technologies.index') --}}">
+                                                <a href="{{route('admin.stats.index')}}">
                                                     <i class="fa-solid fa-chart-line"></i>
                                                     <span class="px-1 d-none d-md-inline">
                                                         Statistiche</span>

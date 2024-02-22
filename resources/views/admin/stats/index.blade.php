@@ -2,41 +2,53 @@
 @section('dashboard_content')
 
     <h1>Statistiche</h1>
-    <h3 class="pb-3 me-3">Messaggi per mese</h3>
-    <select name="yearLeads" id="yearLeads" class="form-select w-25">
-        @foreach ($years as $year)
-            <option value="{{ $year }}" @if ($year == date('Y')) selected @endif>{{ $year }}</option>
-        @endforeach
-    </select>
+
+    <div>
+        <h3>Range di Tempo</h3>
+        <select name="year" id="year" class="form-select w-25">
+            @foreach ($years as $year)
+                <option value="{{ $year }}" @if ($year == date('Y')) selected @endif>{{ $year }}</option>
+            @endforeach
+        </select>
+    </div>
+
+    <h3 class="pb-3 me-3">Grafico messaggi per mese</h3>
     <button class="btn btn-primary w-25" onclick="makeChartLeads(yearLeads.value)">cambia</button>
     <div>
         <canvas id="ChartLeads"></canvas>
     </div>
 
+    
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
+        //dichiaro le variabili per il grafico dei leads
         let chartLeads = document.getElementById('ChartLeads');
-        let yearLeads = document.getElementById('yearLeads');
         let myChart = null;
 
-        let year
+        //salvo l'anno inserito per i leads
+        let yearLeads = document.getElementById('year');
+        let yearIndex;
         let leads = {};
 
+        //riempio l'array js con i dati dell'array php
         @for ($i = 0; $i < count($years); $i++)
-            year = {{ 2022 + $i }};
-            leads[year] = [];
+            yearIndex = {{ 2022 + $i }};
+            leads[yearIndex] = [];
             @foreach ($leads[2022 + $i] as $lead)
-                leads[year].push({{ $lead }});
+                leads[yearIndex].push({{ $lead }});
             @endforeach
         @endfor
 
         console.log(leads);
-
-        makeChartLeads(yearLeads.value);
+        //creo il grafico di default
+        makeChartLeads(year.value);
         
-        function makeChartLeads(year){
-            console.log(yearLeads.value);
+        /**@argument yearSelected è l'anno selezionato 
+         *  crea il grafico dei leads in base all'anno selezionato 
+        */
+        function makeChartLeads(yearSelected){
+            // console.log(year.value);
             if (myChart !== null) {
                 myChart.destroy();
             }
@@ -46,7 +58,7 @@
                 labels: ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'],
                 datasets: [{
                     label: 'messaggi per mese',
-                    data: leads[yearLeads.value],
+                    data: leads[year.value],
                     borderWidth: 1,
                     hoverBorderWidth: 2,
                 }]

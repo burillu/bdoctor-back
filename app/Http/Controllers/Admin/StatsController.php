@@ -35,6 +35,7 @@ class StatsController extends Controller
             $years[] = $year;
         }
         
+        // PARTE DEI LEADS GRAFICO
         $messagesByMonth = Lead::selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, COUNT(*) as message_count')
             ->where('profile_id', $profile->id)
             ->groupByRaw('YEAR(created_at), MONTH(created_at)')
@@ -42,12 +43,14 @@ class StatsController extends Controller
         
         $leads = [];
         
+        //ordina il numero di messaggi in una matrice
         foreach ($messagesByMonth as $message) {
             $year = $message->year;
             $month = date('F', mktime(0, 0, 0, $message->month, 1));
             $leads[$year][$month] = $message->message_count;
         }
         
+        // Se il mese non esiste, lo riempie con 0
         foreach ($years as $year) {
             if (!isset($leads[$year])) {
                 $leads[$year] = array_fill_keys(
@@ -67,6 +70,8 @@ class StatsController extends Controller
 
         // dd($leads);
 
+        //PARTE DELLE RECENSIONI
+        
         return view('admin.stats.index', compact('clientToken','sponsorships','years','leads'));
     }
 }

@@ -6,7 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreSponsorshipRequest;
 use App\Http\Requests\UpdateSponsorshipRequest;
 use App\Models\Sponsorship;
+use Illuminate\Support\Facades\Auth;
 use Braintree\Gateway;
+use App\Models\Profile;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class SponsorshipController extends Controller
 {
@@ -15,6 +19,15 @@ class SponsorshipController extends Controller
      */
     public function index()
     {
+        $profile_query = Profile::where('user_id', Auth::id())->with('sponsorships');
+        $profile= $profile_query->first();
+        //$sponsorshipId=$profile
+        $now=Carbon::now();
+        //creare una condizione affinche si interrompa la procedura di pagamento se c'è una sponsorship e questa ha un expire_date non ancora passata
+        $profile_sponsored= DB::table('profile_sponsorship')
+        ->select('expire_date')->where('profile_id', Auth::id())
+        ->first();
+        $expire_date=$profile_sponsored->expire_date;
         $sponsorships = Sponsorship::all();
         $gateway = new Gateway(config('services.braintree'));
         // pass $clientToken to your front-end
@@ -22,7 +35,7 @@ class SponsorshipController extends Controller
         //dd($customerId);
         $clientToken = $gateway->clientToken()->generate();
  // Ritorna la vista con il token del client
- return view('admin.sponsorships.index', compact('clientToken','sponsorships'));
+ return view('admin.sponsorships.index', compact('clientToken','sponsorships','expire_date','now'));
     }
 
     /**

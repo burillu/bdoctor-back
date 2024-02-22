@@ -15,6 +15,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Profile;
 use App\Models\Specialty;
 use Braintree\Gateway;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 
 class ProfileController extends Controller
@@ -37,6 +39,14 @@ class ProfileController extends Controller
      */
     public function edit(): View
     {
+        $profile_query = Profile::where('user_id', Auth::id())->with('sponsorships');
+        $profile= $profile_query->first();
+        //$sponsorshipId=$profile
+        //creare una condizione affinche si interrompa la procedura di pagamento se c'è una sponsorship e questa ha un expire_date non ancora passata
+        $profile_sponsored= DB::table('profile_sponsorship')
+        ->select('expire_date')->where('profile_id', Auth::id())
+        ->first();
+        $expire_date=$profile_sponsored->expire_date;
         $gateway = new Gateway(config('services.braintree'));
         //dd($gateway);
         // pass $clientToken to your front-end
@@ -55,7 +65,9 @@ class ProfileController extends Controller
             'data' => $data,
             'specialties' => $specialties,
             'clientToken' => $clientToken,
-            'sponsorships'=> $sponsorships
+            'sponsorships'=> $sponsorships,
+            'expire_date'=>$expire_date,
+            'now'=>Carbon::now()
         ]);
     }
 

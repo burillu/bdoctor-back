@@ -1,21 +1,31 @@
 <!--Acquisto Braintree-->
 <div class="container-fluid">
-    <form id="payment-form" action="{{ route('admin.payment.process') }}" method="post">
-        @csrf
+    @if (!$expire_date > $now)
+        <form id="payment-form" action="{{ route('admin.payment.process') }}" method="post">
+            @csrf
 
-        @foreach ($sponsorships as $sponsorship)
-            <div class="card mb-3">
-                <h6 class="mb-3">{{ $sponsorship->name }} </h6>
-                <p> Questa sponsorizzazione ti consente di avere la priorità nella ricerca dei medici per la durata di
-                    {{ substr($sponsorship->duration, 0, -6) }} ore, e ha un prezzo di {{ $sponsorship->price }} &euro;
-                </p>
-                <input type="radio" name="plan_id" value="{{ $sponsorship->id }}">
-            </div>
-        @endforeach
-        <div id="dropin-container"></div>
-        <input type="hidden" id="nonce" name="payment_method_nonce">
-        <button type="submit">Pay</button>
-    </form>
+            @foreach ($sponsorships as $sponsorship)
+                <div class="card mb-3">
+                    <h6 class="mb-3">{{ $sponsorship->name }} </h6>
+                    <p> Questa sponsorizzazione ti consente di avere la priorità nella ricerca dei medici per la durata
+                        di
+                        {{ substr($sponsorship->duration, 0, -6) }} ore, e ha un prezzo di {{ $sponsorship->price }}
+                        &euro;
+                    </p>
+                    <input type="radio" name="plan_id" value="{{ $sponsorship->id }}">
+                </div>
+            @endforeach
+            <div id="dropin-container"></div>
+            <input type="hidden" id="nonce" name="payment_method_nonce">
+            <button type="submit">Pay</button>
+        </form>
+    @else
+        <div class="alert alert-danger">
+            Hai già acquistato la tua sponsorizzazione, Attendi il termine del periodo promozionale
+        </div>
+
+    @endif
+
 </div>
 
 <script src="https://js.braintreegateway.com/web/dropin/1.41.0/js/dropin.min.js"></script>

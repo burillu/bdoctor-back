@@ -81,7 +81,7 @@
                                         <div class="d-flex d-sm-block">
                                             <!-- home -->
                                             <div class=" my-btn p-2">
-                                                <a href="{{-- route('admin.dashboard') --}}">
+                                                <a href="{{ route('admin.dashboard') }}">
                                                     <i class="fa-solid fa-house"></i> <span class="px-1 d-none d-md-inline">
                                                         Home</span></a>
                                             </div>

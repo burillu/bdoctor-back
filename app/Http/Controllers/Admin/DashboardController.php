@@ -30,6 +30,6 @@ class DashboardController extends Controller
         //dd($customerId);
         $sponsorships = Sponsorship::all();
         $clientToken = $gateway->clientToken()->generate();
-        return view('admin.dashboard', compact('clientToken', 'sponsorships','now','expire_date'));
+        return view('admin.home.index', compact('clientToken', 'sponsorships','now','expire_date'));
     }
 }

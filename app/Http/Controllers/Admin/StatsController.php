@@ -34,13 +34,12 @@ class StatsController extends Controller
         for ($year = 2022; $year <= $currentYear; $year++) {
             $years[] = $year;
         }
-        
-        // PARTE DEI LEADS GRAFICO
+
+        //PARTE DEI MESSAGGI RICEVUTI NNNOOONNN GRAFICO 
         $messagesByMonth = Lead::selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, COUNT(*) as message_count')
             ->where('profile_id', $profile->id)
             ->groupByRaw('YEAR(created_at), MONTH(created_at)')
             ->get();
-        
         $leads = [];
         
         //ordina il numero di messaggi in una matrice
@@ -60,17 +59,6 @@ class StatsController extends Controller
             }
         }
 
-        // dati di prova
-        // $leads[2023]['January'] = 20;
-        // $leads[2023]['February'] = 15;
-        // $leads[2023]['March'] = 10;
-        // $leads[2023]['April'] = 5;
-        // $leads[2023]['June'] = 30;
-        // $leads[2023]['September'] = 10;
-
-        // dd($leads);
-
-        //PARTE DELLE RECENSIONI
         
         return view('admin.stats.index', compact('clientToken','sponsorships','years','leads'));
     }

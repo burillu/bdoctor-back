@@ -61,7 +61,7 @@
         <main class="container-fluid p-0">
             <div class="row g-0">
                 <!-- sidebar -->
-                <div class="col-12 col-md-3 my-sidebar  @if (is_null($expire_date) || strtotime($expire_date) > strtotime($now)) bg-sponsored @endif my-sidebar-lg  text-white"
+                <div class="col-12 col-md-3 my-sidebar  @if (strtotime($expire_date) > strtotime($now)) bg-sponsored @endif my-sidebar-lg  text-white"
                     id="sidebar">
                     <div class=" h-100 container-fluid">
                         <div class=" h-100 row">
@@ -72,7 +72,7 @@
                                     <div class="my-2 my-logo-query rounded-md-5 overflow-hidden">
 
                                         <img src="{{ asset('storage' . '\/images/OIG2.kc86IYLpVtKY.jpg') }}"
-                                            class="@if (is_null($expire_date) || strtotime($expire_date) > strtotime($now)) img-sponsored @endif "
+                                            class="@if (strtotime($expire_date) > strtotime($now)) img-sponsored @endif "
                                             alt="logo-bdoctors">
                                     </div>
                                     <!--top-->
@@ -221,7 +221,7 @@
                                     <!-- left side -->
                                     <div class="col-12 col-md-4 col-lg-6">
                                         <div class="mb-1"><span class="fs-4 fw-bold">BDoctors</span>
-                                            @if (is_null($expire_date) || strtotime($expire_date) > strtotime($now))
+                                            @if (strtotime($expire_date) > strtotime($now))
                                                 <span class="badge rounded-pill bg-sponsored">Sponsor fino al
                                                     {{ date('d/m/y \o\r\e H:i', strtotime($expire_date)) }}</span>
                                             @endif

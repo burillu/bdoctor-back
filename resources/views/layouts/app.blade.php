@@ -24,7 +24,7 @@
 
         @include('partials.header')
 
-        <main class="">
+        <main class="my-bg-primary">
             @yield('content')
         </main>
     </div>

@@ -63,7 +63,7 @@ class PaymentController extends Controller
             //dd(Auth::user()->profile()->sponsorships() );
             $profile->sponsorships()->syncWithPivotValues([$id_plan], ['expire_date' => Carbon::now()->addHours($hours[$id_plan]),'current_price'=> $amount], true);
 
-            return to_route('admin.profile.edit')->with('success_message','Il pagamento è stato elaborato con successo!' );
+            return redirect()->route('admin.profile.edit')->with('success_message', $success_message);
         } else {
             // Il pagamento ha fallito, gestisci l'errore di conseguenza
             $errorMessages = [];

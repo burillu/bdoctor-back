@@ -57,7 +57,11 @@
                 }
                 instance.requestPaymentMethod(function(err, payload) {
                 if (err) {
-                    console.log('Request Payment Method Error', err);
+                    const newDiv = createErrorDiv(errorMsgId, `Errore nel pagamento: ${err}`);
+                    parentDiv.appendChild(newDiv);
+                    if (errorDiv) {
+                        errorDiv.remove();
+                    }
                     return;
                 }
                 // Add the nonce to the form and submit

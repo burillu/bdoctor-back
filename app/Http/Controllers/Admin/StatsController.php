@@ -27,6 +27,8 @@ class StatsController extends Controller
 
         // Ottenere l'anno corrente
         $currentYear = date('Y');
+        //mesi in ordine
+        $monthsInOrder = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
         //PARTE MESSAGGI SENZA GRAFICO
         // Creare un array di anni da 2022 fino all'anno corrente
@@ -39,30 +41,19 @@ class StatsController extends Controller
         $messagesByMonth = Lead::selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, COUNT(*) as message_count')
             ->where('profile_id', $profile->id)
             ->groupByRaw('YEAR(created_at), MONTH(created_at)')
-            ->get();
+        ->get();
+
+        foreach ($years as $year) {
+            foreach ($monthsInOrder as $month) {
+                $leads[$year][$month] = 0;
+            }
+        }
 
         // Riorganizzare i dati nei messaggi per mese e anno
         foreach ($messagesByMonth as $message) {
             $year = $message->year;
             $month = date('F', mktime(0, 0, 0, $message->month, 1));
             $leads[$year][$month] = $message->message_count;
-        }
-
-        // Riempire i mesi mancanti con 0
-        foreach ($years as $year) {
-            if (!isset($leads[$year])) {
-                $leads[$year] = array_fill_keys(
-                    ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-                    0
-                );
-            }else {
-                // Se l'anno ha già dei voti, assicurati che tutti i mesi siano presenti e impostali a 0 se mancanti
-                foreach (['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] as $month) {
-                    if (!isset($leads[$year][$month])) {
-                        $leads[$year][$month] = 0;
-                    }
-                }
-            }
         }
 
         //PARTE RECENSIONI SENZA GRAFICO
@@ -73,7 +64,13 @@ class StatsController extends Controller
         $reviewsByMonth = Review::selectRaw('YEAR(created_at) as year, MONTH(created_at) as month, COUNT(*) as review_count')
             ->where('profile_id', $profile->id)
             ->groupByRaw('YEAR(created_at), MONTH(created_at)')
-            ->get();
+        ->get();
+
+        foreach ($years as $year) {
+            foreach ($monthsInOrder as $month) {
+                $reviews[$year][$month] = 0;
+            }
+        }
 
         // Riorganizzare i dati nelle recensioni per mese e anno
         foreach ($reviewsByMonth as $review) {
@@ -82,27 +79,9 @@ class StatsController extends Controller
             $reviews[$year][$month] = $review->review_count;
         }
 
-        // Riempire i mesi mancanti con 0
-        foreach ($years as $year) {
-            if (!isset($reviews[$year])) {
-                $reviews[$year] = array_fill_keys(
-                    ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-                    0
-                );
-            }else {
-                // Se l'anno ha già dei voti, assicurati che tutti i mesi siano presenti e impostali a 0 se mancanti
-                foreach (['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'] as $month) {
-                    if (!isset($reviews[$year][$month])) {
-                        $reviews[$year][$month] = 0;
-                    }
-                }
-            }
-        }
-
         //PARTE DEI VOTI CON GRAFICO
         // Inizializzare un array per i voti per mese e anno
         $votes = [];
-        $monthsInOrder = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
         // Query per ottenere la media dei voti per mese e anno
         for ($year = 2022; $year <= $currentYear; $year++) {

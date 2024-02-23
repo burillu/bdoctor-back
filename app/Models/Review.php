@@ -9,6 +9,8 @@ use App\Models\Profile;
 class Review extends Model
 {
     use HasFactory;
+    public $timestamps = false;
+    //protected $guarded=[];
     public function profile(){
         return $this->belongsTo(Profile::class);
     }

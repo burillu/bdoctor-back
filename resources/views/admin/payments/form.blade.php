@@ -32,10 +32,12 @@
                                     </p>
                                 </div>
 
-                                <div class="card-footer text-center bg-success px-3"><label for="">
+                                <div class="card-footer text-center bg-success px-3"><label class=""
+                                        for="">
                                         Totale: {{ $sponsorship->price }} &euro;</label><br><input
                                         class="form-check-input " type="radio" name="plan_id"
-                                        value="{{ $sponsorship->id }}"></div>
+                                        value="{{ $sponsorship->id }}">
+                                </div>
 
                             </div>
                         </div>
@@ -45,7 +47,7 @@
 
             <div id="dropin-container"></div>
             <input type="hidden" id="nonce" name="payment_method_nonce">
-            <button class="btn" id='submit-pay' type="submit">Pay</button>
+            <button class="btn my-bg-primary mb-3" id='submit-pay' type="submit">Acquista</button>
         </form>
     @else
         <div class="alert alert-danger">

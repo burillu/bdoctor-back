@@ -19,7 +19,9 @@
                 @endforeach
             </select>
 
+            {{-- al click, mostra il bottone per tornare a visualizzare gli ultimi 12 mesi, e genera i grafici in base all'anno richiesto --}}
             <button class="btn btn-primary w-25 mt-2" id="changeDataBtn" onclick="defaultBtn.style.display = 'inline';  makeCharts(votes[year.value], reviews[year.value], leads[year.value])">cambia</button>
+            
             <button class="btn btn-primary w-25 mt-2" id="defaultBtn" onclick="ChangeDataInDefault()">Ultimi 12 mesi</button>
 
         </div>
@@ -40,15 +42,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
-
-        //TO-DO LIST
-        // 1) CORREGGERE QUERY DEI VOTI (INDIPENDENTEMENTE DALLA DATA, RIEMPIE SOLO FEBBRAIO 2024) XXXXXXXXXXXXXXX
-        // 2) AGGIUNGERE COMMENTI E DOCUMENTAZIONEXXXXXXXXXXXXX
-        // 3) ? CREARE FUNZIONE PER NON RIPETERE OGNI VOLTA L'INIZIALIZZAZIONE DI LEADS, VOTES, REVIES ESSENDO QUASI IDENTICI    
-        // 4) correggere mesi disordinati in leads e reviews XXXXXXXXXXXXXXXXX
-        // 5) trasformare n messaggi + recensioni per anno/mese in un grafico XXXXXXXXXXXXX
-        // 6) creare funzione per il default ultimi 12 mesi
-        // 7) migliorare la grafica
 
         //inizializzo le variabili per i grafici
         let chartVotes = document.getElementById('ChartVotes');
@@ -109,25 +102,30 @@
 
         ChangeDataInDefault();
 
+        /**
+         * Riordina i valori in base agli ultimi 12 mesi
+         */
         function ChangeDataInDefault() {
+            //fa scomparire il bottone che lo aziona
             defaultBtn.style.display = 'none';
+            //inserisco i dati di default
             let defaultData = {
                 "votes" : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 "leads" : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 "reviews" : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             };
-            // console.log(currentMonth);
-            // console.log(currentYear);
+            //indice per iterare i mesi dall'ultimo al primo
             let j = 11;
+            // "i" va dal mese attuale fino al mese successivo dell'anno precedente (all'inizio i è 4 quindi maggio 2024, arriva fino a -7 ossia giugno del 2023 [in quanto facendo i(-7) + 12 esce 5 quindi il SESTO mese dell'anno])
             for(let i = currentMonth; i > (currentMonth - 12); i--){
+                //se i è maggiore uguale di 0 allora si tratta dell'anno corrente
                 if(i >= 0){
-                    // console.log(votes[currentYear][i]);
                     defaultData["votes"][j] = votes[currentYear][i];
                     defaultData["leads"][j] = leads[currentYear][i];
                     defaultData["reviews"][j] = reviews[currentYear][i];
                 }
+                //se i è minore di 0 allora si tratta dell'anno precedente, quindi devo aggiungere 12
                 else{
-                    // console.log(votes[currentYear-1][i+12]);
                     defaultData["votes"][j] = votes[currentYear-1][i+12];
                     defaultData["leads"][j] = leads[currentYear-1][i+12];
                     defaultData["reviews"][j] = reviews[currentYear-1][i+12];
@@ -135,19 +133,22 @@
                 j--;
             }
             console.log(defaultData);
+            //passo questi valori per la creazione dei grafici
             makeCharts(defaultData["votes"], defaultData["reviews"], defaultData["leads"]);
         }
 
         /**@argument yearSelected è l'anno selezionato 
-         *  crea il grafico dei votes in base all'anno selezionato 
+         *  crea i grafici in base ai dati passati
         */
         function makeCharts( votes, reviews, leads) {
+            //se esistono vanno distrutti per essere ricreati
             if (myChartVotes !== null) {
                 myChartVotes.destroy();
             }
             if (myChartReviewsMessages !== null) {
                 myChartReviewsMessages.destroy();
             }
+            // se si tratta degli ultimi 12 mesi, devo cacolare ordine in cui vengono visualizzati i mesi nell'ascisse
             let monthsLabels = [];
             if(changeBtnFlag){
                 for(let i = currentMonth; i > (currentMonth - 12); i--){
@@ -157,11 +158,12 @@
                         monthsLabels.unshift(MonthIndexToName(i+12));
                     }
                 }
-            }else{
-                monthsLabels = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'];
-                
-                // mounthsLabels = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'];
             }
+            //altrimenti l'ordine è quello reale
+            else{
+                monthsLabels = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'];
+            }
+            //crei il grafico dei voti
             myChartVotes = new Chart(chartVotes, {
             type: 'bar',
             data: {
@@ -179,12 +181,14 @@
                 scales: {
                     y: {
                         beginAtZero: true,
+                        //valore massimo è ovviamente 5 essendo 5 i voti che si possono dare
                         max: 5
                     }
                 }
             }
             });
 
+            //creo il grafico delle recensioni e dei messaggi
             myChartReviewsMessages = new Chart(ChartReviewsMessages, {
                 type: 'bar',
                 data: {
@@ -217,6 +221,10 @@
 
         };
 
+        /**
+         * @argument index è l'indice del mese
+         * trasforma l'indice ricevuto nel mese corrispondente
+         **/
         function MonthIndexToName(index){
             switch(index){
                 case 0:

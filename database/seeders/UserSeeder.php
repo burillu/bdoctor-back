@@ -9,6 +9,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
+use Faker\Factory as Faker;
 
 class UserSeeder extends Seeder
 {
@@ -18,6 +19,8 @@ class UserSeeder extends Seeder
     public function run(): void
     {
 
+        $faker=Faker::create('it_IT');
+        $services = ['Prima visita','Visita di controllo','Esame strumentale','Terapia'];
         $data=file_get_contents(__DIR__ .'/data/lista_dottori.json');
         $users= json_decode($data,true);
         //dd($users);
@@ -34,6 +37,10 @@ class UserSeeder extends Seeder
         $new_profile->user_id= $new_user->id;
         $new_profile->address= $user['address'];
         $new_profile->slug= Str::slug($user['nome'] . '-' .$user['cognome'].'-'. $new_user->id, '-');
+        $new_profile->image = 'images/'.$new_profile->slug . '.jpg';
+        $new_profile->tel = substr($faker->e164PhoneNumber(), 0 , 13) ;
+        $new_profile->services = implode(', ' , $faker->randomElements($services, random_int(1,4)));
+        
         $new_profile->save();
         
         $new_profile->specialties()->sync(random_int(1,count(Specialty::all())));

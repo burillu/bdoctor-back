@@ -5,6 +5,8 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Lead;
+
+use Illuminate\Support\Carbon;
 use Faker\Factory as Faker;
 class LeadSeeder extends Seeder
 {
@@ -30,8 +32,11 @@ class LeadSeeder extends Seeder
             $new_lead->email = strtolower($new_lead->name) .'.'.  strtolower(str_replace(' ', '',$new_lead->surname)) .'@'. $faker->freeEmailDomain();
             $new_lead->tel = substr($faker->e164PhoneNumber(), 0 , 13) ;
             $new_lead->message = $message . $new_lead->name .' '.$new_lead->surname;
-            $new_lead->save();
+            $new_lead->created_at= $faker->dateTimebetween('-2 years', '-1 day');
+            $new_lead->updated_at= Carbon::now();
             //dd($new_lead);
+            $new_lead->save();
+            
         }
     }
 }

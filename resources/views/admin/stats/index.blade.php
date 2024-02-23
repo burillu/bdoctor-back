@@ -15,8 +15,8 @@
             @endforeach
         </select>
 
-        <button class="btn btn-primary w-25" id="changeDataBtn" onclick="makeCharts(year.value, votes, reviews, leads)">cambia</button>
-        <button class="btn btn-primary w-25" id="defaultBtn" >Ultimi 12 mesi</button>
+        <button class="btn btn-primary w-25" id="changeDataBtn" onclick="defaultBtn.style.display = 'inline';  makeCharts(votes[year.value], reviews[year.value], leads[year.value])">cambia</button>
+        <button class="btn btn-primary w-25" id="defaultBtn" onclick="ChangeDataInDefault()">Ultimi 12 mesi</button>
 
     </div>
 
@@ -104,12 +104,9 @@
         console.log(votes);
 
         ChangeDataInDefault();
-        // makeCharts(year.value, votes, reviews, leads);
 
         function ChangeDataInDefault() {
-            changeBtnFlag = true;
             defaultBtn.style.display = 'none';
-            changeDataBtn.style.display = 'block';
             let defaultData = {
                 "votes" : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 "leads" : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],

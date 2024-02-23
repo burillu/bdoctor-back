@@ -42,7 +42,7 @@
         <p>Recensioni ricevute: <strong id="totalReviews"></strong></p>
     </div>
 
-    <h5 class="mt-3 me-3">Grafico messaggi per mese</h5>
+    <h5 class="mt-3 me-3">Grafico media voti per anno</h5>
 
      <h7 {{--id="allYearsSelectedErrorMessage" --}} class="text-danger">attenzione il grafico è visualizzato in base all'anno</h7>
     <div>
@@ -155,7 +155,7 @@
             data: {
                 labels: ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'],
                 datasets: [{
-                    label: 'messaggi per mese',
+                    label: 'media voti per mese',
                     data: votes[yearSelected],
                     borderWidth: 1,
                     hoverBorderWidth: 2,

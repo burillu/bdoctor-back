@@ -11,19 +11,25 @@ use App\Models\Lead;
 use App\Models\Vote;
 use Braintree\Gateway;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
+
 
 class StatsController extends Controller
 {
     public function index()
     {
+        // Ottenere l'utente e il suo profilo
+        $user = Auth::user();
+        $profile = $user->profile;
         // Ottenere sponsorships e il token del client per Braintree
         $sponsorships = Sponsorship::all();
         $gateway = new Gateway(config('services.braintree'));
         $clientToken = $gateway->clientToken()->generate();
-
-        // Ottenere l'utente e il suo profilo
-        $user = Auth::user();
-        $profile = $user->profile;
+        $now=Carbon::now();
+        $profile_sponsored= DB::table('profile_sponsorship')
+        ->select('expire_date')->where('profile_id', Auth::id())
+        ->first();
+        $expire_date=$profile_sponsored?->expire_date;
 
         // Ottenere l'anno corrente
         $currentYear = date('Y');
@@ -105,6 +111,6 @@ class StatsController extends Controller
         }
         
         // dd($votes);
-        return view('admin.stats.index', compact('clientToken', 'sponsorships', 'years', 'leads', 'reviews', 'votes'));
+        return view('admin.stats.index', compact('clientToken', 'sponsorships', 'years', 'leads','expire_date','now', 'reviews', 'votes'));
     }
 }

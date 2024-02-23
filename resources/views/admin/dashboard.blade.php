@@ -61,8 +61,7 @@
         <main class="container-fluid p-0">
             <div class="row g-0">
                 <!-- sidebar -->
-                <div class="col-12 col-md-3 my-sidebar  @if (strtotime($expire_date) > strtotime($now)) bg-sponsored @endif my-sidebar-lg  text-white"
-                    id="sidebar">
+                <div class="col-12 col-md-3 my-sidebar my-sidebar-lg  text-white" id="sidebar">
                     <div class=" h-100 container-fluid">
                         <div class=" h-100 row">
                             <div class="col-sm-12">
@@ -77,7 +76,7 @@
                                             alt="logo-bdoctors">
                                     </div>
                                     <!--top-->
-                                    <div class="sidebar-top w-sm-100">
+                                    <div class="w-sm-100">
 
                                         <div class="d-flex  d-sm-block">
                                             <!-- home -->

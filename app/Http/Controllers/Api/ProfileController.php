@@ -21,6 +21,7 @@ class ProfileController extends Controller
     $minVoteNumber = $request->query('min_vote_number');
     $orderByVotes = $request->query('order_by_votes');
     $orderBySponsorshipDuration = $request->query('order_by_sponsorship_duration');
+    $orderByReviews = $request->query('order_by_reviews');
 
     // controlli degli input
     if ($specialtyId && !Specialty::where('id', $specialtyId)->exists()) {
@@ -97,7 +98,9 @@ class ProfileController extends Controller
                   ->havingRaw('count(value) >= ?', [$minVoteNumber]);
         });
     }
-
+    if ($orderByReviews) {
+        $doctorsQuery->withCount('reviews')->orderByDesc('reviews_count');
+    }
     //eseguo la query
     $doctors = $doctorsQuery->get();
 

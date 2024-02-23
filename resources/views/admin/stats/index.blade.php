@@ -6,7 +6,7 @@
     <h1>Statistiche</h1>
 
     <div>
-        <h3>Range di Tempo</h3>
+        <h4>Intervallo di Tempo</h4>
 
         <select name="year" id="year" class="form-select w-25">
             {{-- <option value="all">Tutti</option> --}}
@@ -15,36 +15,18 @@
             @endforeach
         </select>
 
-        <select name="mounth" id="mounth" class="form-select w-25">
-            {{-- <option value="all">Tutti</option> --}}
-            <option value="January" @if ('January' == date('F')) selected @endif>Gennaio</option>
-            <option value="February" @if ('February' == date('F')) selected @endif>Febbraio</option>
-            <option value="March" @if ('March' == date('F')) selected @endif>Marzo</option>
-            <option value="April" @if ('April' == date('F')) selected @endif>Aprile</option>
-            <option value="May" @if ('May' == date('F')) selected @endif>Maggio</option>
-            <option value="June" @if ('June' == date('F')) selected @endif>Giugno</option>
-            <option value="July" @if ('July' == date('F')) selected @endif>Luglio</option>
-            <option value="August" @if ('August' == date('F')) selected @endif>Agosto</option>
-            <option value="September" @if ('September' == date('F')) selected @endif>Settembre</option>
-            <option value="October" @if ('October' == date('F')) selected @endif>Ottobre</option>
-            <option value="November" @if ('November' == date('F')) selected @endif>Novembre</option>
-            <option value="December" @if ('December' == date('F')) selected @endif>Dicembre</option>
-        </select>
-        <button class="btn btn-primary w-25" onclick="ChangeData(year.value, mounth.value)">cambia</button>
+        <button class="btn btn-primary w-25" id="changeDataBtn" onclick="makeCharts(year.value, votes, leads, reviews)">cambia</button>
+        <button class="btn btn-primary w-25" id="defaultBtn" >Ultimi 12 mesi</button>
 
     </div>
 
     <div>
-        <p>Messaggi ricevuti: <strong id="totalMessages"></strong></p>
-    </div>
-
-    <div>
-        <p>Recensioni ricevute: <strong id="totalReviews"></strong></p>
+        <canvas id="ChartReviewsMessages"></canvas>
     </div>
 
     <h5 class="mt-3 me-3">Grafico media voti per anno</h5>
 
-     <h7 {{--id="allYearsSelectedErrorMessage" --}} class="text-danger">attenzione il grafico è visualizzato in base all'anno</h7>
+     <h7 class="text-danger">attenzione il grafico è visualizzato in base all'anno</h7>
     <div>
         <canvas id="ChartVotes"></canvas>
     </div>
@@ -53,28 +35,33 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
-        //dichiaro le variabili per il grafico dei votes
-        let chartVotes = document.getElementById('ChartVotes');
-        let myChart = null;
-        // const allYearsSelectedErrorMessage = document.getElementById('allYearsSelectedErrorMessage');
-        // allYearsSelectedErrorMessage.style.display = 'none';
-
-        const year = document.getElementById('year');
-        const mounth = document.getElementById('mounth');
-        const totalMessages = document.getElementById('totalMessages');
-        const totalReviews = document.getElementById('totalReviews');
-
-        ChangeData(year.value,mounth.value);
 
         //TO-DO LIST
-        // 1) CORREGGERE QUERY DEI VOTI (INDIPENDENTEMENTE DALLA DATA, RIEMPIE SOLO FEBBRAIO 2024)
-        // 2) AGGIUNGERE COMMENTI E DOCUMENTAZIONE
-        // 3) ? CREARE FUNZIONE PER NON RIPETERE OGNI VOLTA L'INIZIALIZZAZIONE DI LEADS, VOTES, REVIES ESSENDO QUASI IDENTICI   
-        // 4) correggere mesi disordinati in leads e reviews
-        function ChangeData(year, mounth) {
-            console.log(year);
-            console.log(mounth);
-            let leads = {};
+        // 1) CORREGGERE QUERY DEI VOTI (INDIPENDENTEMENTE DALLA DATA, RIEMPIE SOLO FEBBRAIO 2024) XXXXXXXXXXXXXXX
+        // 2) AGGIUNGERE COMMENTI E DOCUMENTAZIONEXXXXXXXXXXXXX
+        // 3) ? CREARE FUNZIONE PER NON RIPETERE OGNI VOLTA L'INIZIALIZZAZIONE DI LEADS, VOTES, REVIES ESSENDO QUASI IDENTICI    
+        // 4) correggere mesi disordinati in leads e reviews XXXXXXXXXXXXXXXXX
+        // 5) trasformare n messaggi + recensioni per anno/mese in un grafico
+        // 6) creare funzione per il default ultimi 12 mesi
+        // 7) migliorare la grafica
+
+        //inizializzo le variabili per i grafici
+        let chartVotes = document.getElementById('ChartVotes');
+        let myChartVotes = null;
+        let ChartReviewsMessages = document.getElementById('ChartReviewsMessages');
+        let myChartReviewsMessages = null;
+
+        //inizializzo la variabile dell'anno da visualizzare (quando l'utente vuole cambiare anno)
+        const year = document.getElementById('year');
+
+        //inizializzo le variabili dei bottoni
+        const changeDataBtn = document.getElementById('changeDataBtn');
+        const defaultBtn = document.getElementById('defaultBtn');
+        let changeBtnFlag = true;
+        defaultBtn.style.display = 'none';
+
+        //inizializzo le variabili contententi i dati suddivisi per mese e anno
+        let leads = {};
             yearIndex = 0;
                 @for ($i = 0; $i < count($years); $i++)
                     yearIndex = {{ 2022 + $i }};
@@ -83,15 +70,9 @@
                             leads[yearIndex].push({{ $lead }});
                         @endforeach
                 @endfor
-                console.log(leads);
-            
-            mounthIndex = mounthToIndex(mounth);
-            // console.log(mounthIndex);
-            let currentLeads = leads[year][mounthIndex];
-            if(currentLeads === undefined) currentLeads = 0;
-            totalMessages.innerHTML = currentLeads;
-            
-            let reviews = {};
+        console.log(leads);
+
+        let reviews = {};
             yearIndex = 0;
                 @for ($i = 0; $i < count($years); $i++)
                     yearIndex = {{ 2022 + $i }};
@@ -100,14 +81,9 @@
                             reviews[yearIndex].push({{ $review }});
                         @endforeach
                 @endfor
-            console.log(reviews);
+        console.log(reviews);
 
-            mounthIndex = mounthToIndex(mounth);
-            let currentReviews = reviews[year][mounthIndex];
-            if(currentReviews === undefined) currentReviews = 0;
-            totalReviews.innerHTML = currentReviews;
-
-            let votes = {};
+        let votes = {};
             yearIndex = 0;
                 @for ($i = 0; $i < count($years); $i++)
                     yearIndex = {{ 2022 + $i }};
@@ -119,38 +95,37 @@
                             votes[yearIndex].push({{ $vote }});
                         @endforeach
                 @endfor
-            console.log(votes);
+        console.log(votes);
 
-            mounthIndex = mounthToIndex(mounth);
-            let currentVotes = votes[year][mounthIndex];
+        // ChangeDataLast12Mounths();
+        makeCharts(year.value, votes, leads, reviews);
+
+        function ChangeDataForYear(year) {
+            console.log(year);
+            
+            let currentReviews = reviews[year];
+            if(currentReviews === undefined) currentReviews = 0;
+            totalReviews.innerHTML = currentReviews;
+            
+            let currentVotes = votes[year];
             if(currentVotes === undefined) currentVotes = 0;
-            makeChartVote(year, votes);
-
-
-            // if(year === 'all'){
-            //     allYearsSelectedErrorMessage.style.display = 'block';
-                
-            // }else{
-            //     allYearsSelectedErrorMessage.style.display = 'none';
-            // }
+            makeCharts(year, votes);
             
         }
 
         /**@argument yearSelected è l'anno selezionato 
          *  crea il grafico dei votes in base all'anno selezionato 
         */
-        function makeChartVote(yearSelected, votes){
+        function makeCharts(yearSelected, votes, leads, reviews) {
             console.log(yearSelected);
-            if (myChart !== null) {
-                myChart.destroy();
+            if (myChartVotes !== null) {
+                myChartVotes.destroy();
             }
-            if (yearSelected === 'all') {
-                yearSelected = {{ date('Y') }};
-                // allYearsSelectedErrorMessage.style.display = 'block';
-            }else{
-                // allYearsSelectedErrorMessage.style.display = 'none';
+            if (myChartReviewsMessages !== null) {
+                myChartReviewsMessages.destroy();
             }
-            myChart = new Chart(chartVotes, {
+            
+            myChartVotes = new Chart(chartVotes, {
             type: 'bar',
             data: {
                 labels: ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'],
@@ -175,26 +150,30 @@
                     }
                 }
             }
-        });
-    }
+            });
 
-        function mounthToIndex(mounth){
-            switch(mounth){
-                case 'January': return 0;
-                case 'February': return 1;
-                case 'March': return 2;
-                case 'April': return 3;
-                case 'May': return 4;
-                case 'June': return 5;
-                case 'July': return 6;
-                case 'August': return 7;
-                case 'September': return 8;
-                case 'October': return 9;
-                case 'November': return 10;
-                case 'December': return 11;
-            }
-            ;
-        }
+            myChartReviewsMessages = new Chart(ChartReviewsMessages, {
+                type: 'bar',
+                data: {
+                    labels: ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'],
+                    datasets: [{
+                        label: 'media voti per mese',
+                        data: reviews[yearSelected],
+                        borderWidth: 1,
+                        hoverBorderWidth: 2,
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                        }
+                    }
+                }
+            });
+
+        };
+
     </script>
         
         

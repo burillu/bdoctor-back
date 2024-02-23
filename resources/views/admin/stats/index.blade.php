@@ -70,6 +70,7 @@
         // 1) CORREGGERE QUERY DEI VOTI (INDIPENDENTEMENTE DALLA DATA, RIEMPIE SOLO FEBBRAIO 2024)
         // 2) AGGIUNGERE COMMENTI E DOCUMENTAZIONE
         // 3) ? CREARE FUNZIONE PER NON RIPETERE OGNI VOLTA L'INIZIALIZZAZIONE DI LEADS, VOTES, REVIES ESSENDO QUASI IDENTICI   
+        // 4) correggere mesi disordinati in leads e reviews
         function ChangeData(year, mounth) {
             console.log(year);
             console.log(mounth);
@@ -112,6 +113,9 @@
                     yearIndex = {{ 2022 + $i }};
                     votes[yearIndex] = [];
                         @foreach ($votes[2022 + $i] as $vote)
+                        @if($vote === null)
+                            votes[yearIndex].push(0);
+                        @endif
                             votes[yearIndex].push({{ $vote }});
                         @endforeach
                 @endfor
@@ -166,7 +170,8 @@
             options: {
                 scales: {
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        max: 5
                     }
                 }
             }

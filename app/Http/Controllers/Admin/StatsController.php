@@ -10,6 +10,7 @@ use App\Models\Review;
 use App\Models\Lead;
 use App\Models\Vote;
 use Braintree\Gateway;
+use Illuminate\Support\Facades\DB;
 
 class StatsController extends Controller
 {
@@ -100,41 +101,31 @@ class StatsController extends Controller
 
         //PARTE DEI VOTI CON GRAFICO
         // Inizializzare un array per i voti per mese e anno
-        $monthsInOrder = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
         $votes = [];
+        $monthsInOrder = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
         // Query per ottenere la media dei voti per mese e anno
-        $votesByMonth = Vote::selectRaw('YEAR(votes.created_at) as year, MONTH(votes.created_at) as month, AVG(votes.id) as average_vote')
-        ->join('profile_vote', 'votes.id', '=', 'profile_vote.vote_id')
-        ->where('profile_vote.profile_id', $profile->id)
-        ->groupByRaw('YEAR(votes.created_at), MONTH(votes.created_at)')
-        ->get();
+        for ($year = 2022; $year <= $currentYear; $year++) {
+            // Esegui la query per ottenere la media dei voti per l'anno e il mese correnti
+            for ($month = 1; $month <= 12; $month++) {  
+                $averageVote = Vote::selectRaw('AVG(votes.value) as average_vote')
+                    ->join('profile_vote', 'votes.id', '=', 'profile_vote.vote_id')
+                    ->where('profile_vote.profile_id', $profile->id)
+                    ->whereRaw('YEAR(profile_vote.created_at) = ?', [$year])
+                    ->whereRaw('MONTH(profile_vote.created_at) = ?', [$month])
+                    ->first();
 
-        foreach ($years as $year) {
-            // Inizializza tutti i mesi dell'anno con il valore 0
-            $votes[$year] = array_fill_keys($monthsInOrder, 0);
-        
-            // Aggiorna i mesi con i valori corrispondenti, se disponibili
-            // if (isset($votes[$year])) {
-            //     foreach ($monthsInOrder as $month) {
-            //         if (!isset($votes[$year][$month])) {
-            //             $votes[$year][$month] = 0;
-            //         }
-            //     }
-            // }
+                // Se esiste un risultato, salva la media dei voti per quell'anno e mese
+                if ($averageVote !== null) {
+                    $votes[$year][$monthsInOrder[$month - 1]] = $averageVote->average_vote;
+                } else {
+                    // Altrimenti, imposta la media dei voti a 0
+                    $votes[$year][$monthsInOrder[$month - 1]] = 0;
+                }
+            }
         }
-
-        // Riorganizzare i dati nelle recensioni per mese e anno
-        foreach ($votesByMonth as $vote) {
-            $year = $vote->year;
-            $month = date('F', mktime(0, 0, 0, $vote->month, 1));
-            $votes[$year][$month] = $vote->average_vote;
-        }
-
-        // Riempire i mesi mancanti con la media di 0
         
         // dd($votes);
-        // Passare i dati alla vista
         return view('admin.stats.index', compact('clientToken', 'sponsorships', 'years', 'leads', 'reviews', 'votes'));
     }
 }

@@ -34,6 +34,7 @@ Route::middleware(['auth', 'verified'])->name('admin.')->prefix('admin')->group(
     Route::resource('reviews', ReviewController::class)->except('create','edit','store');
     Route::resource('profile', ProfileController::class)->except('create','edit','store','index');
     Route::post('/payment/process', [PaymentController::class, 'process'])->name('payment.process');
+    Route::get('/payment/confirmation', [PaymentController::class, 'confirmation'])->name('payments.confirmation'); 
     Route::get('stats/', [StatsController::class, 'index'])->name('stats.index');
 });
 

@@ -73,9 +73,10 @@ class PaymentController extends Controller
             $success_message =  'Il pagamento è stato elaborato con successo!';
             // aggiungere al profilo la sponsorizzazione
             //dd(Auth::user()->profile()->sponsorships() );
-            $profile->sponsorships()->syncWithPivotValues([$id_plan], ['expire_date' => Carbon::now()->addHours($hours[$id_plan]),'current_price'=> $amount], true);
+            $expire_date = Carbon::now()->addHours($hours[$id_plan]);
+            $profile->sponsorships()->syncWithPivotValues([$id_plan], ['expire_date' => $expire_date,'current_price'=> $amount], true);
 
-            return redirect()->route('admin.profile.edit')->with('success_message', $success_message);
+            return redirect()->route('admin.payments.confirmation')->with('expire_date', $expire_date);
         } else {
             // Il pagamento ha fallito, gestisci l'errore di conseguenza
             $errorMessages = [];
@@ -85,4 +86,7 @@ class PaymentController extends Controller
             return redirect()->back()->withInput()->withErrors($errorMessages);
         }
     }
+    public function confirmation(){
+        return view('admin.payments.confirmation');
+    } 
 }

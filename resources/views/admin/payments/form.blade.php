@@ -1,6 +1,6 @@
 <!--Acquisto Braintree-->
-<div class="container-fluid">
 
+<div class="container-fluid">
     @if (isset($errorMessages))
         <div class="alert alert-danger">
             {{ $errorMessages }}
@@ -40,7 +40,6 @@
                                         class="form-check-input " type="radio" name="plan_id"
                                         value="{{ $sponsorship->id }}">
                                 </div>
-
                             </div>
                         </div>
                     @endforeach
@@ -58,12 +57,19 @@
         </div>
 
     @endif
-
+    <div id="loader" class="d-none">
+        <div  class="body">
+            <div class="loader-container">
+                <div class="loader"></div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script src="https://js.braintreegateway.com/web/dropin/1.41.0/js/dropin.min.js"></script>
 
 <script>
+    
     const form = document.getElementById('payment-form');
     console.dir(form);
     let clientToken = "{{ $clientToken }}";
@@ -104,6 +110,7 @@
                     }
                     // Add the nonce to the form and submit
                     document.getElementById('nonce').value = payload.nonce;
+                    loaderPay()
                     form.submit();
                 });
             } else {
@@ -116,7 +123,7 @@
             }
         });
     });
-
+    
     function createErrorDiv(id, message) {
         const newDiv = document.createElement('div');
         newDiv.classList.add('text-red');
@@ -124,4 +131,43 @@
         newDiv.setAttribute('id', id);
         return newDiv;
     }
+    function loaderPay(){
+        const loader = document.getElementById('loader');
+        loader.classList.remove('d-none');
+    }
 </script>
+
+<style>
+.body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 9vh;
+}
+.loader-container {
+  position: relative;
+  width: 50px;
+  height: 50px;
+}
+
+.loader {
+  position: absolute;
+  top: 5%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 5px solid transparent;
+  border-top-color: #007bff;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+</style>

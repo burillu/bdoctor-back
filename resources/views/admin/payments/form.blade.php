@@ -32,7 +32,7 @@
                                     </p>
                                 </div>
 
-                                <div class="card-footer text-center bg-success px-3"><label class=""
+                                <div class="card-footer text-center my-bg-pacific px-3"><label class=""
                                         for="">
                                         Totale: {{ $sponsorship->price }} &euro;</label><br><input
                                         class="form-check-input " type="radio" name="plan_id"

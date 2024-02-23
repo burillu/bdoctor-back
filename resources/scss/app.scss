@@ -83,16 +83,20 @@ main>div {
 }
 
 .bg-sponsored {
-    background-color: rgb(177, 152, 10);
+    background-color: $sponsor-color;
 }
 
 
 .my-offcanvas.offcanvas {
-    width: 500px;
+    width: 700px;
 }
 
 img.my-img-avatar {
     width: 25px;
+}
+
+.h-90-px {
+    height: 90px;
 }
 
 .my-btn {

@@ -187,7 +187,7 @@
 
                     <div class="container-fluid">
                         <!-- top-main -->
-                        <div class="row my-bg-blue text-white" id="top-main">
+                        <div class="row my-bg-blue h-90-px text-white" id="top-main">
                             <div class="col-8 col-md-12">
                                 <div class="row justify-content-between py-2">
                                     <!-- nuova sponsorizzazione -->
@@ -227,30 +227,7 @@
                                                     {{ date('d/m/y \o\r\e H:i', strtotime($expire_date)) }}</span>
                                             @endif
                                         </div>
-                                        <nav class="text-white" style="--bs-breadcrumb-divider: '>>';"
-                                            aria-label="breadcrumb">
-                                            <ol class="breadcrumb">
-                                                <li class="breadcrumb-item">
-                                                    <a href="#"><span class="badge rounded-pill my-blue-badge">3
-                                                            app</span></a>
-                                                </li>
-                                                <li class="breadcrumb-item" aria-current="page">
-                                                    <span class="badge rounded-pill my-blue-badge me-1 d-lg-none">+</span>
-                                                    <span
-                                                        class="badge rounded-pill my-blue-badge me-1 d-none d-lg-inline">Boolean
-                                                        mobile
-                                                        app</span>
-                                                    <span
-                                                        class="badge rounded-pill my-blue-badge me-1 d-none d-lg-inline">Boolean
-                                                        web
-                                                        app</span>
-                                                    <span
-                                                        class="badge rounded-pill my-blue-badge me-1 d-none d-lg-inline">Boolean
-                                                        blog
-                                                        app</span>
-                                                </li>
-                                            </ol>
-                                        </nav>
+
                                     </div>
                                     {{-- <div class="col-12 col-md-4 col-lg-3">
                                         <span>Messaggi ricevuti:</span>

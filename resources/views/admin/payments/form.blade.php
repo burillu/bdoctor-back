@@ -16,17 +16,23 @@
                             <div class="card mb-3">
                                 <div class="my-3 card-header">Sponsorizzazione</div>
                                 <div class="card-body">
-                                    <h5 class="card-title">
+                                    <h6 class="card-title">
                                         {{ $sponsorship->name }}
-                                    </h5>
-                                    <p class> Questa sponsorizzazione ti consente di avere la priorità nella ricerca dei
+                                    </h6>
+                                    <p class> Avrai la priorità nella ricerca dei
                                         medici
-                                        per la durata di {{ substr($sponsorship->duration, 0, -6) }} ore, e ha un prezzo
-                                        di {{ $sponsorship->price }}&euro;
+                                        per la durata di {{ substr($sponsorship->duration, 0, -6) }} h, e ha un prezzo
+                                        di
+                                    <div><span
+                                            class="text-decoration-line-through text-secondary">{{ number_format(round($sponsorship->price * 1.2, 1), 2, '.', ' ') }}
+                                            &euro;</span>
+                                        <span class="text-danger">
+                                            {{ $sponsorship->price }}&euro; </span>
+                                    </div>
                                     </p>
                                 </div>
 
-                                <div class="card-footer text-center bg-secondary px-3"><label for="">
+                                <div class="card-footer text-center bg-success px-3"><label for="">
                                         Totale: {{ $sponsorship->price }} &euro;</label><br><input
                                         class="form-check-input " type="radio" name="plan_id"
                                         value="{{ $sponsorship->id }}"></div>

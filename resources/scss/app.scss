@@ -97,10 +97,17 @@ img.my-img-avatar {
 
 .my-btn {
     cursor: pointer;
+    border-width: 5px;
+    border-bottom-left-radius: 12px;
+    border-bottom: 5px solid transparent;
+    transition: border 0.4s;
 }
 
-.my-sidebar .my-btn:hover {
-    background-color: #ffffff91;
+.my-sidebar .my-btn:hover,
+.active {
+    border-bottom: 5px solid $contrast-color;
+    //background-color: rgb(219, 205, 205);
+    //transition: all 5s;
 }
 
 .btn:hover {

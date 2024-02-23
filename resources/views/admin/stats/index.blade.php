@@ -3,35 +3,39 @@
     @php
         $allYearsSelected = false;
     @endphp
-    <h1>Statistiche</h1>
 
-    <div>
-        <h4>Intervallo di Tempo</h4>
+    <div class="mx-2">
+        <h1>Statistiche</h1>
 
-        <select name="year" id="year" class="form-select w-25">
-            {{-- <option value="all">Tutti</option> --}}
-            @foreach ($years as $year)
-                <option value="{{ $year }}" @if ($year == date('Y')) selected @endif>{{ $year }}</option>
-            @endforeach
-        </select>
+        <hr>
 
-        <button class="btn btn-primary w-25" id="changeDataBtn" onclick="defaultBtn.style.display = 'inline';  makeCharts(votes[year.value], reviews[year.value], leads[year.value])">cambia</button>
-        <button class="btn btn-primary w-25" id="defaultBtn" onclick="ChangeDataInDefault()">Ultimi 12 mesi</button>
+        <div>
+            <h5 class="mt-4">Intervallo di Tempo</h5>
 
+            <select name="year" id="year" class="form-select w-25">
+                {{-- <option value="all">Tutti</option> --}}
+                @foreach ($years as $year)
+                    <option value="{{ $year }}" @if ($year == date('Y')) selected @endif>{{ $year }}</option>
+                @endforeach
+            </select>
+
+            <button class="btn btn-primary w-25 mt-2" id="changeDataBtn" onclick="defaultBtn.style.display = 'inline';  makeCharts(votes[year.value], reviews[year.value], leads[year.value])">cambia</button>
+            <button class="btn btn-primary w-25 mt-2" id="defaultBtn" onclick="ChangeDataInDefault()">Ultimi 12 mesi</button>
+
+        </div>
+
+        <h5 class="mt-4 me-3">Grafico del numero di recensioni e messaggi per anno</h5>
+
+        <div>
+            <canvas id="ChartReviewsMessages"></canvas>
+        </div>
+
+        <h5 class="mt-5 me-3">Grafico media voti per anno</h5>
+
+        <div>
+            <canvas id="ChartVotes"></canvas>
+        </div>
     </div>
-
-    <h5 class="mt-3 me-3">Grafico del numero di recensioni e messaggi per anno</h5>
-
-    <div>
-        <canvas id="ChartReviewsMessages"></canvas>
-    </div>
-
-    <h5 class="mt-3 me-3">Grafico media voti per anno</h5>
-
-    <div>
-        <canvas id="ChartVotes"></canvas>
-    </div>
-
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -167,6 +171,8 @@
                     data: votes,
                     borderWidth: 1,
                     hoverBorderWidth: 2,
+                    backgroundColor: 'rgba(0, 119, 182, 0.6)',
+                    borderColor: 'rgba(0, 119, 182, 1)',
                 }]
             },
             options: {
@@ -188,12 +194,16 @@
                         data: reviews,
                         borderWidth: 1,
                         hoverBorderWidth: 2,
+                        backgroundColor: 'rgba(0, 119, 182, 0.6)',
+                        borderColor: 'rgba(0, 119, 182, 1)',
                     },
                     {
                         label: 'Numero messaggi',
                         data: leads,
                         borderWidth: 1,
                         hoverBorderWidth: 2,
+                        backgroundColor: 'rgba(227, 28, 65, 0.6)',
+                        borderColor: 'rgba(227, 28, 65, 1)',
                     }]
                 },
                 options: {

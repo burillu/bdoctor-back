@@ -14,17 +14,22 @@
                     @foreach ($sponsorships as $sponsorship)
                         <div class="col-12 col-md-6 col-lg-4">
                             <div class="card mb-3">
-                                <h6 class="my-3">{{ $sponsorship->name }} </h6>
-                                <p> Questa sponsorizzazione ti consente di avere la priorità nella ricerca dei medici
-                                    per la
-                                    durata
-                                    di
-                                    {{ substr($sponsorship->duration, 0, -6) }} ore, e ha un prezzo di
-                                    {{ $sponsorship->price }}
-                                    &euro;
-                                </p>
-                                <div class="align-self-center"><input class="form-check-input " type="radio"
-                                        name="plan_id" value="{{ $sponsorship->id }}"></div>
+                                <div class="my-3 card-header">Sponsorizzazione</div>
+                                <div class="card-body">
+                                    <h5 class="card-title">
+                                        {{ $sponsorship->name }}
+                                    </h5>
+                                    <p class> Questa sponsorizzazione ti consente di avere la priorità nella ricerca dei
+                                        medici
+                                        per la durata di{{ substr($sponsorship->duration, 0, -6) }} ore, e ha un prezzo
+                                        di{{ $sponsorship->price }}&euro;
+                                    </p>
+                                </div>
+
+                                <div class="card-footer text-center bg-secondary px-3"><label
+                                        for="">{{ $sponsorship->name }}, prezzo:
+                                        {{ $sponsorship->price }} &euro;</label><br><input class="form-check-input "
+                                        type="radio" name="plan_id" value="{{ $sponsorship->id }}"></div>
 
                             </div>
                         </div>

@@ -26,6 +26,15 @@ class UserSeeder extends Seeder
         //dd($users);
         foreach($users as $key=>$user){
             //dd($key,$user);
+            $vote_ids= array();
+        //dd($vote_ids);
+        for ($i=0; $i <20 ; $i++) { 
+            array_push($vote_ids,random_int(1,5) );
+        }
+        //dd($vote_ids);
+        $created_array=array('created_at'=>$faker->dateTimebetween('-2 years', '-1 day'),'updated_at'=>Carbon::now());
+       
+       // dd($created_array);
         $new_user = User::factory()->create([
             'name' => ucwords(strtolower($user['nome'])),
             'email' => strtolower(str_replace(' ', '',$user['nome']).'.'.$user['cognome']).'@bdoctors.com',
@@ -44,7 +53,16 @@ class UserSeeder extends Seeder
         $new_profile->save();
         
         $new_profile->specialties()->sync(random_int(1,count(Specialty::all())));
-        $new_profile->votes()->sync([random_int(1,5),random_int(3,5),random_int(1,4)]);
+        
+        //dd($created_array);
+        //for ($i=0; $i < 5; $i++) { 
+            # code...
+            $created_array=array('created_at'=>$faker->dateTimeBetween('-2 years', '-1 day'),'updated_at'=>Carbon::now());
+            $new_profile->votes()->syncWithPivotValues($vote_ids,$created_array, true);
+        //}
+        
+        
+        // $new_profile->votes()->sync([random_int(1,5),random_int(3,5),random_int(1,4)]);
         if ($key < 5){
             $new_profile->sponsorships()->syncWithPivotValues([3], ['expire_date' => Carbon::now()->addDays(6),'current_price'=> 9.99], true);
         }

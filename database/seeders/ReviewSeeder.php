@@ -35,7 +35,7 @@ class ReviewSeeder extends Seeder
         // $data = file_get_contents(__DIR__ .'/data/reviews.json');
         // $reviews = json_decode($data, true);
         
-        for($i=0; $i < 50; $i++){
+        for($i=0; $i < 200; $i++){
             $type = $faker->randomElement($reviews_template);
             $new_review= new Review();
             $new_review->profile_id = random_int(1,7);

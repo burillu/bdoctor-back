@@ -14,15 +14,17 @@
                     @foreach ($sponsorships as $sponsorship)
                         <div class="col-12 col-md-6 col-lg-4">
                             <div class="card mb-3">
-                                <div class="my-3 card-header">Sponsorizzazione</div>
-                                <div class="card-body">
+                                <div class="my-3 card-header">
                                     <h6 class="card-title">
                                         {{ $sponsorship->name }}
                                     </h6>
+                                </div>
+                                <div class="card-body">
+
                                     <p class> Avrai la priorità nella ricerca dei
                                         medici
-                                        per la durata di {{ substr($sponsorship->duration, 0, -6) }} h, e ha un prezzo
-                                        di
+                                        per la durata di {{ substr($sponsorship->duration, 0, -6) }} h, ad un prezzo
+                                        di:
                                     <div><span
                                             class="text-decoration-line-through text-secondary">{{ number_format(round($sponsorship->price * 1.2, 1), 2, '.', ' ') }}
                                             &euro;</span>

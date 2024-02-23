@@ -107,6 +107,7 @@
         // makeCharts(year.value, votes, reviews, leads);
 
         function ChangeDataInDefault() {
+            changeBtnFlag = true;
             defaultBtn.style.display = 'none';
             changeDataBtn.style.display = 'block';
             let defaultData = {
@@ -146,11 +147,24 @@
             if (myChartReviewsMessages !== null) {
                 myChartReviewsMessages.destroy();
             }
-            
+            let monthsLabels = [];
+            if(changeBtnFlag){
+                for(let i = currentMonth; i > (currentMonth - 12); i--){
+                    if(i >= 0){
+                        monthsLabels.unshift(MonthIndexToName(i));
+                    }else{
+                        monthsLabels.unshift(MonthIndexToName(i+12));
+                    }
+                }
+            }else{
+                monthsLabels = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'];
+                
+                // mounthsLabels = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'];
+            }
             myChartVotes = new Chart(chartVotes, {
             type: 'bar',
             data: {
-                labels: ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'],
+                labels: monthsLabels,
                 datasets: [{
                     label: 'Media voti',
                     data: votes,
@@ -171,7 +185,7 @@
             myChartReviewsMessages = new Chart(ChartReviewsMessages, {
                 type: 'bar',
                 data: {
-                    labels: ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'],
+                    labels: monthsLabels,
                     datasets: [{
                         label: 'Numero recensioni',
                         data: reviews,
@@ -195,6 +209,35 @@
             });
 
         };
+
+        function MonthIndexToName(index){
+            switch(index){
+                case 0:
+                    return 'Gennaio';
+                case 1:
+                    return 'Febbraio';
+                case 2:
+                    return 'Marzo';
+                case 3:
+                    return 'Aprile';
+                case 4:
+                    return 'Maggio';
+                case 5:
+                    return 'Giugno';
+                case 6:
+                    return 'Luglio';
+                case 7:
+                    return 'Agosto';
+                case 8:
+                    return 'Settembre';
+                case 9:
+                    return 'Ottobre';
+                case 10:
+                    return 'Novembre';
+                case 11:
+                    return 'Dicembre';
+            }
+        }
 
     </script>
         

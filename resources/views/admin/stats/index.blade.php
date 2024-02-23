@@ -3,78 +3,68 @@
     @php
         $allYearsSelected = false;
     @endphp
-    <h1>Statistiche</h1>
 
-    <div>
-        <h3>Range di Tempo</h3>
+    <div class="mx-2">
+        <h1>Statistiche</h1>
 
-        <select name="year" id="year" class="form-select w-25">
-            {{-- <option value="all">Tutti</option> --}}
-            @foreach ($years as $year)
-                <option value="{{ $year }}" @if ($year == date('Y')) selected @endif>{{ $year }}</option>
-            @endforeach
-        </select>
+        <hr>
 
-        <select name="mounth" id="mounth" class="form-select w-25">
-            {{-- <option value="all">Tutti</option> --}}
-            <option value="January" @if ('January' == date('F')) selected @endif>Gennaio</option>
-            <option value="February" @if ('February' == date('F')) selected @endif>Febbraio</option>
-            <option value="March" @if ('March' == date('F')) selected @endif>Marzo</option>
-            <option value="April" @if ('April' == date('F')) selected @endif>Aprile</option>
-            <option value="May" @if ('May' == date('F')) selected @endif>Maggio</option>
-            <option value="June" @if ('June' == date('F')) selected @endif>Giugno</option>
-            <option value="July" @if ('July' == date('F')) selected @endif>Luglio</option>
-            <option value="August" @if ('August' == date('F')) selected @endif>Agosto</option>
-            <option value="September" @if ('September' == date('F')) selected @endif>Settembre</option>
-            <option value="October" @if ('October' == date('F')) selected @endif>Ottobre</option>
-            <option value="November" @if ('November' == date('F')) selected @endif>Novembre</option>
-            <option value="December" @if ('December' == date('F')) selected @endif>Dicembre</option>
-        </select>
-        <button class="btn btn-primary w-25" onclick="ChangeData(year.value, mounth.value)">cambia</button>
+        <div>
+            <h5 class="mt-4">Intervallo di Tempo</h5>
 
+            <select name="year" id="year" class="form-select w-25">
+                {{-- <option value="all">Tutti</option> --}}
+                @foreach ($years as $year)
+                    <option value="{{ $year }}" @if ($year == date('Y')) selected @endif>{{ $year }}</option>
+                @endforeach
+            </select>
+
+            {{-- al click, mostra il bottone per tornare a visualizzare gli ultimi 12 mesi, e genera i grafici in base all'anno richiesto --}}
+            <button class="btn btn-primary w-25 mt-2" id="changeDataBtn" onclick="defaultBtn.style.display = 'inline';  makeCharts(votes[year.value], reviews[year.value], leads[year.value])">cambia</button>
+            
+            <button class="btn btn-primary w-25 mt-2" id="defaultBtn" onclick="ChangeDataInDefault()">Ultimi 12 mesi</button>
+
+        </div>
+
+        <h5 class="mt-4 me-3">Grafico del numero di recensioni e messaggi per anno</h5>
+
+        <div>
+            <canvas id="ChartReviewsMessages"></canvas>
+        </div>
+
+        <h5 class="mt-5 me-3">Grafico media voti per anno</h5>
+
+        <div>
+            <canvas id="ChartVotes"></canvas>
+        </div>
     </div>
-
-    <div>
-        <p>Messaggi ricevuti: <strong id="totalMessages"></strong></p>
-    </div>
-
-    <div>
-        <p>Recensioni ricevute: <strong id="totalReviews"></strong></p>
-    </div>
-
-    <h5 class="mt-3 me-3">Grafico media voti per anno</h5>
-
-     <h7 {{--id="allYearsSelectedErrorMessage" --}} class="text-danger">attenzione il grafico è visualizzato in base all'anno</h7>
-    <div>
-        <canvas id="ChartVotes"></canvas>
-    </div>
-
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
-        //dichiaro le variabili per il grafico dei votes
+
+        //inizializzo le variabili per i grafici
         let chartVotes = document.getElementById('ChartVotes');
-        let myChart = null;
-        // const allYearsSelectedErrorMessage = document.getElementById('allYearsSelectedErrorMessage');
-        // allYearsSelectedErrorMessage.style.display = 'none';
+        let myChartVotes = null;
+        let ChartReviewsMessages = document.getElementById('ChartReviewsMessages');
+        let myChartReviewsMessages = null;
 
+        //inizializzo la variabile dell'anno da visualizzare (quando l'utente vuole cambiare anno)
         const year = document.getElementById('year');
-        const mounth = document.getElementById('mounth');
-        const totalMessages = document.getElementById('totalMessages');
-        const totalReviews = document.getElementById('totalReviews');
 
-        ChangeData(year.value,mounth.value);
+        //inizializzo le variabili dei bottoni
+        const changeDataBtn = document.getElementById('changeDataBtn');
+        const defaultBtn = document.getElementById('defaultBtn');
+        let changeBtnFlag = true;
+        defaultBtn.style.display = 'none';
 
-        //TO-DO LIST
-        // 1) CORREGGERE QUERY DEI VOTI (INDIPENDENTEMENTE DALLA DATA, RIEMPIE SOLO FEBBRAIO 2024)
-        // 2) AGGIUNGERE COMMENTI E DOCUMENTAZIONE
-        // 3) ? CREARE FUNZIONE PER NON RIPETERE OGNI VOLTA L'INIZIALIZZAZIONE DI LEADS, VOTES, REVIES ESSENDO QUASI IDENTICI   
-        // 4) correggere mesi disordinati in leads e reviews
-        function ChangeData(year, mounth) {
-            console.log(year);
-            console.log(mounth);
-            let leads = {};
+        // inizializzazione variabili data attuale, utile nel defaultData
+        const data = new Date();
+        let currentMonth = data.getMonth();
+        let currentYear = data.getFullYear();
+
+        //inizializzo le variabili contententi i dati suddivisi per mese e anno
+        let leads = {};
             yearIndex = 0;
                 @for ($i = 0; $i < count($years); $i++)
                     yearIndex = {{ 2022 + $i }};
@@ -83,15 +73,9 @@
                             leads[yearIndex].push({{ $lead }});
                         @endforeach
                 @endfor
-                console.log(leads);
-            
-            mounthIndex = mounthToIndex(mounth);
-            // console.log(mounthIndex);
-            let currentLeads = leads[year][mounthIndex];
-            if(currentLeads === undefined) currentLeads = 0;
-            totalMessages.innerHTML = currentLeads;
-            
-            let reviews = {};
+        console.log(leads);
+
+        let reviews = {};
             yearIndex = 0;
                 @for ($i = 0; $i < count($years); $i++)
                     yearIndex = {{ 2022 + $i }};
@@ -100,14 +84,9 @@
                             reviews[yearIndex].push({{ $review }});
                         @endforeach
                 @endfor
-            console.log(reviews);
+        console.log(reviews);
 
-            mounthIndex = mounthToIndex(mounth);
-            let currentReviews = reviews[year][mounthIndex];
-            if(currentReviews === undefined) currentReviews = 0;
-            totalReviews.innerHTML = currentReviews;
-
-            let votes = {};
+        let votes = {};
             yearIndex = 0;
                 @for ($i = 0; $i < count($years); $i++)
                     yearIndex = {{ 2022 + $i }};
@@ -119,82 +98,162 @@
                             votes[yearIndex].push({{ $vote }});
                         @endforeach
                 @endfor
-            console.log(votes);
+        console.log(votes);
 
-            mounthIndex = mounthToIndex(mounth);
-            let currentVotes = votes[year][mounthIndex];
-            if(currentVotes === undefined) currentVotes = 0;
-            makeChartVote(year, votes);
+        ChangeDataInDefault();
 
-
-            // if(year === 'all'){
-            //     allYearsSelectedErrorMessage.style.display = 'block';
-                
-            // }else{
-            //     allYearsSelectedErrorMessage.style.display = 'none';
-            // }
-            
+        /**
+         * Riordina i valori in base agli ultimi 12 mesi
+         */
+        function ChangeDataInDefault() {
+            //fa scomparire il bottone che lo aziona
+            defaultBtn.style.display = 'none';
+            //inserisco i dati di default
+            let defaultData = {
+                "votes" : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                "leads" : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                "reviews" : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            };
+            //indice per iterare i mesi dall'ultimo al primo
+            let j = 11;
+            // "i" va dal mese attuale fino al mese successivo dell'anno precedente (all'inizio i è 4 quindi maggio 2024, arriva fino a -7 ossia giugno del 2023 [in quanto facendo i(-7) + 12 esce 5 quindi il SESTO mese dell'anno])
+            for(let i = currentMonth; i > (currentMonth - 12); i--){
+                //se i è maggiore uguale di 0 allora si tratta dell'anno corrente
+                if(i >= 0){
+                    defaultData["votes"][j] = votes[currentYear][i];
+                    defaultData["leads"][j] = leads[currentYear][i];
+                    defaultData["reviews"][j] = reviews[currentYear][i];
+                }
+                //se i è minore di 0 allora si tratta dell'anno precedente, quindi devo aggiungere 12
+                else{
+                    defaultData["votes"][j] = votes[currentYear-1][i+12];
+                    defaultData["leads"][j] = leads[currentYear-1][i+12];
+                    defaultData["reviews"][j] = reviews[currentYear-1][i+12];
+                }
+                j--;
+            }
+            console.log(defaultData);
+            //passo questi valori per la creazione dei grafici
+            makeCharts(defaultData["votes"], defaultData["reviews"], defaultData["leads"]);
         }
 
         /**@argument yearSelected è l'anno selezionato 
-         *  crea il grafico dei votes in base all'anno selezionato 
+         *  crea i grafici in base ai dati passati
         */
-        function makeChartVote(yearSelected, votes){
-            console.log(yearSelected);
-            if (myChart !== null) {
-                myChart.destroy();
+        function makeCharts( votes, reviews, leads) {
+            //se esistono vanno distrutti per essere ricreati
+            if (myChartVotes !== null) {
+                myChartVotes.destroy();
             }
-            if (yearSelected === 'all') {
-                yearSelected = {{ date('Y') }};
-                // allYearsSelectedErrorMessage.style.display = 'block';
-            }else{
-                // allYearsSelectedErrorMessage.style.display = 'none';
+            if (myChartReviewsMessages !== null) {
+                myChartReviewsMessages.destroy();
             }
-            myChart = new Chart(chartVotes, {
+            // se si tratta degli ultimi 12 mesi, devo cacolare ordine in cui vengono visualizzati i mesi nell'ascisse
+            let monthsLabels = [];
+            if(changeBtnFlag){
+                for(let i = currentMonth; i > (currentMonth - 12); i--){
+                    if(i >= 0){
+                        monthsLabels.unshift(MonthIndexToName(i));
+                    }else{
+                        monthsLabels.unshift(MonthIndexToName(i+12));
+                    }
+                }
+            }
+            //altrimenti l'ordine è quello reale
+            else{
+                monthsLabels = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'];
+            }
+            //crei il grafico dei voti
+            myChartVotes = new Chart(chartVotes, {
             type: 'bar',
             data: {
-                labels: ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'],
+                labels: monthsLabels,
                 datasets: [{
-                    label: 'media voti per mese',
-                    data: votes[yearSelected],
+                    label: 'Media voti',
+                    data: votes,
                     borderWidth: 1,
                     hoverBorderWidth: 2,
+                    backgroundColor: 'rgba(0, 119, 182, 0.6)',
+                    borderColor: 'rgba(0, 119, 182, 1)',
                 }]
-                // datasets: Object.keys(leads).map(year => ({
-                //     label: `messaggi per mese ${year}`,
-                //     data: leads[year],
-                //     borderWidth: 1,
-                //     hoverBorderWidth: 2,
-                // }))
             },
             options: {
                 scales: {
                     y: {
                         beginAtZero: true,
+                        //valore massimo è ovviamente 5 essendo 5 i voti che si possono dare
                         max: 5
                     }
                 }
             }
-        });
-    }
+            });
 
-        function mounthToIndex(mounth){
-            switch(mounth){
-                case 'January': return 0;
-                case 'February': return 1;
-                case 'March': return 2;
-                case 'April': return 3;
-                case 'May': return 4;
-                case 'June': return 5;
-                case 'July': return 6;
-                case 'August': return 7;
-                case 'September': return 8;
-                case 'October': return 9;
-                case 'November': return 10;
-                case 'December': return 11;
+            //creo il grafico delle recensioni e dei messaggi
+            myChartReviewsMessages = new Chart(ChartReviewsMessages, {
+                type: 'bar',
+                data: {
+                    labels: monthsLabels,
+                    datasets: [{
+                        label: 'Numero recensioni',
+                        data: reviews,
+                        borderWidth: 1,
+                        hoverBorderWidth: 2,
+                        backgroundColor: 'rgba(0, 119, 182, 0.6)',
+                        borderColor: 'rgba(0, 119, 182, 1)',
+                    },
+                    {
+                        label: 'Numero messaggi',
+                        data: leads,
+                        borderWidth: 1,
+                        hoverBorderWidth: 2,
+                        backgroundColor: 'rgba(227, 28, 65, 0.6)',
+                        borderColor: 'rgba(227, 28, 65, 1)',
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                        }
+                    }
+                }
+            });
+
+        };
+
+        /**
+         * @argument index è l'indice del mese
+         * trasforma l'indice ricevuto nel mese corrispondente
+         **/
+        function MonthIndexToName(index){
+            switch(index){
+                case 0:
+                    return 'Gennaio';
+                case 1:
+                    return 'Febbraio';
+                case 2:
+                    return 'Marzo';
+                case 3:
+                    return 'Aprile';
+                case 4:
+                    return 'Maggio';
+                case 5:
+                    return 'Giugno';
+                case 6:
+                    return 'Luglio';
+                case 7:
+                    return 'Agosto';
+                case 8:
+                    return 'Settembre';
+                case 9:
+                    return 'Ottobre';
+                case 10:
+                    return 'Novembre';
+                case 11:
+                    return 'Dicembre';
             }
-            ;
         }
+
     </script>
         
         

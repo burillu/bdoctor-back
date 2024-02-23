@@ -27,7 +27,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 
 Route::middleware(['auth', 'verified'])->name('admin.')->prefix('admin')->group(function () {
-    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/home', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('profile/', [ProfileController::class, 'edit'])->name("profile.edit");
     Route::get('sponsorships/', [SponsorshipController::class, 'index'])->name('sponsorships.index');
     Route::resource('leads', LeadController::class)->except('create','edit','store');

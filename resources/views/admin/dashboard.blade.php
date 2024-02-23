@@ -61,32 +61,33 @@
         <main class="container-fluid p-0">
             <div class="row g-0">
                 <!-- sidebar -->
-                <div class="col-12 col-md-3 my-sidebar  @if (strtotime($expire_date) > strtotime($now)) bg-sponsored @endif my-sidebar-lg  text-white"
-                    id="sidebar">
+                <div class="col-12 col-md-3 my-sidebar my-sidebar-lg  text-white" id="sidebar">
                     <div class=" h-100 container-fluid">
                         <div class=" h-100 row">
                             <div class="col-sm-12">
                                 <div
                                     class=" d-flex h-100 flex-row flex-sm-column justify-content-between justify-content-sm-start align-items-center align-items-sm-baseline">
                                     <!-- image -->
-                                    <div class="my-2 my-logo-query rounded-md-5 overflow-hidden">
+                                    <div
+                                        class="my-2 my-logo-query @if (strtotime($expire_date) > strtotime($now)) border border-5 border-primary @endif  rounded-md-5 overflow-hidden">
 
                                         <img src="{{ asset('storage' . '\/images/OIG2.kc86IYLpVtKY.jpg') }}"
                                             class="@if (strtotime($expire_date) > strtotime($now)) img-sponsored @endif "
                                             alt="logo-bdoctors">
                                     </div>
                                     <!--top-->
-                                    <div class="sidebar-top">
+                                    <div class="w-sm-100">
 
-                                        <div class="d-flex d-sm-block">
+                                        <div class="d-flex  d-sm-block">
                                             <!-- home -->
-                                            <div class=" my-btn p-2">
+                                            <div class="@if (str_contains(url()->current(), '/home')) active @endif my-btn p-2">
                                                 <a href="{{ route('admin.dashboard') }}">
-                                                    <i class="fa-solid fa-house"></i> <span class="px-1 d-none d-md-inline">
+                                                    <i class="fa-solid fa-house"></i>
+                                                    <span class="px-1 d-none d-md-inline">
                                                         Home</span></a>
                                             </div>
                                             <!-- Profilo -->
-                                            <div class="my-btn p-2">
+                                            <div class="@if (str_contains(url()->current(), '/profile')) active @endif my-btn p-2">
                                                 <a href="{{ route('admin.profile.edit') }}">
                                                     <i class="fa-solid fa-user-doctor"></i>
                                                     <span class="px-1 d-none d-md-inline">
@@ -95,7 +96,7 @@
 
                                             </div>
                                             <!-- Messaggi -->
-                                            <div class="my-btn p-2">
+                                            <div class="@if (str_contains(url()->current(), '/leads')) active @endif my-btn p-2">
                                                 <a href="{{ route('admin.leads.index') }}">
                                                     <i class="fa-solid fa-envelope"></i>
                                                     <span class="px-1 d-none d-md-inline">
@@ -103,7 +104,7 @@
                                                 </a>
                                                 <!-- Recensioni -->
                                             </div>
-                                            <div class="my-btn p-2">
+                                            <div class="@if (str_contains(url()->current(), '/reviews')) active @endif my-btn p-2">
                                                 <a href="{{ route('admin.reviews.index') }}">
                                                     <i class="fa-solid fa-clipboard-question"></i>
                                                     <span class="px-1 d-none d-md-inline">
@@ -111,7 +112,7 @@
                                                 </a>
                                                 <!-- Sponsorizzazioni -->
                                             </div>
-                                            <div class="my-btn p-2">
+                                            <div class="@if (str_contains(url()->current(), '/sponsorships')) active @endif my-btn p-2">
                                                 <a href="{{ route('admin.sponsorships.index') }}">
                                                     <i class="fa-solid fa-plug-circle-bolt"></i>
                                                     <span class="px-1 d-none d-md-inline">
@@ -119,8 +120,8 @@
                                                 </a>
                                                 <!-- Statistiche -->
                                             </div>
-                                            <div class="my-btn p-2">
-                                                <a href="{{route('admin.stats.index')}}">
+                                            <div class="@if (str_contains(url()->current(), '/stat')) active @endif my-btn p-2">
+                                                <a href="{{ route('admin.stats.index') }}">
                                                     <i class="fa-solid fa-chart-line"></i>
                                                     <span class="px-1 d-none d-md-inline">
                                                         Statistiche</span>
@@ -132,7 +133,7 @@
 
                                     </div>
                                     <!--bottom-->
-                                    <div class="sidebar-bottom mt-sm-auto">
+                                    <div class="sidebar-bottom w-sm-100 mt-sm-auto">
 
                                         <ul class="navbar-nav ml-auto">
                                             <!-- Authentication Links -->
@@ -147,7 +148,7 @@
                                                     </li>
                                                 @endif
                                             @else
-                                                <li class="nav-item dropdown my-btn p-2">
+                                                <li class="nav-item d-flex dropdown my-btn p-2">
                                                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#"
                                                         role="button" data-bs-toggle="dropdown" aria-haspopup="true"
                                                         aria-expanded="false" v-pre>
@@ -186,7 +187,7 @@
 
                     <div class="container-fluid">
                         <!-- top-main -->
-                        <div class="row my-bg-blue text-white" id="top-main">
+                        <div class="row my-bg-blue h-90-px text-white" id="top-main">
                             <div class="col-8 col-md-12">
                                 <div class="row justify-content-between py-2">
                                     <!-- nuova sponsorizzazione -->
@@ -226,30 +227,7 @@
                                                     {{ date('d/m/y \o\r\e H:i', strtotime($expire_date)) }}</span>
                                             @endif
                                         </div>
-                                        <nav class="text-white" style="--bs-breadcrumb-divider: '>>';"
-                                            aria-label="breadcrumb">
-                                            <ol class="breadcrumb">
-                                                <li class="breadcrumb-item">
-                                                    <a href="#"><span class="badge rounded-pill my-blue-badge">3
-                                                            app</span></a>
-                                                </li>
-                                                <li class="breadcrumb-item active" aria-current="page">
-                                                    <span class="badge rounded-pill my-blue-badge me-1 d-lg-none">+</span>
-                                                    <span
-                                                        class="badge rounded-pill my-blue-badge me-1 d-none d-lg-inline">Boolean
-                                                        mobile
-                                                        app</span>
-                                                    <span
-                                                        class="badge rounded-pill my-blue-badge me-1 d-none d-lg-inline">Boolean
-                                                        web
-                                                        app</span>
-                                                    <span
-                                                        class="badge rounded-pill my-blue-badge me-1 d-none d-lg-inline">Boolean
-                                                        blog
-                                                        app</span>
-                                                </li>
-                                            </ol>
-                                        </nav>
+
                                     </div>
                                     {{-- <div class="col-12 col-md-4 col-lg-3">
                                         <span>Messaggi ricevuti:</span>

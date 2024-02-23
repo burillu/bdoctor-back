@@ -14,16 +14,32 @@
                     @foreach ($sponsorships as $sponsorship)
                         <div class="col-12 col-md-6 col-lg-4">
                             <div class="card mb-3">
-                                <h6 class="my-3">{{ $sponsorship->name }} </h6>
-                                <p> Questa sponsorizzazione ti consente di avere la priorità nella ricerca dei medici
-                                    per la
-                                    durata
-                                    di
-                                    {{ substr($sponsorship->duration, 0, -6) }} ore, e ha un prezzo di
-                                    {{ $sponsorship->price }}
-                                    &euro;
-                                </p>
-                                <div class="align-self-center"><input class="form-check-input " type="radio" name="plan_id" value="{{ $sponsorship->id }}"></div>
+                                <div class="my-3 card-header">
+                                    <h6 class="card-title">
+                                        {{ $sponsorship->name }}
+                                    </h6>
+                                </div>
+                                <div class="card-body">
+
+                                    <p class> Avrai la priorità nella ricerca dei
+                                        medici
+                                        per la durata di {{ substr($sponsorship->duration, 0, -6) }} h, ad un prezzo
+                                        di:
+                                    <div><span
+                                            class="text-decoration-line-through text-secondary">{{ number_format(round($sponsorship->price * 1.2, 1), 2, '.', ' ') }}
+                                            &euro;</span>
+                                        <span class="text-danger">
+                                            {{ $sponsorship->price }}&euro; </span>
+                                    </div>
+                                    </p>
+                                </div>
+
+                                <div class="card-footer text-center my-bg-pacific px-3"><label class=""
+                                        for="">
+                                        Totale: {{ $sponsorship->price }} &euro;</label><br><input
+                                        class="form-check-input " type="radio" name="plan_id"
+                                        value="{{ $sponsorship->id }}">
+                                </div>
                             </div>
                         </div>
                     @endforeach
@@ -32,7 +48,7 @@
 
             <div id="dropin-container"></div>
             <input type="hidden" id="nonce" name="payment_method_nonce">
-            <button class="btn" id='submit-pay' type="submit">Pay</button>
+            <button class="btn my-bg-primary mb-3" id='submit-pay' type="submit">Acquista</button>
         </form>
     @else
         <div class="alert alert-danger">

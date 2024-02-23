@@ -22,6 +22,10 @@ img {
     color: white;
 }
 
+.my-bg-pacific {
+    background-color: $pacific-cyan;
+}
+
 // CLASSI PER LA DASHBOARD
 a {
     text-decoration: none;
@@ -83,7 +87,7 @@ main>div {
 }
 
 .bg-sponsored {
-    background-color: rgb(177, 152, 10);
+    background-color: $sponsor-color;
 }
 
 
@@ -95,12 +99,23 @@ img.my-img-avatar {
     width: 25px;
 }
 
-.my-btn {
-    cursor: pointer;
+.h-90-px {
+    height: 90px;
 }
 
-.my-sidebar .my-btn:hover {
-    background-color: #ffffff91;
+.my-btn {
+    cursor: pointer;
+    border-width: 5px;
+    border-bottom-left-radius: 12px;
+    border-bottom: 5px solid transparent;
+    transition: border 0.4s;
+}
+
+.my-sidebar .my-btn:hover,
+.active {
+    border-bottom: 5px solid $contrast-color;
+    //background-color: rgb(219, 205, 205);
+    //transition: all 5s;
 }
 
 .btn:hover {
@@ -170,6 +185,10 @@ img.my-img-avatar {
 @media screen and (min-width:576px) {
     .my-sidebar-lg {
         width: 70px;
+    }
+
+    .w-sm-100 {
+        width: 100%;
     }
 
     .main-content {

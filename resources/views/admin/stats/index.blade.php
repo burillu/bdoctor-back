@@ -15,10 +15,12 @@
             @endforeach
         </select>
 
-        <button class="btn btn-primary w-25" id="changeDataBtn" onclick="makeCharts(year.value, votes, leads, reviews)">cambia</button>
+        <button class="btn btn-primary w-25" id="changeDataBtn" onclick="makeCharts(year.value, votes, reviews, leads)">cambia</button>
         <button class="btn btn-primary w-25" id="defaultBtn" >Ultimi 12 mesi</button>
 
     </div>
+
+    <h5 class="mt-3 me-3">Grafico del numero di recensioni e messaggi per anno</h5>
 
     <div>
         <canvas id="ChartReviewsMessages"></canvas>
@@ -26,7 +28,6 @@
 
     <h5 class="mt-3 me-3">Grafico media voti per anno</h5>
 
-     <h7 class="text-danger">attenzione il grafico è visualizzato in base all'anno</h7>
     <div>
         <canvas id="ChartVotes"></canvas>
     </div>
@@ -41,7 +42,7 @@
         // 2) AGGIUNGERE COMMENTI E DOCUMENTAZIONEXXXXXXXXXXXXX
         // 3) ? CREARE FUNZIONE PER NON RIPETERE OGNI VOLTA L'INIZIALIZZAZIONE DI LEADS, VOTES, REVIES ESSENDO QUASI IDENTICI    
         // 4) correggere mesi disordinati in leads e reviews XXXXXXXXXXXXXXXXX
-        // 5) trasformare n messaggi + recensioni per anno/mese in un grafico
+        // 5) trasformare n messaggi + recensioni per anno/mese in un grafico XXXXXXXXXXXXX
         // 6) creare funzione per il default ultimi 12 mesi
         // 7) migliorare la grafica
 
@@ -59,6 +60,11 @@
         const defaultBtn = document.getElementById('defaultBtn');
         let changeBtnFlag = true;
         defaultBtn.style.display = 'none';
+
+        // inizializzazione variabili data attuale, utile nel defaultData
+        const data = new Date();
+        let currentMonth = data.getMonth();
+        let currentYear = data.getFullYear();
 
         //inizializzo le variabili contententi i dati suddivisi per mese e anno
         let leads = {};
@@ -97,27 +103,43 @@
                 @endfor
         console.log(votes);
 
-        // ChangeDataLast12Mounths();
-        makeCharts(year.value, votes, leads, reviews);
+        ChangeDataInDefault();
+        // makeCharts(year.value, votes, reviews, leads);
 
-        function ChangeDataForYear(year) {
-            console.log(year);
-            
-            let currentReviews = reviews[year];
-            if(currentReviews === undefined) currentReviews = 0;
-            totalReviews.innerHTML = currentReviews;
-            
-            let currentVotes = votes[year];
-            if(currentVotes === undefined) currentVotes = 0;
-            makeCharts(year, votes);
-            
+        function ChangeDataInDefault() {
+            defaultBtn.style.display = 'none';
+            changeDataBtn.style.display = 'block';
+            let defaultData = {
+                "votes" : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                "leads" : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                "reviews" : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            };
+            // console.log(currentMonth);
+            // console.log(currentYear);
+            let j = 11;
+            for(let i = currentMonth; i > (currentMonth - 12); i--){
+                if(i >= 0){
+                    // console.log(votes[currentYear][i]);
+                    defaultData["votes"][j] = votes[currentYear][i];
+                    defaultData["leads"][j] = leads[currentYear][i];
+                    defaultData["reviews"][j] = reviews[currentYear][i];
+                }
+                else{
+                    // console.log(votes[currentYear-1][i+12]);
+                    defaultData["votes"][j] = votes[currentYear-1][i+12];
+                    defaultData["leads"][j] = leads[currentYear-1][i+12];
+                    defaultData["reviews"][j] = reviews[currentYear-1][i+12];
+                }
+                j--;
+            }
+            console.log(defaultData);
+            makeCharts(defaultData["votes"], defaultData["reviews"], defaultData["leads"]);
         }
 
         /**@argument yearSelected è l'anno selezionato 
          *  crea il grafico dei votes in base all'anno selezionato 
         */
-        function makeCharts(yearSelected, votes, leads, reviews) {
-            console.log(yearSelected);
+        function makeCharts( votes, reviews, leads) {
             if (myChartVotes !== null) {
                 myChartVotes.destroy();
             }
@@ -131,16 +153,10 @@
                 labels: ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'],
                 datasets: [{
                     label: 'Media voti',
-                    data: votes[yearSelected],
+                    data: votes,
                     borderWidth: 1,
                     hoverBorderWidth: 2,
                 }]
-                // datasets: Object.keys(leads).map(year => ({
-                //     label: `messaggi per mese ${year}`,
-                //     data: leads[year],
-                //     borderWidth: 1,
-                //     hoverBorderWidth: 2,
-                // }))
             },
             options: {
                 scales: {
@@ -158,13 +174,13 @@
                     labels: ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'],
                     datasets: [{
                         label: 'Numero recensioni',
-                        data: reviews[yearSelected],
+                        data: reviews,
                         borderWidth: 1,
                         hoverBorderWidth: 2,
                     },
                     {
                         label: 'Numero messaggi',
-                        data: leads[yearSelected],
+                        data: leads,
                         borderWidth: 1,
                         hoverBorderWidth: 2,
                     }]

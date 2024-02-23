@@ -21,15 +21,15 @@
                                     </h5>
                                     <p class> Questa sponsorizzazione ti consente di avere la priorità nella ricerca dei
                                         medici
-                                        per la durata di{{ substr($sponsorship->duration, 0, -6) }} ore, e ha un prezzo
-                                        di{{ $sponsorship->price }}&euro;
+                                        per la durata di {{ substr($sponsorship->duration, 0, -6) }} ore, e ha un prezzo
+                                        di {{ $sponsorship->price }}&euro;
                                     </p>
                                 </div>
 
-                                <div class="card-footer text-center bg-secondary px-3"><label
-                                        for="">{{ $sponsorship->name }}, prezzo:
-                                        {{ $sponsorship->price }} &euro;</label><br><input class="form-check-input "
-                                        type="radio" name="plan_id" value="{{ $sponsorship->id }}"></div>
+                                <div class="card-footer text-center bg-secondary px-3"><label for="">
+                                        Totale: {{ $sponsorship->price }} &euro;</label><br><input
+                                        class="form-check-input " type="radio" name="plan_id"
+                                        value="{{ $sponsorship->id }}"></div>
 
                             </div>
                         </div>

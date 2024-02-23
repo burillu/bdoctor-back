@@ -130,7 +130,7 @@
             data: {
                 labels: ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'],
                 datasets: [{
-                    label: 'media voti per mese',
+                    label: 'Media voti',
                     data: votes[yearSelected],
                     borderWidth: 1,
                     hoverBorderWidth: 2,
@@ -157,8 +157,14 @@
                 data: {
                     labels: ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'],
                     datasets: [{
-                        label: 'media voti per mese',
+                        label: 'Numero recensioni',
                         data: reviews[yearSelected],
+                        borderWidth: 1,
+                        hoverBorderWidth: 2,
+                    },
+                    {
+                        label: 'Numero messaggi',
+                        data: leads[yearSelected],
                         borderWidth: 1,
                         hoverBorderWidth: 2,
                     }]

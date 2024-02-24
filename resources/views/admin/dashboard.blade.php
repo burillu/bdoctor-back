@@ -306,6 +306,24 @@
                             <!-- right -->
                             <div class="col-12 col-xl-3">
                                 <div class="card my-4">
+                                    <div class="card-header fs-5">
+                                        Calendario
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card">
+
+
+                                            {{-- aggiunta calendario --}}
+                                            <div class="contents">
+                                                <div id="calendar1" style="max-width: 800px;"></div>
+                                                <br />
+                                                <br />
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
                                     <div class="card-header fs-5"> To-do</div>
                                     <div class="card-body">
                                         <ul class="list-group">
@@ -330,23 +348,7 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="card">
-                                            <div class="card-header fs-5">
-                                                Calendario
-                                            </div>
 
-                                            {{-- aggiunta calendario --}}
-                                            <div class="contents">
-                                                <div id="calendar1" style="max-width: 800px;"></div>
-                                                <br />
-                                                <br />
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
 
 
 

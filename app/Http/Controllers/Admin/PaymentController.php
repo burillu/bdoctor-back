@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Braintree\Gateway;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Profile;
+use App\Models\Sponsorship;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -15,38 +16,31 @@ class PaymentController extends Controller
     //
     public function process(Request $request)
     {
-       
-        $profile_query = Profile::where('user_id', Auth::id())->with('sponsorships');
-        $profile= $profile_query->first();
-        //$sponsorshipId=$profile
-        //creare una condizione affinche si interrompa la procedura di pagamento se c'è una sponsorship e questa ha un expire_date non ancora passata
-        $profile_sponsored= DB::table('profile_sponsorship')
-        ->select('expire_date')->where('profile_id', Auth::id())
-        ->first();
-        //dd($profile_sponsored->expire_date);
-        if(!is_null($profile_sponsored?->expire_date)){
-            if($profile_sponsored->expire_date > Carbon::now()){
-            return redirect()->back()->withInput()->withErrors('Hai una sponsorizzazione già attiva. Al termine del periodo, potrai acquistarne un\' altra.');
-        }
-        }
-        
-        // Inizializza la gateway di Braintree
-        $gateway = new Gateway(config('services.braintree'));
-        
-        //dd($profile);
-        
-
         // Ottiene il nonce del metodo di pagamento dal request e il piano scelto
         $nonce = $request->input('payment_method_nonce');
         $id_plan = $request->input('plan_id');
         if(!$id_plan){
             return redirect()->back()->withInput()->withErrors('Non è stato selezionato alcun piano');
         }
-
         // Verifica se il nonce è stato fornito
         if (!$nonce) {
             return redirect()->back()->withInput()->withErrors('Il nonce di pagamento non è stato fornito.');
         }
+        $profile_query = Profile::where('user_id', Auth::id())->with('sponsorships');
+        $profile= $profile_query->first();
+        $sponsorship = Sponsorship::where('id', $id_plan)->first();
+        
+        //creare una condizione affinche si interrompa la procedura di pagamento se c'è una sponsorship e questa ha un expire_date non ancora passata
+        $profile_sponsored= DB::table('profile_sponsorship')
+        ->select('expire_date')->where('profile_id', Auth::id())
+        ->first();
+        if(!is_null($profile_sponsored?->expire_date)){
+            if($profile_sponsored->expire_date > Carbon::now()){
+            return redirect()->back()->withInput()->withErrors('Hai una sponsorizzazione già attiva. Al termine del periodo, potrai acquistarne un\' altra.');
+        }
+        }
+        // Inizializza la gateway di Braintree
+        $gateway = new Gateway(config('services.braintree'));
         $amounts = [
             1 => 2.99,
             2 => 5.99,
@@ -76,7 +70,10 @@ class PaymentController extends Controller
             $expire_date = Carbon::now()->addHours($hours[$id_plan]);
             $profile->sponsorships()->syncWithPivotValues([$id_plan], ['expire_date' => $expire_date,'current_price'=> $amount], true);
 
-            return redirect()->route('admin.payments.confirmation')->with('expire_date', $expire_date);
+            return redirect()->route('admin.payments.confirmation')
+            ->with('expire_date', $expire_date)
+            ->with('amount',$amount)
+            ->with('sponsorship_name', $sponsorship->name);
         } else {
             // Il pagamento ha fallito, gestisci l'errore di conseguenza
             $errorMessages = [];

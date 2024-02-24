@@ -333,22 +333,14 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="card">
-                                            <img src="https://cdn.statcdn.com/Statistic/1400000/1400547-blank-754.png"
-                                                class="card-img-top" alt="stats">
-                                            <div class="card-body">
-                                                <h5 class="card-title">Utenti attivi</h5>
-                                                <p class="card-text">Lista degli utenti attivi in piattaforma
-                                                    nell'ultimo mese</p>
+
+                                            {{-- aggiunta calendario --}}
+                                            <div class="contents">
+                                                <div id="calendar1" style="max-width: 800px;"></div>
+                                                <br />
+                                                <br />
                                             </div>
-                                            <ul class="list-group list-group-flush">
-                                                <li class="list-group-item">Gennaio: 1200</li>
-                                                <li class="list-group-item">Febbraio: 800</li>
-                                                <li class="list-group-item">Marzo: 1500</li>
-                                            </ul>
-                                            <div class="card-body">
-                                                <a href="#" class="card-link">Visualizza report
-                                                    approfondito</a>
-                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -389,4 +381,5 @@
         </div>
     </div>
 </div> --}}
+    <script></script>
 @endsection

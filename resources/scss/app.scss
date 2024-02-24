@@ -8,6 +8,8 @@ $fa-font-path: "../fonts/webfonts" !default;
 @import "~@fortawesome/fontawesome-free/scss/brands";
 
 @import '~bootstrap/scss/bootstrap';
+@import '../js/calendarJs/scss/calendar.js.scss';
+// @import '../js/calendarJs/scss/styles.scss';
 
 img {
     width: 100%;

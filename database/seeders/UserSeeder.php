@@ -9,6 +9,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Faker\Factory as Faker;
 
 class UserSeeder extends Seeder
@@ -26,13 +27,9 @@ class UserSeeder extends Seeder
         //dd($users);
         foreach($users as $key=>$user){
             //dd($key,$user);
-            $vote_ids= array();
-        //dd($vote_ids);
-        for ($i=0; $i <20 ; $i++) { 
-            array_push($vote_ids,random_int(1,5) );
-        }
-        //dd($vote_ids);
-        $created_array=array('created_at'=>$faker->dateTimebetween('-2 years', '-1 day'),'updated_at'=>Carbon::now());
+        
+        // dd($vote_ids);
+        // $created_array=array('created_at'=>$faker->dateTimebetween('-2 years', '-1 day'),'updated_at'=>Carbon::now());
        
        // dd($created_array);
         $new_user = User::factory()->create([
@@ -54,19 +51,36 @@ class UserSeeder extends Seeder
         
         $new_profile->specialties()->sync(random_int(1,count(Specialty::all())));
         
-        //dd($created_array);
-        //for ($i=0; $i < 5; $i++) { 
-            # code...
-            $created_array=array('created_at'=>$faker->dateTimeBetween('-2 years', '-1 day'),'updated_at'=>Carbon::now());
-            $new_profile->votes()->syncWithPivotValues($vote_ids,$created_array, true);
-        //}
         
+
+        $argoments_votes = [];
+        for ($i=0; $i <20 ; $i++) { 
+            $randomVote = random_int(1,5);
+            $created_at = $this->randomDate();
+            $updated_at = Carbon::now();
+
+            $argoments_votes[$i] = [
+                'profile_id' => $new_profile->id,
+                'vote_id' => $randomVote,
+                'created_at' => $created_at,
+                'updated_at' => $updated_at
+            ];
+
+            DB::table('profile_vote')->insert($argoments_votes[$i]);
+        }
         
-        // $new_profile->votes()->sync([random_int(1,5),random_int(3,5),random_int(1,4)]);
         if ($key < 5){
             $new_profile->sponsorships()->syncWithPivotValues([3], ['expire_date' => Carbon::now()->addDays(6),'current_price'=> 9.99], true);
         }
         
     }
 }
+
+    public function randomDate()
+    {
+        $start = Carbon::createFromDate(2022, 1, 1);
+        $end = Carbon::now();
+
+        return Carbon::createFromTimestamp(mt_rand($start->timestamp, $end->timestamp));
+    }
 }

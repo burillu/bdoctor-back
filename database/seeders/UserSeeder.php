@@ -50,23 +50,25 @@ class UserSeeder extends Seeder
         $new_profile->save();
         
         $new_profile->specialties()->sync(random_int(1,count(Specialty::all())));
-        
-        
 
-        $argoments_votes = [];
+        //inserisco 20 voti per ogni utente
         for ($i=0; $i <20 ; $i++) { 
+            //genero un numero random del voto
             $randomVote = random_int(1,5);
+            //genero una data random di creazione e di aggiornamento metto quella odierna
             $created_at = $this->randomDate();
             $updated_at = Carbon::now();
 
-            $argoments_votes[$i] = [
+            //impattetto tutta la roba insieme
+            $argoments_votes = [
                 'profile_id' => $new_profile->id,
                 'vote_id' => $randomVote,
                 'created_at' => $created_at,
                 'updated_at' => $updated_at
             ];
 
-            DB::table('profile_vote')->insert($argoments_votes[$i]);
+            //inserisco nella tabella pivot
+            DB::table('profile_vote')->insert($argoments_votes);
         }
         
         if ($key < 5){
@@ -76,11 +78,17 @@ class UserSeeder extends Seeder
     }
 }
 
+    /**
+     * Genera una data random tra il 2022 ed oggi e la restituisce
+     */
     public function randomDate()
-    {
+    {   
+        //data di inizio: 2022-01-01
         $start = Carbon::createFromDate(2022, 1, 1);
+        //data massima : oggi
         $end = Carbon::now();
 
+        //restituisco un valore in mezzo a i due precedenti, quindi tra 2022-01-01 e oggi
         return Carbon::createFromTimestamp(mt_rand($start->timestamp, $end->timestamp));
     }
 }

@@ -103,7 +103,7 @@ class LeadController extends Controller
                 'message' => 'il campo message deve essere inferiore a 65535 caratteri',
                 ]);
         }
-$now = Carbon::now();
+        $now = Carbon::now();
         $new_lead= new Lead();
         $new_lead->profile_id = $request->profile_id;
         $new_lead->name= $request->name;

@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-
+        $now = Carbon::now();
         $faker=Faker::create('it_IT');
         $services = ['Prima visita','Visita di controllo','Esame strumentale','Terapia'];
         $data=file_get_contents(__DIR__ .'/data/lista_dottori.json');
@@ -29,7 +29,7 @@ class UserSeeder extends Seeder
             //dd($key,$user);
         
         // dd($vote_ids);
-        // $created_array=array('created_at'=>$faker->dateTimebetween('-2 years', '-1 day'),'updated_at'=>Carbon::now());
+        // $created_array=array('created_at'=>$faker->dateTimebetween('-2 years', '-1 day'),'updated_at'=>$now);
        
        // dd($created_array);
         $new_user = User::factory()->create([
@@ -56,8 +56,8 @@ class UserSeeder extends Seeder
             //genero un numero random del voto
             $randomVote = random_int(1,5);
             //genero una data random di creazione e di aggiornamento metto quella odierna
-            $created_at = $this->randomDate();
-            $updated_at = Carbon::now();
+            $created_at = $this->randomDate($now);
+            $updated_at = $now;
 
             //impattetto tutta la roba insieme
             $argoments_votes = [
@@ -72,7 +72,7 @@ class UserSeeder extends Seeder
         }
         
         if ($key < 5){
-            $new_profile->sponsorships()->syncWithPivotValues([3], ['expire_date' => Carbon::now()->addDays(6),'current_price'=> 9.99], true);
+            $new_profile->sponsorships()->syncWithPivotValues([3], ['expire_date' => $now->addDays(6),'current_price'=> 9.99], true);
         }
         
     }
@@ -81,12 +81,12 @@ class UserSeeder extends Seeder
     /**
      * Genera una data random tra il 2022 ed oggi e la restituisce
      */
-    public function randomDate()
+    public function randomDate($now)
     {   
         //data di inizio: 2022-01-01
         $start = Carbon::createFromDate(2022, 1, 1);
         //data massima : oggi
-        $end = Carbon::now();
+        $end = $now;
 
         //restituisco un valore in mezzo a i due precedenti, quindi tra 2022-01-01 e oggi
         return Carbon::createFromTimestamp(mt_rand($start->timestamp, $end->timestamp));

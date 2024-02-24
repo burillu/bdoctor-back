@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Review;
 use App\Models\Profile;
+use Illuminate\Support\Carbon;
+use Faker\Factory as Faker;
 
 class ReviewController extends Controller
 {
@@ -70,12 +72,15 @@ class ReviewController extends Controller
                 'message' => 'il campo name deve essere testuale',
                 ]);
         }
+        $now = Carbon::now();
         $new_review= new Review();
         $new_review->profile_id = $request->profile_id;
         if($request->title)$new_review->title= $request->title;
         if($request->body)$new_review->body = $request->body; 
         $new_review->email = $request->email;
         $new_review->name = $request->name;
+        $new_review->created_at= $now;
+        $new_review->updated_at = $now;
         $new_review->save();
 
         return response()->json([

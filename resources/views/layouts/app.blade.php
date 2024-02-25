@@ -19,15 +19,17 @@
     @vite(['resources/js/app.js'])
 </head>
 
-<body>
-    <div id="app">
+<body class="">
+    <div id="app ">
 
         @include('partials.header')
 
-        <main class="my-bg-primary pt-4">
+        <main class="my-bg-primary pt-4 pb-5">
             @yield('content')
         </main>
+        @include('partials.footer')
     </div>
+
 </body>
 
 </html>

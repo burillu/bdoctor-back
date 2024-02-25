@@ -313,8 +313,8 @@
                                         <div class="card">
 
 
-                                            {{-- aggiunta calendario --}}
-                                            <div class="contents">
+                                            <!-- aggiunta calendario -->
+                                            <div class="contents container-calendar">
                                                 <div id="calendar1" style="max-width: 800px;"></div>
                                                 <br />
                                                 <br />

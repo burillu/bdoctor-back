@@ -34,8 +34,27 @@ a {
     color: inherit;
 }
 
+/* 
+-------------------------
 
+Calendar.js
+------------------------- 
+*/
+.ib-pin,
+.ib-arrow-right-full-line,
+.left-divider-line,
+.ib-refresh,
+.right-divider-line-full-screen-mode,
+.ib-plus,
+.right-divider-line-views,
+.ib-bar-graph,
+.ib-expand {
+    display: none;
+}
 
+div.calendar div.full-month-view div.title-bar {
+    background-color: $honolulu-blue;
+}
 
 /* general */
 

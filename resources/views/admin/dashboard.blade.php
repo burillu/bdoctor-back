@@ -242,7 +242,7 @@
                         <!-- center-main -->
                         <div id="center-main" class="row py-4">
                             <!-- left -->
-                            <div class="col-12 col-xl-9">
+                            <div class="col-12 col-xxl-7">
                                 <div class="card my-4">
                                     <!-- contenuto variabile -->
                                     @yield('dashboard_content')
@@ -304,7 +304,7 @@
                                 </div>
                             </div>
                             <!-- right -->
-                            <div class="col-12 col-xl-3">
+                            <div class="col-12 col-xxl-5">
                                 <div class="card my-4">
                                     <div class="card-header fs-5">
                                         Calendario

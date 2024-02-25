@@ -1,23 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thank You Page</title>
 </head>
+
 <body>
+    <div class="logo-bdoctors rounded-4 overflow-hidden">
+
+        <img src="{{ asset('storage' . '\/images/OIG2.kc86IYLpVtKY.jpg') }}" alt="logo-bdoctors">
+    </div>
     <div class="container">
-        <div class="background"></div> <!-- Aggiunta dello sfondo sfocato -->
+
+        <div class="background">
+
+        </div> <!-- Aggiunta dello sfondo sfocato -->
+
         <div class="circle d-flex flex-column justify-content-center align-items-center">
-            <h1 class="text">Grazie per l'acquisto!</h1>
-            <p class="text">Il suo profilo verrà sponsorizzato fino al {{ date('d/m/y \o\r\e H:i', strtotime(session('expire_date'))) }}</p>
+
+            <h1 class="text">Grazie per l'acquisto, {{ Auth::user()->name }}!</h1>
+            <h4><span class="text-success">&#10004;</span> - Il pagamento di {{ session('amount') }} &euro;, è andato a
+                buon
+                fine.</h4>
+            <p class="text">Adesso con la tua sponsorizzazione <b>{{ session('sponsorship_name') }}</b> , <br>
+                Il tuo profilo verrà sponsorizzato fino al
+                {{ date('d/m/y \o\r\e H:i', strtotime(session('expire_date'))) }}</p>
             <a class="btn" href="{{ route('admin.profile.edit') }}">Torna al tuo profilo</a>
         </div>
     </div>
 </body>
+
 </html>
 
 <style>
+    .rounded-4 {
+        position: absolute;
+        border: 5px solid #5dabff;
+        left: 50%;
+        top: 20px;
+        z-index: 1100;
+        border-radius: 45px;
+        overflow: hidden;
+
+    }
+
+    .text-success {
+        color: greenyellow;
+        font-size: 1.5em
+    }
+
+    img {
+        display: block;
+    }
+
     body {
         font-family: Arial, sans-serif;
         margin: 0;
@@ -27,7 +64,8 @@
         align-items: center;
         height: 100vh;
         overflow: hidden;
-        position: relative; /* Aggiunto position relative per sfondo */
+        position: relative;
+        /* Aggiunto position relative per sfondo */
     }
 
     .container {
@@ -55,16 +93,20 @@
         display: inline-block;
         text-decoration: none;
         padding: 10px 20px;
-        background-color: #007bff; /* Colore blu */
+        background-color: #007bff;
+        /* Colore blu */
         color: #ffffff;
         border: none;
         border-radius: 5px;
-        cursor: pointer; /* Cambio cursore in un puntatore */
-        transition: background-color 0.3s ease, color 0.3s ease; /* Transizione fluida */
+        cursor: pointer;
+        /* Cambio cursore in un puntatore */
+        transition: background-color 0.3s ease, color 0.3s ease;
+        /* Transizione fluida */
     }
 
     .btn:hover {
-        background-color: #87ceeb; /* Colore azzurro al passaggio del mouse */
+        background-color: #87ceeb;
+        /* Colore azzurro al passaggio del mouse */
     }
 
     .background {
@@ -73,9 +115,11 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: linear-gradient(to bottom right, #007bff, #ffffff, #87ceeb); /* Sfondo gradiente */
+        background: linear-gradient(to bottom right, #007bff, #ffffff, #87ceeb);
+        /* Sfondo gradiente */
         opacity: 0;
-        filter: blur(50px); /* Applicazione dello sfocato */
+        filter: blur(50px);
+        /* Applicazione dello sfocato */
         animation: fadeInBackground 1s ease 0.1s forwards;
     }
 
@@ -83,6 +127,7 @@
         from {
             opacity: 0;
         }
+
         to {
             opacity: 1;
         }
@@ -99,8 +144,10 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        position: relative; /* Aggiunto position relative per sfondo */
-        z-index: 1000; /* Assicura che il contenuto sia sopra lo sfondo */
+        position: relative;
+        /* Aggiunto position relative per sfondo */
+        z-index: 1000;
+        /* Assicura che il contenuto sia sopra lo sfondo */
     }
 
     @keyframes scaleUp {
@@ -108,11 +155,10 @@
             transform: scale(0);
             opacity: 0;
         }
+
         to {
             transform: scale(1);
             opacity: 1;
         }
     }
 </style>
-
-

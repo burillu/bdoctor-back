@@ -8,6 +8,8 @@ $fa-font-path: "../fonts/webfonts" !default;
 @import "~@fortawesome/fontawesome-free/scss/brands";
 
 @import '~bootstrap/scss/bootstrap';
+@import '../js/calendarJs/scss/calendar.js.scss';
+// @import '../js/calendarJs/scss/styles.scss';
 
 img {
     width: 100%;
@@ -32,8 +34,27 @@ a {
     color: inherit;
 }
 
+/* 
+-------------------------
 
+Calendar.js
+------------------------- 
+*/
+.ib-pin,
+.ib-arrow-right-full-line,
+.left-divider-line,
+.ib-refresh,
+.right-divider-line-full-screen-mode,
+.ib-plus,
+.right-divider-line-views,
+.ib-bar-graph,
+.ib-expand {
+    display: none;
+}
 
+div.calendar div.full-month-view div.title-bar {
+    background-color: $honolulu-blue;
+}
 
 /* general */
 
@@ -67,10 +88,8 @@ a {
 
 
 /* main */
-main,
-main>div {
-    height: 100%;
-}
+
+
 
 // .main-content {
 //     //width: 100%;
@@ -178,6 +197,136 @@ img.my-img-avatar {
     background-color: $red;
 }
 
+
+// footer from front
+
+footer {
+    .social-icons {
+        i {
+            font-size: 1.3em;
+            transition: 0, 5s;
+        }
+
+        i:hover {
+            cursor: pointer;
+            transition: 0, 5s;
+            transform: scale(1.2)
+        }
+    }
+
+    .border-rounded {
+        border-radius: 25px;
+        overflow: hidden;
+    }
+
+
+    .logo-wrapper {
+        width: 100px;
+        height: 100px;
+        overflow: hidden;
+
+        .footer-logo {
+            width: 100%;
+            height: 100%;
+
+        }
+    }
+
+    background-color: $marian-blue;
+    color: white;
+
+    h3 {
+        color: $pacific-cyan
+    }
+
+    .logo-text {
+        color: $pacific-cyan;
+        font-weight: 700;
+    }
+
+    p {
+        margin: 0;
+    }
+
+    ul {
+        padding: 0;
+
+        li {
+            list-style: none;
+
+            a {
+                text-decoration: none;
+                color: white;
+            }
+
+            a:hover {
+                color: rgb(224, 221, 221);
+                transition: 0, 5s;
+            }
+        }
+    }
+
+    h3 {
+        font-size: 1.3em;
+        font-weight: 700;
+    }
+
+
+    @media screen and (max-width: 1000px) {
+        .top-footer .row {
+            flex-direction: column;
+        }
+
+        .top-footer .col-8,
+        .top-footer .col-4 {
+            margin-top: 0;
+            width: 100%;
+        }
+
+        .top-footer .col-8,
+        .top-footer .col-4 {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .top-footer .col-4 .info-brand,
+        .top-footer .col-4 .social-icons {
+            margin-top: 10px;
+        }
+
+        .top-footer .col-8 ul {
+            font-size: 0.75em;
+        }
+    }
+
+    @media screen and (max-width: 800px) {
+        .top-footer .row {
+            flex-direction: column;
+        }
+
+        .top-footer .col-8,
+        .top-footer .col-4 {
+            margin-top: 0;
+            width: 100%;
+        }
+
+        .top-footer .col-8,
+        .top-footer .col-4 {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .top-footer .col-4 .info-brand,
+        .top-footer .col-4 .social-icons {
+            margin-top: 10px;
+        }
+
+        .top-footer .col-8 ul {
+            font-size: 0.60em;
+        }
+    }
+}
+
 /* media queries */
 
 /* large */
@@ -199,6 +348,11 @@ img.my-img-avatar {
         height: 100vh;
         width: 100%;
         overflow-y: auto;
+
+        main,
+        main>div {
+            height: 100%;
+        }
     }
 
     #center-main {

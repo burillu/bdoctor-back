@@ -242,7 +242,7 @@
                         <!-- center-main -->
                         <div id="center-main" class="row py-4">
                             <!-- left -->
-                            <div class="col-12 col-xl-9">
+                            <div class="col-12 col-xxl-7">
                                 <div class="card my-4">
                                     <!-- contenuto variabile -->
                                     @yield('dashboard_content')
@@ -304,8 +304,26 @@
                                 </div>
                             </div>
                             <!-- right -->
-                            <div class="col-12 col-xl-3">
+                            <div class="col-12 col-xxl-5">
                                 <div class="card my-4">
+                                    <div class="card-header fs-5">
+                                        Calendario
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card">
+
+
+                                            <!-- aggiunta calendario -->
+                                            <div class="contents container-calendar">
+                                                <div id="calendar1" style="max-width: 800px;"></div>
+                                                <br />
+                                                <br />
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
                                     <div class="card-header fs-5"> To-do</div>
                                     <div class="card-body">
                                         <ul class="list-group">
@@ -330,28 +348,7 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="card">
-                                            <img src="https://cdn.statcdn.com/Statistic/1400000/1400547-blank-754.png"
-                                                class="card-img-top" alt="stats">
-                                            <div class="card-body">
-                                                <h5 class="card-title">Utenti attivi</h5>
-                                                <p class="card-text">Lista degli utenti attivi in piattaforma
-                                                    nell'ultimo mese</p>
-                                            </div>
-                                            <ul class="list-group list-group-flush">
-                                                <li class="list-group-item">Gennaio: 1200</li>
-                                                <li class="list-group-item">Febbraio: 800</li>
-                                                <li class="list-group-item">Marzo: 1500</li>
-                                            </ul>
-                                            <div class="card-body">
-                                                <a href="#" class="card-link">Visualizza report
-                                                    approfondito</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+
 
 
 
@@ -389,4 +386,5 @@
         </div>
     </div>
 </div> --}}
+    <script></script>
 @endsection

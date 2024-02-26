@@ -354,7 +354,7 @@
                         <div class="container-fluid">
                             <div class="row" id="specialties-div">
                                 @foreach ($specialties as $specialty)
-                                    <div class="form-check col-3 @error('specialties') is-invalid @enderror">
+                                    <div class="form-check col-12 col-lg-6 @error('specialties') is-invalid @enderror">
                                         <input type="checkbox" name="specialties[]" value="{{ $specialty->id }}"
                                             {{ $data->specialties->contains($specialty->id) ? 'checked' : '' }}>
                                         <label for="">{{ $specialty->name }}</label>

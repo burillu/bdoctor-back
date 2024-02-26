@@ -22,7 +22,7 @@
 
             {{-- al click, mostra il bottone per tornare a visualizzare gli ultimi 12 mesi, e genera i grafici in base all'anno richiesto --}}
             <button class="btn btn-primary w-25 mt-2" id="changeDataBtn"
-                onclick="defaultBtn.style.display = 'inline';  makeCharts(votes[year.value], reviews[year.value], leads[year.value])">cambia</button>
+                onclick="defaultBtn.style.display = 'inline';changeBtnFlag = false;  makeCharts(votes[year.value], reviews[year.value], leads[year.value])">cambia</button>
 
             <button class="btn btn-primary w-25 mt-2" id="defaultBtn" onclick="ChangeDataInDefault()">Ultimi 12 mesi</button>
 
@@ -107,6 +107,7 @@
          * Riordina i valori in base agli ultimi 12 mesi
          */
         function ChangeDataInDefault() {
+            changeBtnFlag = true;
             //fa scomparire il bottone che lo aziona
             defaultBtn.style.display = 'none';
             //inserisco i dati di default
@@ -151,6 +152,7 @@
             }
             // se si tratta degli ultimi 12 mesi, devo cacolare ordine in cui vengono visualizzati i mesi nell'ascisse
             let monthsLabels = [];
+            console.log(changeBtnFlag);
             if (changeBtnFlag) {
                 for (let i = currentMonth; i > (currentMonth - 12); i--) {
                     if (i >= 0) {
@@ -243,7 +245,6 @@
                     scales: {
                         y: {
                             beginAtZero: true,
-                            max: 5
                         }
                     }
 

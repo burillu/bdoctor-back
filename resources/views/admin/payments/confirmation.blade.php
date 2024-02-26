@@ -207,7 +207,12 @@
     }
 
     h1 {
-        font-size: 1em;
+        font-size: 1.3em;
+    }
+
+    h4 {
+        font-size: 0.8em;
+        margin: 0 0;
     }
 
     p {
@@ -224,12 +229,16 @@
 
     h1 {
         font-size: 1em;
-        margin: 0 0;
+        margin: 5px 0;
+    }
+    h4 {
+        font-size: 0.5em;
+        margin: 5px 0;
     }
 
     p {
         font-size: 14px;
-        margin: 0 0;
+        margin: 5px 0;
     }
 }
 

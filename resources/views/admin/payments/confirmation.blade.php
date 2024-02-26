@@ -161,7 +161,6 @@
     }
 
     .circle {
-
         width: 700px;
         height: 700px;
         border-radius: 50%;
@@ -173,7 +172,6 @@
         justify-content: center;
         align-items: center;
         position: relative;
-        padding: 0 20px;
         /* Aggiunto position relative per sfondo */
         z-index: 1000;
         /* Assicura che il contenuto sia sopra lo sfondo */
@@ -190,7 +188,6 @@
             opacity: 1;
         }
     }
-
 
     @media screen and (max-width:767.98px) {
         .circle {
@@ -249,5 +246,4 @@
 
 
     }
-
 </style>

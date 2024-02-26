@@ -189,6 +189,34 @@
         }
     }
 
+    @media screen and (max-width:767.98px) {
+        .circle {
+            margin-top: 100px;
+            width: 500px;
+            height: 500px;
+        }
+
+        .logo-position {
+
+
+
+            width: 200px;
+        }
+
+        body {
+            overflow-y: auto;
+            /* height: 100%; */
+        }
+
+        h1 {
+            margin-top: 5px;
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+
+    }
+
     @media screen and (max-width:576px) {
         .circle {
             margin-top: 100px;

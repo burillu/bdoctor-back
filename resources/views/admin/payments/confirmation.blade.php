@@ -29,8 +29,8 @@
                     andato a
                     buon
                     fine.</h4>
-                <p class="text">Adesso con la tua sponsorizzazione <b>{{ session('sponsorship_name') }}</b> , <br>
-                    Il tuo profilo verrà sponsorizzato fino al
+                <p class="text">Adesso con la tua sottoscrizione <b>{{ session('sponsorship_name') }}</b> , <br>
+                    il tuo profilo verrà sponsorizzato fino al
                     {{ date('d/m/y \o\r\e H:i', strtotime(session('expire_date'))) }}</p>
                 <a class="btn" href="{{ route('admin.profile.edit') }}">Torna al tuo profilo</a>
             </div>

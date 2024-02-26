@@ -4,30 +4,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <title>Thank You Page</title>
 </head>
 
 <body>
-    <div class="logo-bdoctors rounded-4 overflow-hidden">
 
-        <img class="transform-logo " src="{{ asset('storage' . '\/images/OIG2.kc86IYLpVtKY.jpg') }}" alt="logo-bdoctors">
-    </div>
-    <div class="container">
+    <div class="container p-5">
 
         <div class="background">
 
         </div> <!-- Aggiunta dello sfondo sfocato -->
 
-        <div class="circle d-flex flex-column justify-content-center align-items-center">
+        <div class="circle d-flex flex-column justify-content-center align-items-center position-relative mt-5">
+            <div class="container-fluid mt-5 py-5">
+                <div class="logo-bdoctors logo-position rounded-5 overflow-hidden">
 
-            <h1 class="text">Grazie per l'acquisto, {{ Auth::user()->name }}!</h1>
-            <h4><span class="text-success">&#10004;</span> - Il pagamento di {{ session('amount') }} &euro;, è andato a
-                buon
-                fine.</h4>
-            <p class="text">Adesso con la tua sponsorizzazione <b>{{ session('sponsorship_name') }}</b> , <br>
-                Il tuo profilo verrà sponsorizzato fino al
-                {{ date('d/m/y \o\r\e H:i', strtotime(session('expire_date'))) }}</p>
-            <a class="btn" href="{{ route('admin.profile.edit') }}">Torna al tuo profilo</a>
+                    <img class="transform-logo " src="{{ asset('storage' . '\/images/OIG2.kc86IYLpVtKY.jpg') }}"
+                        alt="logo-bdoctors">
+                </div>
+                <h1 class="text">Grazie per l'acquisto, {{ Auth::user()->name }}!</h1>
+                <h4><span class="text-success">&#10004;</span> - Il pagamento di {{ session('amount') }} &euro;, è
+                    andato a
+                    buon
+                    fine.</h4>
+                <p class="text">Adesso con la tua sponsorizzazione <b>{{ session('sponsorship_name') }}</b> , <br>
+                    Il tuo profilo verrà sponsorizzato fino al
+                    {{ date('d/m/y \o\r\e H:i', strtotime(session('expire_date'))) }}</p>
+                <a class="btn" href="{{ route('admin.profile.edit') }}">Torna al tuo profilo</a>
+            </div>
+
         </div>
     </div>
 </body>
@@ -37,19 +44,22 @@
 <style>
     /* @import '~bootstrap/dist/css/bootstrap.css'; */
 
-    .rounded-4 {
+    .position-relative {
+        position: relative;
+    }
+
+    .logo-position {
         position: absolute;
         border: 5px solid #5dabff;
         left: 50%;
-        top: 20px;
+        top: -90px;
         z-index: 1100;
-        border-radius: 45px;
-        overflow: hidden;
+        /* border-radius: 45px; */
 
     }
 
     .transform-logo {
-        animation: transform-logo 3s ease 0.1s forwards;
+        animation: transform-logo 3s ease 1.5s forwards;
     }
 
     .text-success {
@@ -59,6 +69,7 @@
 
     img {
         display: block;
+        width: 100%
     }
 
     body {
@@ -68,8 +79,8 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
-        overflow: hidden;
+        /* height: 100vh; */
+        overflow-y: auto;
         position: relative;
         /* Aggiunto position relative per sfondo */
     }
@@ -80,7 +91,7 @@
 
     h1 {
         color: #333;
-        font-size: 4em;
+        font-size: 3.5em;
         margin-bottom: 20px;
         opacity: 1;
         animation: fadeIn 0.5s ease forwards;
@@ -150,8 +161,8 @@
     }
 
     .circle {
-        width: 800px;
-        height: 800px;
+        width: 700px;
+        height: 700px;
         border-radius: 50%;
         background-color: #5dabff;
         opacity: 0;
@@ -176,5 +187,35 @@
             transform: scale(1);
             opacity: 1;
         }
+    }
+
+    @media screen and (max-width:576px) {
+        .circle {
+            margin-top: 100px;
+            width: 100%;
+            height: 80vw;
+        }
+
+        .logo-position {
+            margin-top: 100px;
+            position: static;
+            top: 10px;
+            left: 0;
+            display: flex;
+            width: 180px;
+        }
+
+        body {
+            overflow-y: auto;
+            /* height: 100%; */
+        }
+
+        h1 {
+            margin-top: 5px;
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+
     }
 </style>

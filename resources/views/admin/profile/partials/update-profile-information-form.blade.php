@@ -107,44 +107,56 @@
             return email.includes('@') && emailSplit.includes('.');
         }
 
-        function validateFileFormat(input, allowedExtensions, errorMsg) {
-            const file = input.files[0];
-            const fileName = file.name;
-            const fileExtension = fileName.split('.').pop().toLowerCase();
-            const isValid = allowedExtensions.includes(fileExtension);
-            if (!isValid) {
-                validateField(input, errorMsg);
-            } else {
+    }
+
+    function createErrorDiv(id, message) {
+        const newDiv = document.createElement('div');
+        newDiv.classList.add('invalid-feedback');
+        newDiv.textContent = message;
+        newDiv.setAttribute('id', id);
+        return newDiv;
+    }
+
+    function validatePhoneNumber(input) {
+        const numericPhoneNumber = input.value.replace(/[^\d+]/g, '');
+        const hasPlusPrefix = numericPhoneNumber.startsWith('+');
+        let telValue = false;
+        if (hasPlusPrefix) {
+            telValue = /^\+\d{12}$/.test(numericPhoneNumber);
+        } else {
+            telValue = /^\d{10}$/.test(numericPhoneNumber);
+        }
+        if (numericPhoneNumber === '') {
+            input.classList.remove('is-invalid');
+            const errorDiv = input.parentNode.querySelector('.invalid-feedback');
+            if (errorDiv) {
+                errorDiv.remove();
+                errors.splice(errors.indexOf('Inserire un numero di telefono valido'), 1);
+            }
+        }
+        else if (!telValue) {
+            if(input.parentNode.querySelector('.invalid-feedback')){
                 input.classList.remove('is-invalid');
                 const errorMsgId = input.id + '-msg';
                 const errorDiv = document.getElementById(errorMsgId);
             }
-        }
-
-        function validateSpecialties() {
-            const selectedSpecialties = document.querySelectorAll(
-                'input[type="checkbox"][name="specialties[]"]:checked');
-            const input = document.getElementById('specialties-div');
-            const errorDiv = document.getElementById('specialties-msg');
-
-            const isValid = selectedSpecialties.length > 0;
-
-            if (!isValid) {
-                input.classList.add('is-invalid');
-                if (!errorDiv) {
-                    const parentDiv = input.parentElement;
-                    const newDiv = createErrorDiv('specialties-msg', 'Selezionare una o più specializzazioni');
-                    parentDiv.appendChild(newDiv);
-                    errors.push('Selezionare una o più specializzazioni');
-                }
-            } else {
-                input.classList.remove('is-invalid');
-                if (errorDiv) {
-                    errorDiv.remove();
-                    errors.splice(errors.indexOf('Selezionare una o più specializzazioni'), 1);
-                }
+            input.classList.add('is-invalid');
+            const errorDiv = document.createElement('div');
+            errorDiv.classList.add('invalid-feedback');
+            errorDiv.textContent = 'Inserire un numero di telefono valido (se il numero ha un prefisso aggiungere +)';
+            input.parentNode.appendChild(errorDiv);
+            errors.push('Inserire un numero di telefono valido');
+        } else{
+            input.classList.remove('is-invalid');
+            const errorDiv = input.parentNode.querySelector('.invalid-feedback');
+            if (errorDiv) {
+                errorDiv.remove();
+                errors.splice(errors.indexOf('Inserire un numero di telefono valido'), 1);
             }
         }
+        console.log(errors)
+    }
+
 
         function createErrorDiv(id, message) {
             const newDiv = document.createElement('div');

@@ -373,9 +373,7 @@
 
                     <div class="form-group">
                         <h6>{{ __('Servizi') }}:</h6>
-                        <textarea class="form-control @error('services') is-invalid @enderror" name="services" id="services" cols="30"
-                            rows="10">{{ old('services', $data->services) }}
-                            </textarea>
+                        <textarea class="form-control w-100 @error('services') is-invalid @enderror" name="services" id="services">{{ old('services', $data->services) }}</textarea>
                         @error('services')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>

@@ -1,6 +1,8 @@
 @extends('admin.dashboard')
 @section('dashboard_content')
-    <h2 class="mb-5 card-header">Acquista la tua Sponsorizzazione</h2>
+    <div class="card-header fs-4 text-secondary">
+        Acquista la tuo abbonamento
+    </div>
     @if (str_contains(url()->current(), '/sponsorships'))
         @include('admin.payments.form')
     @endif

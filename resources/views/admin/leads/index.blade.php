@@ -1,7 +1,10 @@
 @extends('admin.dashboard')
 @section('dashboard_content')
     <div class="container">
-        <h1 class="card-header">Messaggi ricevuti ({{ count($leads) }})</h1>
+        <div class="card-header fs-4 text-secondary">
+            Messaggi ricevuti ({{ count($leads) }})
+        </div>
+
         <table class="table table-hover">
             <thead>
                 <tr class="text-center">

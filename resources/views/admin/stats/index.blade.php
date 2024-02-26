@@ -4,10 +4,11 @@
         $allYearsSelected = false;
     @endphp
 
+    <div class="card-header fs-4 text-secondary">
+        Statistiche
+    </div>
     <div class="mx-2">
-        <h1>Statistiche</h1>
 
-        <hr>
 
         <div>
             <h5 class="mt-4">Intervallo di Tempo</h5>
@@ -24,7 +25,8 @@
             <button class="btn btn-primary w-25 mt-2" id="changeDataBtn"
                 onclick="defaultBtn.style.display = 'inline';changeBtnFlag = false;  makeCharts(votes[year.value], reviews[year.value], leads[year.value])">cambia</button>
 
-            <button class="btn btn-primary w-25 mt-2" id="defaultBtn" onclick="ChangeDataInDefault()">Ultimi 12 mesi</button>
+            <button class="btn btn-primary w-25 mt-2" id="defaultBtn" onclick="ChangeDataInDefault()">Ultimi 12
+                mesi</button>
 
         </div>
 

@@ -1,7 +1,10 @@
 @extends('admin.dashboard')
 @section('dashboard_content')
     <div class="container">
-        <h1 class="card-header">Benvenuto, {{ Auth::user()->name }}</h1>
+        <div class="card-header fs-4 text-secondary">
+            Pagina Iniziale
+        </div>
+        <h1 class="">Benvenuto, {{ Auth::user()->name }}!</h1>
 
 
     </div>

@@ -323,7 +323,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card">
+                                {{-- <div class="card">
                                     <div class="card-header fs-5"> To-do</div>
                                     <div class="card-body">
                                         <ul class="list-group">
@@ -347,7 +347,7 @@
                                             </li>
                                         </ul>
                                     </div>
-                                </div>
+                                </div> --}}
 
 
 

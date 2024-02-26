@@ -1,7 +1,11 @@
 @extends('admin.dashboard')
 @section('dashboard_content')
     <div class="container">
-        <h1 class="card-head">Recensioni : ({{ count($reviews) }})</h1>
+        <div class="card-header fs-4 text-secondary">
+            Recensioni : ({{ count($reviews) }})
+        </div>
+
+
         <table class="table table-hover">
             <thead>
                 <tr class="text-center">

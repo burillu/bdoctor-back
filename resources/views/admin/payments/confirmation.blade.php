@@ -35,6 +35,8 @@
 </html>
 
 <style>
+    /* @import '~bootstrap/dist/css/bootstrap.css'; */
+
     .rounded-4 {
         position: absolute;
         border: 5px solid #5dabff;
@@ -47,7 +49,7 @@
     }
 
     .transform-logo {
-        filter: invert(100%)
+        animation: transform-logo 3s ease 0.1s forwards;
     }
 
     .text-success {
@@ -125,6 +127,16 @@
         filter: blur(50px);
         /* Applicazione dello sfocato */
         animation: fadeInBackground 1s ease 0.1s forwards;
+    }
+
+    @keyframes transform-logo {
+        from {
+            filter: invert(0%);
+        }
+
+        to {
+            filter: invert(100%);
+        }
     }
 
     @keyframes fadeInBackground {

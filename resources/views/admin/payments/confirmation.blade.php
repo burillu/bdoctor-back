@@ -10,7 +10,7 @@
 <body>
     <div class="logo-bdoctors rounded-4 overflow-hidden">
 
-        <img src="{{ asset('storage' . '\/images/OIG2.kc86IYLpVtKY.jpg') }}" alt="logo-bdoctors">
+        <img class="transform-logo " src="{{ asset('storage' . '\/images/OIG2.kc86IYLpVtKY.jpg') }}" alt="logo-bdoctors">
     </div>
     <div class="container">
 
@@ -44,6 +44,10 @@
         border-radius: 45px;
         overflow: hidden;
 
+    }
+
+    .transform-logo {
+        filter: invert(100%)
     }
 
     .text-success {

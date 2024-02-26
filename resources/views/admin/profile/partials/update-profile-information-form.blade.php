@@ -132,21 +132,15 @@
     }
 
     function validatePhoneNumber(input) {
-        const telValue = input.value.trim();
-        const telRegex = /^[0-9]{10}$/;
-
-        if (!telRegex.test(telValue)) {
-            if(input.parentNode.querySelector('.invalid-feedback')){
-                input.classList.remove('is-invalid');
-                input.parentNode.querySelector('.invalid-feedback').remove()
-            }
-            input.classList.add('is-invalid');
-            const errorDiv = document.createElement('div');
-            errorDiv.classList.add('invalid-feedback');
-            errorDiv.textContent = 'Inserire un numero di telefono valido';
-            input.parentNode.appendChild(errorDiv);
-            errors.push('Inserire un numero di telefono valido');
+        const numericPhoneNumber = input.value.replace(/[^\d+]/g, '');
+        const hasPlusPrefix = numericPhoneNumber.startsWith('+');
+        let telValue = false;
+        if (hasPlusPrefix) {
+            telValue = /^\+\d{12}$/.test(numericPhoneNumber);
         } else {
+            telValue = /^\d{10}$/.test(numericPhoneNumber);
+        }
+        if (numericPhoneNumber === '') {
             input.classList.remove('is-invalid');
             const errorDiv = input.parentNode.querySelector('.invalid-feedback');
             if (errorDiv) {
@@ -154,6 +148,26 @@
                 errors.splice(errors.indexOf('Inserire un numero di telefono valido'), 1);
             }
         }
+        else if (!telValue) {
+            if(input.parentNode.querySelector('.invalid-feedback')){
+                input.classList.remove('is-invalid');
+                input.parentNode.querySelector('.invalid-feedback').remove()
+            }
+            input.classList.add('is-invalid');
+            const errorDiv = document.createElement('div');
+            errorDiv.classList.add('invalid-feedback');
+            errorDiv.textContent = 'Inserire un numero di telefono valido (se il numero ha un prefisso aggiungere +)';
+            input.parentNode.appendChild(errorDiv);
+            errors.push('Inserire un numero di telefono valido');
+        } else{
+            input.classList.remove('is-invalid');
+            const errorDiv = input.parentNode.querySelector('.invalid-feedback');
+            if (errorDiv) {
+                errorDiv.remove();
+                errors.splice(errors.indexOf('Inserire un numero di telefono valido'), 1);
+            }
+        }
+        console.log(errors)
     }
 
     function containsOnlyLetters(str) {

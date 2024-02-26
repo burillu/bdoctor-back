@@ -90,7 +90,7 @@ class ProfileController extends Controller
             'specialties' => ['required', 'exists:specialties,id'],
             'image' => ['nullable', 'image'],
             'curriculum' => ['nullable', 'file'],
-            'tel' => ['nullable', 'unique:profiles,tel,' . $request->user()->profile->id, 'regex:/^[0-9]{10}$/'],
+            'tel' => ['nullable', 'unique:profiles,tel,' . $request->user()->profile->id],
             'services' => ['nullable','max:65535']
         ], [
             'name.required' => 'Il campo nome è obbligatorio.',
@@ -106,7 +106,6 @@ class ProfileController extends Controller
             'image.image' => 'Inserire un\' immagine in formato \'.jpg.\'',
             'curriculum.file' => 'Inserire un\' file PDF.',
             'tel.unique' => 'Questo numero di telefono esiste già',
-            'tel.regex' => 'Inserire un numero di telefono valido',
             'services.max' => 'Il campo dei servizi deve essere lungo massimo :max caratteri.',
         ]);
         $request->user()->update([
@@ -128,6 +127,10 @@ class ProfileController extends Controller
         if ($request->tel) {
             $request->user()->profile->update([
                 'tel' => $request->tel,
+            ]);
+        }else{
+            $request->user()->profile->update([
+                'tel' => null,
             ]);
         }
         $request->user()->profile->specialties()->sync($request->specialties);

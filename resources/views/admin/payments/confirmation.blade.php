@@ -138,8 +138,8 @@
     }
 
     .circle {
-        width: 800px;
-        height: 800px;
+        width: 900px;
+        height: 900px;
         border-radius: 50%;
         background-color: #5dabff;
         opacity: 0;
@@ -149,6 +149,7 @@
         justify-content: center;
         align-items: center;
         position: relative;
+        padding: 0 20px;
         /* Aggiunto position relative per sfondo */
         z-index: 1000;
         /* Assicura che il contenuto sia sopra lo sfondo */
@@ -165,4 +166,81 @@
             opacity: 1;
         }
     }
+
+    @media screen and (max-width: 1200px) {
+    .circle {
+        width: 800px;
+        height: 800px;
+        font-size: 2em;
+    }
+
+    h1 {
+        font-size: 2em;
+    }
+
+    p {
+        font-size: 16px;
+    }
+}
+
+@media screen and (max-width: 900px) {
+    .circle {
+        width: 700px;
+        height: 700px;
+        font-size: 1.5em;
+    }
+
+    h1 {
+        font-size: 1.5em;
+    }
+
+    p {
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .circle {
+        width: 400px;
+        height: 400px;
+        font-size: 1em;
+    }
+
+    h1 {
+        font-size: 1.3em;
+    }
+
+    h4 {
+        font-size: 0.8em;
+        margin: 0 0;
+    }
+
+    p {
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .circle {
+        width: 350px;
+        height: 350px;
+        font-size: 1em;
+    }
+
+    h1 {
+        font-size: 1em;
+        margin: 5px 0;
+    }
+    h4 {
+        font-size: 0.5em;
+        margin: 5px 0;
+    }
+
+    p {
+        font-size: 14px;
+        margin: 5px 0;
+    }
+}
+
+
 </style>
